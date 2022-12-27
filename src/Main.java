@@ -24,7 +24,7 @@ public class Main {
         JPanel panel = new JPanel();//NOVO PAINEL
         panel.setLayout(null);
         panel.setBackground(new Color(64,64,64));
-        panel.setBounds(50,90,250,300);
+        panel.setBounds(70,90,250,300);
         panel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.setAlignmentY(Component.CENTER_ALIGNMENT);
 
