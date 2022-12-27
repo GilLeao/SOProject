@@ -23,4 +23,12 @@ public class Passageiro {
     public void setBilheteValido(boolean bilheteValido) {
         this.bilheteValido = bilheteValido;
     }
+
+    @Override
+    public String toString() {
+        return "Passageiro{" +
+                "estacaoDestino='" + estacaoDestino + '\'' +
+                ", bilheteValido=" + bilheteValido +
+                '}';
+    }
 }
