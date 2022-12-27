@@ -8,7 +8,7 @@ public class baseFrame extends JFrame {
         this.setTitle("Sistema de Gestão de Tráfego Ferroviário");//Define o Titulo da janela
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//Define que o programa acaba quando o user decide fechar a janela
         this.setResizable(false);//Não permite ao user mudar o tamanho da janela
-        this.setSize(300, 400);//Comprimento e Largura da Janela
+        this.setSize(400, 500);//Comprimento e Largura da Janela
         this.setVisible(true);//A janela é visivel para o utilizador
         this.setLayout(null);
         /*

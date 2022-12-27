@@ -24,18 +24,18 @@ public class Main {
         JPanel panel = new JPanel();//NOVO PAINEL
         panel.setLayout(null);
         panel.setBackground(new Color(64,64,64));
-        panel.setBounds(50,90,180,250);
+        panel.setBounds(50,90,250,300);
         panel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.setAlignmentY(Component.CENTER_ALIGNMENT);
 
 
         ImageIcon source = new ImageIcon("src\\img\\logoGUI.png");
-        ImageIcon resultat = new ImageIcon(source.getImage().getScaledInstance(100, 41, Image.SCALE_DEFAULT));
+        ImageIcon resultat = new ImageIcon(source.getImage().getScaledInstance(150, 70, Image.SCALE_DEFAULT));
 
 
 
         JLabel picLabel = new JLabel(resultat);
-        picLabel.setBounds(50,0,180,100);
+        picLabel.setBounds(50,-50,280,200);
         mainFrame.add(picLabel);
 
         mainFrame.add(panel);
@@ -52,25 +52,25 @@ public class Main {
 
 
         JButton simuladorTrafego = new JButton();
-        simuladorTrafego.setBounds(10,90, 160, 25);
+        simuladorTrafego.setBounds(25,90, 200, 25);
         simuladorTrafego.setVisible(false);
         simuladorTrafego.setText("SIMULADOR DE TRAFEGO");
         simuladorTrafego.setFocusable(false);
 
         JButton gestaoConflitos = new JButton();
-        gestaoConflitos.setBounds(10,130, 160, 25);
+        gestaoConflitos.setBounds(25,130, 200, 25);
         gestaoConflitos.setVisible(false);
         gestaoConflitos.setText("GESTÃO DE CONFLITOS");
         gestaoConflitos.setFocusable(false);
 
         JButton painelControlo = new JButton();
-        painelControlo.setBounds(10,170, 160, 25);
+        painelControlo.setBounds(25,170, 200, 25);
         painelControlo.setVisible(false);
         painelControlo.setText("PAINEL DE CONTROLO");
         painelControlo.setFocusable(false);
 
         JButton naoClicar = new JButton();
-        naoClicar.setBounds(10,210, 160, 25);
+        naoClicar.setBounds(25,210, 200, 25);
         naoClicar.setVisible(false);
         naoClicar.addActionListener(e -> {
             try {
@@ -84,7 +84,7 @@ public class Main {
 
 
         JButton gerarDados = new JButton();
-        gerarDados.setBounds(20,50, 140, 25);
+        gerarDados.setBounds(25,50, 200, 25);
         gerarDados.addActionListener(e -> Main.gerarDados(Estacoes, simuladorTrafego, gestaoConflitos, painelControlo, naoClicar));
         gerarDados.setText("GERAR DADOS");
         gerarDados.setFocusable(false);
