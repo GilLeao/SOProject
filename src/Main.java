@@ -20,7 +20,9 @@ public class Main {
      * INTERFACE GRÁFICA PRINCIPAL, A PARTIR DAQUI O UTILIZADOR CONSEGUE ACEDER A TODOS OS MENUS
      */
     public static void mainFrames(){
+        mainFrame.setLayout(null);
         JPanel panel = new JPanel();//NOVO PAINEL
+        panel.setLayout(null);
         panel.setBackground(new Color(64,64,64));
         panel.setBounds(50,90,180,250);
         panel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -50,25 +52,25 @@ public class Main {
 
 
         JButton simuladorTrafego = new JButton();
-        simuladorTrafego.setBounds(20,50, 140, 25);
+        simuladorTrafego.setBounds(10,90, 160, 25);
         simuladorTrafego.setVisible(false);
-        simuladorTrafego.setText("SIMULADO DE TRAFEGO");
+        simuladorTrafego.setText("SIMULADOR DE TRAFEGO");
         simuladorTrafego.setFocusable(false);
 
         JButton gestaoConflitos = new JButton();
-        gestaoConflitos.setBounds(20,90, 140, 25);
+        gestaoConflitos.setBounds(10,130, 160, 25);
         gestaoConflitos.setVisible(false);
         gestaoConflitos.setText("GESTÃO DE CONFLITOS");
         gestaoConflitos.setFocusable(false);
 
         JButton painelControlo = new JButton();
-        painelControlo.setBounds(20,95, 140, 25);
+        painelControlo.setBounds(10,170, 160, 25);
         painelControlo.setVisible(false);
         painelControlo.setText("PAINEL DE CONTROLO");
         painelControlo.setFocusable(false);
 
         JButton naoClicar = new JButton();
-        naoClicar.setBounds(20,40, 140, 25);
+        naoClicar.setBounds(10,210, 160, 25);
         naoClicar.setVisible(false);
         naoClicar.addActionListener(e -> {
             try {
