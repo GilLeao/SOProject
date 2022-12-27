@@ -43,6 +43,7 @@ public class mainFrame extends JFrame {
         JButton gerarDados = new JButton();
         gerarDados.setBounds(70,100, 140, 25);
         gerarDados.addActionListener(e -> this.gerarDadosRandom(Estacoes));
+        gerarDados.setText("GERAR DADOS");
         this.add(gerarDados);
     }
 
