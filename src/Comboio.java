@@ -1,5 +1,6 @@
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -45,9 +46,8 @@ public class Comboio {
 
 
 
-    public Comboio(int nmrMaxPassageiros, Estacao[] estacoes) {
-        this.nmrMaxPassageiros = contadorPassageiros;
-        this.gerarAleatorio(estacoes);
+    public Comboio() {
+
     }
 
     public Passageiro[] getPassageiros() {
@@ -80,6 +80,7 @@ public class Comboio {
 
     public void setParagens(String[] paragens) {
         Paragens = paragens;
+        this.setUltimaParagem(this.Paragens[this.Paragens.length - 1]);
     }
 
     public String getUltimaParagem() {
@@ -128,7 +129,7 @@ public class Comboio {
      *
      * @param values Array de estações
      */
-    public synchronized void gerarAleatorio(Estacao[] values) {
+    public void gerarAleatorio(Estacao[] values) {
         int numEstacoes = ThreadLocalRandom.current().nextInt(2, 10);//Numero de Paragens que o comboio vai ter
 
 
@@ -147,14 +148,16 @@ public class Comboio {
 
 
             prevEstacao = estacao;
+        }
 
+            this.setParagens(percurso);
 
 
 
             LocalTime Anterior = LocalTime.of(0, 0);
             LocalTime[] Partida = new LocalTime[10];
 
-            for (i = 0; i < 10; i++) {
+            for (int i = 0; i < 10; i++) {
                 do {
                     LocalTime time1 = LocalTime.of(0, 0);
                     LocalTime time2 = LocalTime.of(23, 59);
@@ -192,7 +195,7 @@ public class Comboio {
 
 
             int k = 1;
-            for (i = 1; i < 10; i++) {
+            for (int i = 1; i < 10; i++) {
                 do {
                     LocalTime time1 = LocalTime.of(0, 0);
                     LocalTime time2 = LocalTime.of(23, 59);
@@ -210,14 +213,33 @@ public class Comboio {
                 Anterior = Chegada[i];
             }
             LocalTime[] PartidaFinal = new LocalTime[9];
-            for(i = 0;i < 9;i++){
+            for(int i = 0;i < 9;i++){
                 PartidaFinal[i] = Partida[i];
             }
             this.setHorariosSaida(Partida);
             this.setHorariosChegada(Chegada);
 
+        this.setParagens(percurso);
+
+
+
         }
 
-        this.setParagens(percurso);
+
+
+
+    @Override
+    public String toString() {
+        return "Comboio{" +
+                "contadorPassageiros=" + contadorPassageiros +
+                ", nmrMaxPassageiros=" + nmrMaxPassageiros +
+                ", Paragens=" + Arrays.toString(Paragens) +
+                ", ultimaParagem='" + ultimaParagem + '\'' +
+                ", indiceParagem=" + indiceParagem +
+                ", horariosChegada=" + Arrays.toString(horariosChegada) +
+                ", horariosSaida=" + Arrays.toString(horariosSaida) +
+                ", estacaoFinal=" + estacaoFinal +
+                ", Passageiros=" + Arrays.toString(Passageiros) +
+                '}';
     }
 }

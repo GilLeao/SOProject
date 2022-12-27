@@ -7,6 +7,8 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Main {
     private static Estacao[]  Estacoes = new Estacao[10];
 
+    private static Comboio[] Comboios = new Comboio[5];
+
     private static baseFrame mainFrame;
 
     public static void main(String[] args) {
@@ -85,7 +87,7 @@ public class Main {
 
         JButton gerarDados = new JButton();
         gerarDados.setBounds(25,50, 200, 25);
-        gerarDados.addActionListener(e -> Main.gerarDados(Estacoes, simuladorTrafego, gestaoConflitos, painelControlo, naoClicar));
+        gerarDados.addActionListener(e -> Main.gerarDados(Comboios,Estacoes, simuladorTrafego, gestaoConflitos, painelControlo, naoClicar));
         gerarDados.setText("GERAR DADOS");
         gerarDados.setFocusable(false);
         panel.add(gerarDados);
@@ -98,22 +100,37 @@ public class Main {
 // Esta Função irá gerar todos os dados necessários para a simulação de um sistema de tráfego de comboios,
 // vai ainda fazer com que os botões dos restantes menus fiquem visiveis após o butão a que ele definido seja primido
 
-    public static void gerarDados(Estacao[] Estacoes, JButton button, JButton button2, JButton button3, JButton button4){
-        String[] Paragens = {"São Bento", "Heroísmo" ,"Campanhã", "Estádio do Dragão", "Fanzeres", "Santo Ovídio","Camara de Gaia" ,"João de Deus", "General Torres", "Trindade"};
+    public static void gerarDados(Comboio[] comboios, Estacao[] Estacoes, JButton button, JButton button2, JButton button3, JButton button4){
 
+        String[] Paragens = {"São Bento", "Heroísmo" ,"Campanhã", "Estádio do Dragão", "Fanzeres", "Santo Ovídio","Camara de Gaia" ,"João de Deus", "General Torres", "Trindade"};
+        //Inicia as Estações
         for(int i = 0;i < 10;i++){
             Estacoes[i] = new Estacao(Paragens[i],10,1);
 
 
         }
-
+        //Atribui passageiros de forma aleatória a todas as Estações
         for(int i = 0;i < 10;i++){
             Estacoes[i].escolherPassageirosRandom(Estacoes);
         }
 
+
+        for(int i = 0;i < 5;i++){
+            comboios[i] = new Comboio();
+            comboios[i].setNmrMaxPassageiros(ThreadLocalRandom.current().nextInt(1, 20));
+            comboios[i].gerarAleatorio(Estacoes);
+        }
+
+        //Imprime na consola os dados gerados
         for(int i = 0;i < 10;i++){
             System.out.println(Estacoes[i].toString());
         }
+        System.out.println("______________________________________________________________________");
+        for(int i = 0;i < 5;i++){
+            System.out.println(Comboios[i].toString());
+        }
+
+
 
         button.setVisible(true);
         button2.setVisible(true);
