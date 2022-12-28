@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -70,6 +72,15 @@ public class Main {
         painelControlo.setVisible(false);
         painelControlo.setText("PAINEL DE CONTROLO");
         painelControlo.setFocusable(false);
+        painelControlo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(e.getSource() == painelControlo){
+                    mainFrame.dispose();
+                    painelControlo painel = new painelControlo(Comboios, Estacoes);
+                }
+            }
+        });
 
         JButton naoClicar = new JButton();
         naoClicar.setBounds(25,210, 200, 25);
@@ -97,9 +108,18 @@ public class Main {
         panel.add(naoClicar);
     }
 
-// Esta Função irá gerar todos os dados necessários para a simulação de um sistema de tráfego de comboios,
-// vai ainda fazer com que os botões dos restantes menus fiquem visiveis após o butão a que ele definido seja primido
 
+    /**
+     * Esta Função irá gerar todos os dados necessários para a simulação de um sistema de tráfego de comboios,
+     * vai ainda fazer com que os botões dos restantes menus fiquem visiveis após o botão a que a ele é definido seja primido
+     *
+     * @param comboios Array com todos os comboios
+     * @param Estacoes Array com todas as estações
+     * @param button botão do Simulador de Tráfego
+     * @param button2 botão da Gestão de Conflitos
+     * @param button3 botão do Painel de Controlo
+     * @param button4 ????????????????????????????
+     */
     public static void gerarDados(Comboio[] comboios, Estacao[] Estacoes, JButton button, JButton button2, JButton button3, JButton button4){
 
         String[] Paragens = {"São Bento", "Heroísmo" ,"Campanhã", "Estádio do Dragão", "Fanzeres", "Santo Ovídio","Camara de Gaia" ,"João de Deus", "General Torres", "Trindade"};
@@ -142,6 +162,8 @@ public class Main {
     public static void naoClicar() throws IOException {
         java.awt.Desktop.getDesktop().browse(java.net.URI.create("https://encurtador.com.br/iHQW8"));
     }
+
+
 
 
 }
