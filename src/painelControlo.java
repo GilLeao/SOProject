@@ -82,6 +82,7 @@ public class painelControlo {
         LocalTime[] HorariosChegada = comboio.getHorariosChegada();
 
         JSpinner spinner;
+        JSpinner spinnerSaida;
 
         LocalTime[] HorariosPartida = comboio.getHorariosSaida();
 
@@ -93,11 +94,7 @@ public class painelControlo {
 
 
         if(indice > 0) {
-
-
-
-
-
+            spinnerSaida = null;
             Calendar cal = Calendar.getInstance();
             cal.set(Calendar.HOUR_OF_DAY, HoraChegada);
             cal.set(Calendar.MINUTE, MinutoChegada);
@@ -127,51 +124,54 @@ public class painelControlo {
 
             panel.add(spinner);
             spinner.setAlignmentX(Component.CENTER_ALIGNMENT);
-        } else {
+        }else {
             spinner = null;
         }
 
 
+        if(indice < comboio.getParagens().length - 1){
+            Calendar cale = Calendar.getInstance();
+            cale.set(Calendar.HOUR_OF_DAY, HoraPartida);
+            cale.set(Calendar.MINUTE, MinutoPartida);
+
+            Date startTimes = cale.getTime();
+            cale.set(Calendar.HOUR, 23);
+            cale.set(Calendar.MINUTE, 59);
+            Date endTimes = cale.getTime();
+
+            System.out.println(startTimes);
+            System.out.println(endTimes);
 
 
+            SpinnerDateModel model = new SpinnerDateModel(startTimes, null, endTimes, Calendar.MINUTE);
+            spinnerSaida = new JSpinner(model);
+            spinnerSaida.setEditor(new JSpinner.DateEditor(spinnerSaida, "HH:mm"));
 
+            spinnerSaida.setValue(startTimes);
 
-        Calendar cale = Calendar.getInstance();
-        cale.set(Calendar.HOUR_OF_DAY, HoraPartida);
-        cale.set(Calendar.MINUTE, MinutoPartida);
+            JLabel textoHorarioPartida = new JLabel("HORÁRIO DE PARTIDA");
+            textoHorarioPartida.setBounds(100, 130, 220, 25);
+            textoHorarioPartida.setLayout(null);
+            textoHorarioPartida.setForeground(Color.WHITE);
+            textoHorarioPartida.setFont(new Font("Verdana", Font.BOLD, 12));
+            spinnerSaida.setBounds(110, 170, 120, 25);
+            panel.add(textoHorarioPartida);
+            textoHorarioPartida.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        Date startTimes = cale.getTime();
-        cale.set(Calendar.HOUR, 23);
-        cale.set(Calendar.MINUTE, 59);
-        Date endTimes = cale.getTime();
+            panel.add(spinnerSaida);
+            spinnerSaida.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        System.out.println(startTimes);
-        System.out.println(endTimes);
+        } else {
+            spinnerSaida = null;
+        }
 
-
-        SpinnerDateModel model = new SpinnerDateModel(startTimes, null, endTimes, Calendar.MINUTE);
-        JSpinner spinnerSaida = new JSpinner(model);
-        spinnerSaida.setEditor(new JSpinner.DateEditor(spinnerSaida, "HH:mm"));
-
-        spinnerSaida.setValue(startTimes);
-
-        JLabel textoHorarioPartida = new JLabel("HORÁRIO DE PARTIDA");
-        textoHorarioPartida.setBounds(100, 130, 220, 25);
-        textoHorarioPartida.setLayout(null);
-        textoHorarioPartida.setForeground(Color.WHITE);
-        textoHorarioPartida.setFont(new Font("Verdana", Font.BOLD, 12));
-        spinnerSaida.setBounds(110, 170, 120, 25);
-        panel.add(textoHorarioPartida);
-        textoHorarioPartida.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        panel.add(spinnerSaida);
-        spinnerSaida.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JButton salvarAlterações = new JButton();
         salvarAlterações.setBounds(30,260,300,30 );
         salvarAlterações.setText("SALVAR ALTERAÇÕES");
         salvarAlterações.setFocusable(false);
 
+        JSpinner finalSpinnerSaida = spinnerSaida;
         salvarAlterações.addActionListener(e -> {
             if(indice > 0){
 
@@ -184,7 +184,7 @@ public class painelControlo {
                 LocalTime localTimeChegada = zonedDateTime.toLocalTime();
 
 
-                Date datePartida = (Date)spinnerSaida.getModel().getValue();
+                Date datePartida = (Date) finalSpinnerSaida.getModel().getValue();
 
                 Instant instantPartida = datePartida.toInstant();
 
@@ -192,54 +192,54 @@ public class painelControlo {
 
                 LocalTime localTimePartida = zonedDateTimePartida.toLocalTime();
 
-                HorariosChegada[indice] = localTimeChegada;
-                HorariosPartida[indice] = localTimePartida;
+                if(localTimePartida.isAfter(localTimeChegada)) {
+                    if(localTimePartida != null) {
 
+                        HorariosPartida[indice] = localTimePartida;
+                    }
+                    HorariosChegada[indice] = localTimeChegada;
 
-                System.out.println("NOVO HORARIO DE CHEGADA: " + HorariosChegada[indice]);
-                System.out.println("NOVO HORARIO DE PARTIDA: " + HorariosPartida[indice]);
+                    System.out.println("NOVO HORARIO DE CHEGADA: " + HorariosChegada[indice]);
+                    System.out.println("NOVO HORARIO DE PARTIDA: " + HorariosPartida[indice]);
 
-                comboio.setHorariosSaida(HorariosPartida);
-                comboio.setHorariosChegada(HorariosChegada);
-
+                    comboio.setHorariosSaida(HorariosPartida);
+                    comboio.setHorariosChegada(HorariosChegada);
+                    this.selecionarEstacaoEditar(comboio);
+                }else{
+                    janelaErro();
+                }
 
             }else{
-                Date datePartida = (Date)spinnerSaida.getModel().getValue();
+                Date datePartida = (Date) finalSpinnerSaida.getModel().getValue();
 
                 Instant instantPartida = datePartida.toInstant();
 
                 ZonedDateTime zonedDateTimePartida = instantPartida.atZone(ZoneId.systemDefault());
 
                 LocalTime localTimePartida = zonedDateTimePartida.toLocalTime();
-                HorariosPartida[indice] = localTimePartida;
 
-                comboio.setHorariosSaida(HorariosPartida);
 
-                System.out.println("NOVO HORARIO DE PARTIDA: " + HorariosPartida[indice]);
+                    HorariosPartida[indice] = localTimePartida;
+
+                    comboio.setHorariosSaida(HorariosPartida);
+
+                    System.out.println("NOVO HORARIO DE PARTIDA: " + HorariosPartida[indice]);
+
+
+                this.selecionarEstacaoEditar(comboio);
             }
-            this.selecionarEstacaoEditar(comboio);
+
         });
 
         panel.add(salvarAlterações);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
 
     public void selecionarComboioEditar(Comboio[] comboios, Estacao[] estacaos){
         painelControloFrame.dispose();
+        if(alterarHorarios != null) {
+            alterarHorarios.dispose();
+        }
         selecionarComboioAlterarHorario = new baseFrame();
 
         ImageIcon logo = new ImageIcon("src\\img\\logo.png");//Imagem do logo
@@ -271,7 +271,7 @@ public class painelControlo {
             ComboiosBotoes[i].setFocusable(false);
             int finalI1 = i;
             ComboiosBotoes[i].addActionListener(e -> this.selecionarEstacaoEditar(comboios[finalI1]));
-            y = y +40;
+            y = y + 40;
             panel.add(ComboiosBotoes[i]);
         }
     }
@@ -281,7 +281,7 @@ public class painelControlo {
 
         selecionarEstacaoAlterarHorario = new baseFrame();
 
-        selecionarEstacaoAlterarHorario.setSize(400, (comboio.getParagens().length * 20) + 350);//Comprimento e Largura da Janela
+        selecionarEstacaoAlterarHorario.setSize(400, (comboio.getParagens().length * 20) + 320);//Comprimento e Largura da Janela
 
         ImageIcon logo = new ImageIcon("src\\img\\logo.png");//Imagem do logo
         selecionarEstacaoAlterarHorario.setIconImage(logo.getImage());//Define o logo como o icon da janela
@@ -291,7 +291,7 @@ public class painelControlo {
         JPanel panel = new JPanel();//NOVO PAINEL
         panel.setLayout(null);
         panel.setBackground(new Color(64,64,64));
-        panel.setBounds(70,90,250,(comboio.getParagens().length * 80));
+        panel.setBounds(70,90,250,(comboio.getParagens().length * 50) - 10);
         panel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.setAlignmentY(Component.CENTER_ALIGNMENT);
 
@@ -309,7 +309,7 @@ public class painelControlo {
 
         JButton[] ParagensBotoes = new JButton[comboio.getParagens().length];
 
-        int y = 50;
+        int y = 20;
 
         for(int i = 0;i < comboio.getParagens().length;i++){
             ParagensBotoes[i] = new JButton();
@@ -318,10 +318,38 @@ public class painelControlo {
             ParagensBotoes[i].setFocusable(false);
             int finalI = i;
             ParagensBotoes[i].addActionListener(e -> this.alterarHorários(comboio, finalI));
-            y = y +40;
+            y = y +30;
             panel.add(ParagensBotoes[i]);
 
         }
+    }
+
+    public void janelaErro(){
+        baseFrame janelaErro = new baseFrame();
+        janelaErro.setSize(400, 190);
+        janelaErro.setBackground(Color.WHITE);
+        janelaErro.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+
+        JLabel textoErro = new JLabel("HORÁRIO DE SAÍDA ANTES DO HORARIO DE CHEGADA!");
+        textoErro.setLayout(null);
+        textoErro.setBounds(70, 10, 400,60 );
+        textoErro.setFont(new Font("Calibri", Font.BOLD, 12));
+        textoErro.setAlignmentY(Component.CENTER_ALIGNMENT);
+        textoErro.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JButton botaoOK = new JButton();
+        botaoOK.setText("OK");
+        botaoOK.setLayout(null);
+        botaoOK.setBounds(150,100,70,30);
+        botaoOK.addActionListener(e -> janelaErro.dispose());
+
+        janelaErro.add(textoErro);
+        janelaErro.add(botaoOK);
+
+
+
+
+
     }
 
 }
