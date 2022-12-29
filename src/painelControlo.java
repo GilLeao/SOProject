@@ -41,19 +41,35 @@ public class painelControlo {
         JButton planearViagem = new JButton();
         planearViagem.setBounds(25,90, 200, 25);
         planearViagem.addActionListener(e -> {panel.setVisible(false);this.planearViagem(frame, estacoes, comboios);});
-        planearViagem.setText("PLANEAR VIAGEM");
+        planearViagem.setText("INFOMAÇÃO VIAGENS");
         planearViagem.setFocusable(false);
         panel.add(planearViagem);
 
     }
 
     public void planearViagem(baseFrame frame, Estacao[] estacaos, Comboio[] comboios){
+
+        frame.setSize(800, 700);//Comprimento e Largura da Janela
+
         JPanel panel = new JPanel();//NOVO PAINEL
         panel.setLayout(null);
         panel.setBackground(new Color(64,64,64));
-        panel.setBounds(70,90,250,300);
+        panel.setBounds(20,90,750,550);
         panel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.setAlignmentY(Component.CENTER_ALIGNMENT);
+        frame.add(panel);
+
+        String[] Paragens = new String[estacaos.length];
+        for(int i = 0; i < Paragens.length; i++){
+            Paragens[i] = estacaos[i].getNome();
+        }
+
+        final JComboBox escolherParagem =new JComboBox(Paragens);
+        escolherParagem.setBounds(20, 10, 140, 30);
+
+        panel.add(escolherParagem);
+
+
     }
 
     public void alterarHorarios(baseFrame frame, Comboio comboio, int indice){
