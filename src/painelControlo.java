@@ -37,9 +37,29 @@ public class painelControlo {
         alterarHorarios.setFocusable(false);
         panel.add(alterarHorarios);
 
+
+        JButton planearViagem = new JButton();
+        planearViagem.setBounds(25,90, 200, 25);
+        planearViagem.addActionListener(e -> {panel.setVisible(false);this.planearViagem(frame, estacoes, comboios);});
+        planearViagem.setText("PLANEAR VIAGEM");
+        planearViagem.setFocusable(false);
+        panel.add(planearViagem);
+
     }
 
-    public void alterarHorários(baseFrame frame, Comboio comboio, int indice){
+    public void planearViagem(baseFrame frame, Estacao[] estacaos, Comboio[] comboios){
+        JPanel panel = new JPanel();//NOVO PAINEL
+        panel.setLayout(null);
+        panel.setBackground(new Color(64,64,64));
+        panel.setBounds(70,90,250,300);
+        panel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.setAlignmentY(Component.CENTER_ALIGNMENT);
+    }
+
+    public void alterarHorarios(baseFrame frame, Comboio comboio, int indice){
+        final int indices = indice;
+        frame.setSize(400, 500);//Comprimento e Largura da Janela
+
         JPanel panel = new JPanel();//NOVO PAINEL
         panel.setLayout(null);
         panel.setBackground(new Color(64,64,64));
@@ -144,7 +164,7 @@ public class painelControlo {
 
         JSpinner finalSpinnerSaida = spinnerSaida;
         salvarAlterações.addActionListener(e -> {
-            if(indice > 0){
+            if(indices > 0 && indices < comboio.getParagens().length - 1){
 
                 Date date = (Date)spinner.getModel().getValue();
 
@@ -166,12 +186,12 @@ public class painelControlo {
                 if(localTimePartida.isAfter(localTimeChegada)) {
                     if(localTimePartida != null) {
 
-                        HorariosPartida[indice] = localTimePartida;
+                        HorariosPartida[indices] = localTimePartida;
                     }
-                    HorariosChegada[indice] = localTimeChegada;
+                    HorariosChegada[indices] = localTimeChegada;
 
-                    System.out.println("NOVO HORARIO DE CHEGADA: " + HorariosChegada[indice]);
-                    System.out.println("NOVO HORARIO DE PARTIDA: " + HorariosPartida[indice]);
+                    System.out.println("NOVO HORARIO DE CHEGADA: " + HorariosChegada[indices]);
+                    System.out.println("NOVO HORARIO DE PARTIDA: " + HorariosPartida[indices]);
 
                     comboio.setHorariosSaida(HorariosPartida);
                     comboio.setHorariosChegada(HorariosChegada);
@@ -181,7 +201,7 @@ public class painelControlo {
                     janelaErro();
                 }
 
-            }else{
+            }else if (indices == 0){
                 Date datePartida = (Date) finalSpinnerSaida.getModel().getValue();
 
                 Instant instantPartida = datePartida.toInstant();
@@ -199,6 +219,18 @@ public class painelControlo {
 
                 panel.setVisible(false);
                 this.selecionarEstacaoEditar(frame, comboio);
+            }else{
+                Date date = (Date)spinner.getModel().getValue();
+
+                Instant instant = date.toInstant();
+
+                ZonedDateTime zonedDateTime = instant.atZone(ZoneId.systemDefault());
+
+                LocalTime localTimeChegada = zonedDateTime.toLocalTime();
+                comboio.setHorariosChegada(HorariosChegada);
+                panel.setVisible(false);
+                this.selecionarEstacaoEditar(frame, comboio);
+
             }
 
         });
@@ -237,9 +269,6 @@ public class painelControlo {
 
     public void selecionarEstacaoEditar(baseFrame frame, Comboio comboio){
         frame.setSize(400, (comboio.getParagens().length * 20) + 320);//Comprimento e Largura da Janela
-
-
-
         JPanel panel = new JPanel();//NOVO PAINEL
         panel.setLayout(null);
         panel.setBackground(new Color(64,64,64));
@@ -263,7 +292,7 @@ public class painelControlo {
             ParagensBotoes[i].setText(Paragens[i]);
             ParagensBotoes[i].setFocusable(false);
             int finalI = i;
-            ParagensBotoes[i].addActionListener(e -> {panel.setVisible(false);this.alterarHorários(frame, comboio, finalI);});
+            ParagensBotoes[i].addActionListener(e -> {panel.setVisible(false);this.alterarHorarios(frame, comboio, finalI);});
             y = y +30;
             panel.add(ParagensBotoes[i]);
 
