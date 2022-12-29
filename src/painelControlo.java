@@ -17,24 +17,9 @@ import static java.awt.Font.createFont;
 
 
 public class painelControlo {
-    private static baseFrame painelControloFrame;
-
-    private static baseFrame selecionarComboioAlterarHorario;
-
-    private static baseFrame selecionarEstacaoAlterarHorario;
-
-    private static baseFrame alterarHorarios;
-
     private int indiceComboioEditar;
 
-    public painelControlo(Comboio[] comboios, Estacao[] estacoes) {
-        painelControloFrame = new baseFrame();
-
-        ImageIcon logo = new ImageIcon("src\\img\\logo.png");//Imagem do logo
-        painelControloFrame.setIconImage(logo.getImage());//Define o logo como o icon da janela
-        painelControloFrame.getContentPane().setBackground(new Color(166, 237, 128));//Define a Cor de fundo
-
-
+    public painelControlo(baseFrame frame, Comboio[] comboios, Estacao[] estacoes) {
         JPanel panel = new JPanel();//NOVO PAINEL
         panel.setLayout(null);
         panel.setBackground(new Color(64,64,64));
@@ -43,28 +28,18 @@ public class painelControlo {
         panel.setAlignmentY(Component.CENTER_ALIGNMENT);
 
 
-        ImageIcon source = new ImageIcon("src\\img\\logoGUI.png");
-        ImageIcon resultat = new ImageIcon(source.getImage().getScaledInstance(150, 70, Image.SCALE_DEFAULT));
-        JLabel picLabel = new JLabel(resultat);
-        picLabel.setBounds(50,-50,280,200);
-        painelControloFrame.add(picLabel);
-        painelControloFrame.add(panel);
+        frame.add(panel);
 
         JButton alterarHorarios = new JButton();
         alterarHorarios.setBounds(25,50, 200, 25);
-        alterarHorarios.addActionListener(e -> this.selecionarComboioEditar(comboios, estacoes));
+        alterarHorarios.addActionListener(e -> {panel.setVisible(false);this.selecionarComboioEditar(frame, comboios, estacoes);});
         alterarHorarios.setText("ALTERAR HORÁRIOS");
         alterarHorarios.setFocusable(false);
         panel.add(alterarHorarios);
 
     }
 
-    public void alterarHorários(Comboio comboio, int indice){
-        selecionarEstacaoAlterarHorario.dispose();
-        alterarHorarios = new baseFrame();
-        ImageIcon logo = new ImageIcon("src\\img\\logo.png");//Imagem do logo
-        alterarHorarios.setIconImage(logo.getImage());//Define o logo como o icon da janela
-        alterarHorarios.getContentPane().setBackground(new Color(166, 237, 128));//Define a Cor de fundo
+    public void alterarHorários(baseFrame frame, Comboio comboio, int indice){
         JPanel panel = new JPanel();//NOVO PAINEL
         panel.setLayout(null);
         panel.setBackground(new Color(64,64,64));
@@ -72,12 +47,8 @@ public class painelControlo {
         panel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.setAlignmentY(Component.CENTER_ALIGNMENT);
 
-        ImageIcon source = new ImageIcon("src\\img\\logoGUI.png");
-        ImageIcon resultat = new ImageIcon(source.getImage().getScaledInstance(150, 70, Image.SCALE_DEFAULT));
-        JLabel picLabel = new JLabel(resultat);
-        picLabel.setBounds(50,-50,280,200);
-        alterarHorarios.add(picLabel);
-        alterarHorarios.add(panel);
+
+        frame.add(panel);
 
         LocalTime[] HorariosChegada = comboio.getHorariosChegada();
 
@@ -167,8 +138,8 @@ public class painelControlo {
 
 
         JButton salvarAlterações = new JButton();
-        salvarAlterações.setBounds(30,260,300,30 );
-        salvarAlterações.setText("SALVAR ALTERAÇÕES");
+        salvarAlterações.setBounds(120,260,100,30 );
+        salvarAlterações.setText("SALVAR");
         salvarAlterações.setFocusable(false);
 
         JSpinner finalSpinnerSaida = spinnerSaida;
@@ -204,7 +175,8 @@ public class painelControlo {
 
                     comboio.setHorariosSaida(HorariosPartida);
                     comboio.setHorariosChegada(HorariosChegada);
-                    this.selecionarEstacaoEditar(comboio);
+                    panel.setVisible(false);
+                    this.selecionarEstacaoEditar(frame, comboio);
                 }else{
                     janelaErro();
                 }
@@ -225,8 +197,8 @@ public class painelControlo {
 
                     System.out.println("NOVO HORARIO DE PARTIDA: " + HorariosPartida[indice]);
 
-
-                this.selecionarEstacaoEditar(comboio);
+                panel.setVisible(false);
+                this.selecionarEstacaoEditar(frame, comboio);
             }
 
         });
@@ -235,16 +207,7 @@ public class painelControlo {
     }
 
 
-    public void selecionarComboioEditar(Comboio[] comboios, Estacao[] estacaos){
-        painelControloFrame.dispose();
-        if(alterarHorarios != null) {
-            alterarHorarios.dispose();
-        }
-        selecionarComboioAlterarHorario = new baseFrame();
-
-        ImageIcon logo = new ImageIcon("src\\img\\logo.png");//Imagem do logo
-        selecionarComboioAlterarHorario.setIconImage(logo.getImage());//Define o logo como o icon da janela
-        selecionarComboioAlterarHorario.getContentPane().setBackground(new Color(166, 237, 128));//Define a Cor de fundo
+    public void selecionarComboioEditar(baseFrame frame, Comboio[] comboios, Estacao[] estacaos){
 
 
         JPanel panel = new JPanel();//NOVO PAINEL
@@ -255,12 +218,8 @@ public class painelControlo {
         panel.setAlignmentY(Component.CENTER_ALIGNMENT);
 
 
-        ImageIcon source = new ImageIcon("src\\img\\logoGUI.png");
-        ImageIcon resultat = new ImageIcon(source.getImage().getScaledInstance(150, 70, Image.SCALE_DEFAULT));
-        JLabel picLabel = new JLabel(resultat);
-        picLabel.setBounds(50,-50,280,200);
-        selecionarComboioAlterarHorario.add(picLabel);
-        selecionarComboioAlterarHorario.add(panel);
+
+        frame.add(panel);
 
         JButton[] ComboiosBotoes = new JButton[comboios.length];
         int y = 50;
@@ -270,22 +229,15 @@ public class painelControlo {
             ComboiosBotoes[i].setText("COMBOIO " + (i+1) );
             ComboiosBotoes[i].setFocusable(false);
             int finalI1 = i;
-            ComboiosBotoes[i].addActionListener(e -> this.selecionarEstacaoEditar(comboios[finalI1]));
+            ComboiosBotoes[i].addActionListener(e -> {panel.setVisible(false);this.selecionarEstacaoEditar(frame, comboios[finalI1]);});
             y = y + 40;
             panel.add(ComboiosBotoes[i]);
         }
     }
 
-    public void selecionarEstacaoEditar(Comboio comboio){
-        selecionarComboioAlterarHorario.dispose();
+    public void selecionarEstacaoEditar(baseFrame frame, Comboio comboio){
+        frame.setSize(400, (comboio.getParagens().length * 20) + 320);//Comprimento e Largura da Janela
 
-        selecionarEstacaoAlterarHorario = new baseFrame();
-
-        selecionarEstacaoAlterarHorario.setSize(400, (comboio.getParagens().length * 20) + 320);//Comprimento e Largura da Janela
-
-        ImageIcon logo = new ImageIcon("src\\img\\logo.png");//Imagem do logo
-        selecionarEstacaoAlterarHorario.setIconImage(logo.getImage());//Define o logo como o icon da janela
-        selecionarEstacaoAlterarHorario.getContentPane().setBackground(new Color(166, 237, 128));//Define a Cor de fundo
 
 
         JPanel panel = new JPanel();//NOVO PAINEL
@@ -295,13 +247,7 @@ public class painelControlo {
         panel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.setAlignmentY(Component.CENTER_ALIGNMENT);
 
-
-        ImageIcon source = new ImageIcon("src\\img\\logoGUI.png");
-        ImageIcon resultat = new ImageIcon(source.getImage().getScaledInstance(150, 70, Image.SCALE_DEFAULT));
-        JLabel picLabel = new JLabel(resultat);
-        picLabel.setBounds(50,-50,280,200);
-        selecionarEstacaoAlterarHorario.add(picLabel);
-        selecionarEstacaoAlterarHorario.add(panel);
+        frame.add(panel);
 
 
         String[] Paragens = comboio.getParagens();
@@ -317,7 +263,7 @@ public class painelControlo {
             ParagensBotoes[i].setText(Paragens[i]);
             ParagensBotoes[i].setFocusable(false);
             int finalI = i;
-            ParagensBotoes[i].addActionListener(e -> this.alterarHorários(comboio, finalI));
+            ParagensBotoes[i].addActionListener(e -> {panel.setVisible(false);this.alterarHorários(frame, comboio, finalI);});
             y = y +30;
             panel.add(ParagensBotoes[i]);
 
@@ -345,11 +291,5 @@ public class painelControlo {
 
         janelaErro.add(textoErro);
         janelaErro.add(botaoOK);
-
-
-
-
-
     }
-
 }

@@ -76,8 +76,8 @@ public class Main {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(e.getSource() == painelControlo){
-                    mainFrame.dispose();
-                    painelControlo painel = new painelControlo(Comboios, Estacoes);
+                    painelControlo painel = new painelControlo(mainFrame, Comboios, Estacoes);
+                    panel.setVisible(false);
                 }
             }
         });
@@ -162,8 +162,5 @@ public class Main {
     public static void naoClicar() throws IOException {
         java.awt.Desktop.getDesktop().browse(java.net.URI.create("https://encurtador.com.br/iHQW8"));
     }
-
-
-
 
 }
