@@ -106,6 +106,7 @@ public class Main {
         panel.add(gestaoConflitos);
         panel.add(painelControlo);
         panel.add(naoClicar);
+        panel.repaint();
     }
 
 

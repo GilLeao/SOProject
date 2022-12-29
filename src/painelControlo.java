@@ -1,17 +1,9 @@
 import javax.swing.*;
-import javax.swing.text.MaskFormatter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.text.Format;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.*;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static java.awt.Font.createFont;
 
@@ -44,6 +36,7 @@ public class painelControlo {
         planearViagem.setText("INFOMAÇÃO VIAGENS");
         planearViagem.setFocusable(false);
         panel.add(planearViagem);
+        panel.repaint();
 
     }
 
@@ -67,8 +60,104 @@ public class painelControlo {
         final JComboBox escolherParagem =new JComboBox(Paragens);
         escolherParagem.setBounds(20, 10, 140, 30);
 
-        panel.add(escolherParagem);
+        final String[] EstacaoEscolhida = {null};
 
+        JButton confirmar = new JButton("PROCURAR");
+        confirmar.setBounds(170, 10, 120, 30);
+        confirmar.addActionListener(e -> {
+
+            EstacaoEscolhida[0] = (String) escolherParagem.getSelectedItem();
+            Comboio[] paramNaEstacao = this.paragemComboio(EstacaoEscolhida[0], comboios);
+            this.escolherComboioMostrarInformacao(paramNaEstacao, frame, panel, estacaos, EstacaoEscolhida[0]);
+
+
+        });
+        panel.add(confirmar);
+        panel.add(escolherParagem);
+        panel.repaint();
+
+
+    }
+
+    public void escolherComboioMostrarInformacao(Comboio[] param, baseFrame frame, JPanel panel, Estacao[] estacaos, String EstacaoEscolhida){
+        String[] nomeComboios = new String[param.length];
+
+        for(int i = 0; i < param.length; i++){
+            nomeComboios[i] = new String();
+            nomeComboios[i] = "COMBOIO " + (i + 1);
+        }
+
+        JComboBox escolherComboio =new JComboBox(nomeComboios);
+        escolherComboio.setBounds(430, 10, 140, 30);
+
+        JButton procurar = new JButton("CONFIRMAR");
+        procurar.setBounds(600, 10, 120, 30);
+        procurar.addActionListener(e -> {
+            String ComboioEscolhido = (String) escolherComboio.getSelectedItem();
+            String intValue = ComboioEscolhido.replaceAll("[^0-9]", "");
+            int indice = Integer.parseInt(intValue);
+            indice--;
+            System.out.println(indice);
+            this.mostrarInformacaoComboio(EstacaoEscolhida, param[indice], frame, panel);
+            procurar.setVisible(false);
+            escolherComboio.setVisible(false);
+        });
+        panel.add(escolherComboio);
+        panel.add(procurar);
+        panel.repaint();
+
+
+    }
+
+    public void mostrarInformacaoComboio(String Estacao, Comboio comboio, baseFrame frame, JPanel panel){
+        String[] Paragens = comboio.getParagens();
+        int indice = 0;
+        for(int i = 0; i < comboio.getParagens().length; i++){
+            if(Estacao.equals(Paragens[i])){
+                if(indice == 0){
+                    indice = i;
+                }
+            }
+        }
+
+        LocalTime[] HoraChegada = comboio.getHorariosChegada();
+        LocalTime[] HoraPartida = comboio.getHorariosSaida();
+
+
+
+
+        JLabel horadePartida = new JLabel("HORA DE PARTIDA DA ESTAÇÃO ANTERIOR: " + HoraPartida[indice - 1].toString());
+        horadePartida.setForeground(Color.WHITE);
+        horadePartida.setFont(new Font("Arial", Font.BOLD, 14));
+        horadePartida.setLayout(null);
+        horadePartida.setBounds(30, 150, 1200, 10);
+
+        panel.add(horadePartida);
+        panel.repaint();
+
+    }
+
+    public Comboio[] paragemComboio(String estacao, Comboio[] comboios){
+        String[] Paragens;
+        Comboio[] paramNaEstacao = new Comboio[comboios.length];
+        int indiceComboios = 0;
+        for(int i = 0; i < comboios.length;i++){
+            paramNaEstacao[i] = new Comboio();
+            Paragens = comboios[i].getParagens();
+            for(int k = 1; k < comboios[i].getParagens().length;k++){
+                if(Paragens[k].equals(estacao)){
+                    paramNaEstacao[indiceComboios] = comboios[i];
+                    indiceComboios++;
+                }
+            }
+        }
+        Comboio[] paramNaEstacaoFinal = new Comboio[indiceComboios];
+        for(int i = 0;i < indiceComboios;i++){
+            paramNaEstacaoFinal[i] = new Comboio();
+            paramNaEstacaoFinal[i] = paramNaEstacao[i];
+        }
+
+        return paramNaEstacaoFinal;
 
     }
 
@@ -252,6 +341,7 @@ public class painelControlo {
         });
 
         panel.add(salvarAlterações);
+        panel.repaint();
     }
 
 
@@ -281,6 +371,7 @@ public class painelControlo {
             y = y + 40;
             panel.add(ComboiosBotoes[i]);
         }
+        panel.repaint();
     }
 
     public void selecionarEstacaoEditar(baseFrame frame, Comboio comboio){
@@ -312,7 +403,9 @@ public class painelControlo {
             y = y +30;
             panel.add(ParagensBotoes[i]);
 
+
         }
+        panel.repaint();
     }
 
     public void janelaErro(){
