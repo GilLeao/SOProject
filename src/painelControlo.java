@@ -3,14 +3,20 @@ import java.awt.*;
 import java.time.*;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.concurrent.atomic.AtomicReference;
-
-import static java.awt.Font.createFont;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 public class painelControlo {
     private int indiceComboioEditar;
 
+    /**
+     * Menu principal do Módulo Painel de Controlo (e tambem metodo construtor).
+     *
+     * @param frame JFrame do software
+     * @param comboios array com todos os comboios existentes
+     * @param estacoes array com todas as estacoes existentes
+     */
     public painelControlo(baseFrame frame, Comboio[] comboios, Estacao[] estacoes) {
         JPanel panel = new JPanel();//NOVO PAINEL
         panel.setLayout(null);
@@ -23,7 +29,7 @@ public class painelControlo {
         frame.add(panel);
 
         JButton alterarHorarios = new JButton();
-        alterarHorarios.setBounds(25,50, 200, 25);
+        alterarHorarios.setBounds(25,100, 200, 25);
         alterarHorarios.addActionListener(e -> {panel.setVisible(false);this.selecionarComboioEditar(frame, comboios, estacoes);});
         alterarHorarios.setText("ALTERAR HORÁRIOS");
         alterarHorarios.setFocusable(false);
@@ -31,7 +37,7 @@ public class painelControlo {
 
 
         JButton planearViagem = new JButton();
-        planearViagem.setBounds(25,90, 200, 25);
+        planearViagem.setBounds(25,140, 200, 25);
         planearViagem.addActionListener(e -> {panel.setVisible(false);this.planearViagem(frame, estacoes, comboios);});
         planearViagem.setText("INFOMAÇÃO VIAGENS");
         planearViagem.setFocusable(false);
@@ -40,6 +46,13 @@ public class painelControlo {
 
     }
 
+    /**
+     * Esta funcao vai apresentar ao usuario a opcao de escolher um destino para onde quer ir
+     *
+     * @param frame JFrame do software
+     * @param estacaos Array com todas as estacoes existentes
+     * @param comboios Array com todos os comboios existentes
+     */
     public void planearViagem(baseFrame frame, Estacao[] estacaos, Comboio[] comboios){
 
         frame.setSize(800, 700);//Comprimento e Largura da Janela
@@ -57,97 +70,256 @@ public class painelControlo {
             Paragens[i] = estacaos[i].getNome();
         }
 
-        final JComboBox escolherParagem =new JComboBox(Paragens);
-        escolherParagem.setBounds(20, 10, 140, 30);
+        JLabel textoEstPartida = new JLabel("ESTAÇÃO DE PARTIDA:");
+        textoEstPartida.setForeground(Color.WHITE);
+        textoEstPartida.setFont(new Font("Arial", Font.BOLD, 15));
+        textoEstPartida.setBounds(20,10,300,30);
 
-        final String[] EstacaoEscolhida = {null};
+        JComboBox paragemPartida =new JComboBox(Paragens);
+        paragemPartida.setBounds(200, 10, 140, 30);
+
+        String Paragemanterior = Paragens[0];
+        Paragens[0] = Paragens[1];
+        Paragens[1] = Paragemanterior;
+
+        JComboBox paragemDestino = new JComboBox(Paragens);
+        paragemDestino.setBounds(200, 60, 140, 30);
+
+        JLabel textoEstDestino = new JLabel("ESTAÇÃO DE DESTINO:");
+        textoEstDestino.setForeground(Color.WHITE);
+        textoEstDestino.setFont(new Font("Arial", Font.BOLD, 15));
+        textoEstDestino.setBounds(20,60,300,30);
+
+
+        /**
+         * ESTA FUNÇÃO VAI OBRIGAR A QUE AS DUAS COMBOBOX NÃO POSSAM TER VALORES IGUAIS
+         */
+        paragemPartida.addActionListener(e -> {
+            if (paragemPartida.getSelectedItem().equals(paragemDestino.getSelectedItem()) &&  paragemPartida != paragemPartida) {
+                paragemPartida.setSelectedIndex((paragemPartida.getSelectedIndex() + 1) % paragemPartida.getItemCount());
+            } else if (paragemPartida.getSelectedItem().equals(paragemDestino.getSelectedItem()) && paragemPartida != paragemDestino) {
+                paragemDestino.setSelectedIndex((paragemDestino.getSelectedIndex() + 1) % paragemDestino.getItemCount());
+            }
+        });
+        paragemDestino.addActionListener(e -> {
+            if (paragemDestino.getSelectedItem().equals(paragemPartida.getSelectedItem()) &&  paragemPartida != paragemPartida) {
+                paragemDestino.setSelectedIndex((paragemDestino.getSelectedIndex() + 1) % paragemDestino.getItemCount());
+            } else if (paragemDestino.getSelectedItem().equals(paragemPartida.getSelectedItem()) && paragemPartida != paragemDestino) {
+                paragemPartida.setSelectedIndex((paragemPartida.getSelectedIndex() + 1) % paragemPartida.getItemCount());
+            }
+        });
+
+        Paragemanterior = Paragens[1];
+        Paragens[1] = Paragens[0];
+        Paragens[0] = Paragemanterior;
+
 
         JButton confirmar = new JButton("PROCURAR");
-        confirmar.setBounds(170, 10, 120, 30);
         confirmar.addActionListener(e -> {
-
-            EstacaoEscolhida[0] = (String) escolherParagem.getSelectedItem();
-            Comboio[] paramNaEstacao = this.paragemComboio(EstacaoEscolhida[0], comboios);
-            this.escolherComboioMostrarInformacao(paramNaEstacao, frame, panel, estacaos, EstacaoEscolhida[0]);
-
+            String estacaoDestino = (String) paragemDestino.getSelectedItem();
+            String estacaoPartida = (String) paragemPartida.getSelectedItem();
+            Comboio[] comboiosDisponivel = this.comboiosDisponiveis(estacaoPartida, estacaoDestino, comboios);
+            paragemPartida.setVisible(false);
+            paragemDestino.setVisible(false);
+            textoEstDestino.setVisible(false);
+            textoEstPartida.setVisible(false);
+            confirmar.setVisible(false);
+            this.selecionarComboioParaViagem(comboiosDisponivel, panel, frame, comboios, estacaos, estacaoPartida, estacaoDestino);
 
         });
+        confirmar.setBounds(370, 35, 120, 30);
+
+
+
         panel.add(confirmar);
-        panel.add(escolherParagem);
+        panel.add(paragemPartida);
+        panel.add(paragemDestino);
+        panel.add(textoEstPartida);
+        panel.add(textoEstDestino);
         panel.repaint();
 
 
     }
 
-    public void escolherComboioMostrarInformacao(Comboio[] param, baseFrame frame, JPanel panel, Estacao[] estacaos, String EstacaoEscolhida){
-        String[] nomeComboios = new String[param.length];
+    /**
+     *
+     * @param comboiosParam array de comboios que passam pela estacao de partida e estacao de destino referidas pelo utilizador
+     * @param panel painel no qual as informacoes aqui dadas vao aparecer
+     * @param frame JFrame do software
+     * @param comboios array com todos os comboios do sistema
+     * @param estacaos array com todas as estacoes do sistema
+     * @param estacaoPartida estacao de partida do usuario
+     * @param estacaoDestino estacao de destino do usuario
+     */
+    public void selecionarComboioParaViagem(Comboio[] comboiosParam, JPanel panel, JFrame frame, Comboio[] comboios,Estacao[] estacaos,String estacaoPartida,String estacaoDestino){
 
-        for(int i = 0; i < param.length; i++){
+        String[] nomeComboios = new String[comboiosParam.length];
+
+        for(int i = 0; i < nomeComboios.length; i++){
             nomeComboios[i] = new String();
-            nomeComboios[i] = "COMBOIO " + (i + 1);
+            nomeComboios[i] = "Comboio " + (comboiosParam[i].getNmrComboio() + 1);
         }
 
-        JComboBox escolherComboio =new JComboBox(nomeComboios);
-        escolherComboio.setBounds(430, 10, 140, 30);
+        JComboBox escolherComboio = new JComboBox(nomeComboios);
+        escolherComboio.setBounds(30, 60, 140, 30);
 
-        JButton procurar = new JButton("CONFIRMAR");
-        procurar.setBounds(600, 10, 120, 30);
-        procurar.addActionListener(e -> {
-            String ComboioEscolhido = (String) escolherComboio.getSelectedItem();
-            String intValue = ComboioEscolhido.replaceAll("[^0-9]", "");
-            int indice = Integer.parseInt(intValue);
-            indice--;
-            System.out.println(indice);
-            this.mostrarInformacaoComboio(EstacaoEscolhida, param[indice], frame, panel);
-            procurar.setVisible(false);
+        JButton confirmar = new JButton("CONFIRMAR");
+        confirmar.setBounds(200, 60, 120, 30);
+        confirmar.addActionListener(e -> {
             escolherComboio.setVisible(false);
+            confirmar.setVisible(false);
+            String ComboioEscolhido = (String)escolherComboio.getSelectedItem();
+            String intValue = ComboioEscolhido.replaceAll("[^0-9]", "");
+            int indiceComboioEscol= Integer.parseInt(intValue);
+            indiceComboioEscol--;
+            this.apresentarInformacao(comboiosParam, panel, frame, comboios, estacaos, estacaoPartida, estacaoDestino, indiceComboioEscol);
         });
+
+
+
+
+        panel.add(confirmar);
         panel.add(escolherComboio);
-        panel.add(procurar);
+
+
         panel.repaint();
-
-
     }
 
-    public void mostrarInformacaoComboio(String Estacao, Comboio comboio, baseFrame frame, JPanel panel){
-        String[] Paragens = comboio.getParagens();
-        int indice = 0;
-        for(int i = 0; i < comboio.getParagens().length; i++){
-            if(Estacao.equals(Paragens[i])){
-                if(indice == 0){
-                    indice = i;
+    /**
+     * Aqui sera apresentada a informacao relativa a viagem e comboio selecionados pelo usuario
+     *
+     * @param comboiosParam array de comboios que passam pela estacao de partida e depois pela estacao de destino definidas pelo utilizador
+     * @param panel painel onde a informacao aparecera para o user
+     * @param frame JFrame do software
+     * @param comboios array de comboios existentes no sistema
+     * @param estacaos array de estacoes existentes no sistema
+     * @param estacaoPartida estacao de partida do user
+     * @param estacaoDestino estacao de destino do user
+     * @param indiceComboioEscolhido indice na array "comboiosParam" do comboio que o user escolheu
+     */
+    public void apresentarInformacao(Comboio[] comboiosParam, JPanel panel, JFrame frame, Comboio[] comboios, Estacao[] estacaos,String estacaoPartida,String estacaoDestino, int indiceComboioEscolhido){
+        for(int i = 0;i < comboiosParam.length;i++){
+            if(comboiosParam[i].getNmrComboio() == indiceComboioEscolhido){
+                indiceComboioEscolhido = i;
+            }
+        }
+        LocalTime[] HorariosChegada = comboiosParam[indiceComboioEscolhido].getHorariosChegada();
+        LocalTime[] HorariosPartida = comboiosParam[indiceComboioEscolhido].getHorariosSaida();
+
+        int indicePartida = -1;
+        int indiceChegada = -1;
+
+        String[] Paragens = comboiosParam[indiceComboioEscolhido].getParagens();
+
+        for(int i = 0;i < Paragens.length;i++){
+            if(Paragens[i].equals(estacaoPartida)){
+                if(indicePartida == -1){
+                    indicePartida= i;
+                    for(int k = i;k < Paragens.length;k++){
+                        if(Paragens[k].equals(estacaoDestino)){
+                            if(indiceChegada == -1){
+                                indiceChegada = k;
+                            }
+                        }
+                    }
                 }
             }
         }
 
-        LocalTime[] HoraChegada = comboio.getHorariosChegada();
-        LocalTime[] HoraPartida = comboio.getHorariosSaida();
+        int HorasPartida = HorariosPartida[indicePartida].getHour();
+        int MinutosPartida = HorariosPartida[indicePartida].getMinute();
+
+        MinutosPartida = MinutosPartida + (HorasPartida * 60);
+
+        int HorasChegada = HorariosChegada[indiceChegada].getHour();
+        int MinutosChegada = HorariosChegada[indiceChegada].getMinute();
+
+        MinutosChegada = MinutosChegada + (HorasChegada * 60);
+
+        int duracaoViagem = MinutosChegada - MinutosPartida;
 
 
+        JLabel textoDuracaoViagem = new JLabel("DURAÇÃO DA VIAGEM: " + duracaoViagem + " MINUTOS");
+        textoDuracaoViagem.setForeground(Color.WHITE);
+        textoDuracaoViagem.setFont(new Font("Verdana", Font.BOLD, 15));
+        textoDuracaoViagem.setBounds(10,20,500,20);
 
+        String[] coluna = {"PARAGEM", "HORARIO CHEGADA", "HORARIO PARTIDA"};
 
-        JLabel horadePartida = new JLabel("HORA DE PARTIDA DA ESTAÇÃO ANTERIOR: " + HoraPartida[indice - 1].toString());
-        horadePartida.setForeground(Color.WHITE);
-        horadePartida.setFont(new Font("Arial", Font.BOLD, 14));
-        horadePartida.setLayout(null);
-        horadePartida.setBounds(30, 150, 1200, 10);
+        String[][] informacao = new String[Paragens.length][3];
+        for (int i = 0; i < Paragens.length; i++) {
+            informacao[i][0] = Paragens[i];
+            if(i == 0){
+                informacao[i][1] = "-";
+            }else {
+                informacao[i][1] = HorariosChegada[i].toString();
+            }
+            if(i == (Paragens.length - 1)){
+                informacao[i][2] = "-";
+            }else {
+                informacao[i][2] = HorariosPartida[i].toString();
+            }
+        }
 
-        panel.add(horadePartida);
+        JLabel textoHorarios = new JLabel("HORÁRIOS");
+        textoHorarios.setBounds(320,80,520,(Paragens.length * 20));
+        textoHorarios.setForeground(Color.WHITE);
+        textoHorarios.setFont(new Font("Verdana", Font.BOLD, 15));
+
+        final JTable horarios=new JTable(informacao,coluna);
+        horarios.setBounds(100,200,520,(Paragens.length * 20) + 5);
+        horarios.setEnabled(false);
+        horarios.setColumnSelectionAllowed(false);
+        horarios.setDragEnabled(false);
+        horarios.setCellSelectionEnabled(false);
+        horarios.getTableHeader().setReorderingAllowed(false);
+        JScrollPane sp=new JScrollPane(horarios);
+        sp.setBounds(110,200,520,(Paragens.length * 20));
+
+        JLabel textoNmrMaxPassageiros = new JLabel("NUMERO MÁXIMO DE PASSAGEIROS: " + comboiosParam[indiceComboioEscolhido].getNmrMaxPassageiros() + " PESSOAS.");
+        textoNmrMaxPassageiros.setBounds(10,440,500,20);
+        textoNmrMaxPassageiros.setForeground(Color.WHITE);
+        textoNmrMaxPassageiros.setFont(new Font("Verdana", Font.BOLD, 15));
+
+        JLabel textoNmrPassageirosDentro = new JLabel("PASSAGEIROS DENTRO DO COMBOIO: " + comboiosParam[indiceComboioEscolhido].getContadorPassageiros() + " PESSOAS.");
+        textoNmrPassageirosDentro.setBounds(10,480,500,20);
+        textoNmrPassageirosDentro.setForeground(Color.WHITE);
+        textoNmrPassageirosDentro.setFont(new Font("Verdana", Font.BOLD, 15));
+
+        panel.add(textoNmrPassageirosDentro);
+        panel.add(textoNmrMaxPassageiros);
+        panel.add(textoHorarios);
+        panel.add(sp);
+        panel.add(textoDuracaoViagem);
         panel.repaint();
-
     }
 
-    public Comboio[] paragemComboio(String estacao, Comboio[] comboios){
+
+    /**
+     *
+     * Verifica quais os comboios que passam pela estacao de Partida e depois pela Estacao de destino do usuario e
+     * guarda-os numa array.
+     *
+     * @param estacaoPartida estacao de partida do user
+     * @param estacaoDestino estacao de destino do user
+     * @param comboios array de comboios existentes no sistema
+     * @return uma array de comboios a passar pela estacaoPartida e <b>so depois</b> pela estacaoDestino.
+     */
+    public Comboio[] comboiosDisponiveis(String estacaoPartida, String estacaoDestino, Comboio[] comboios){
         String[] Paragens;
         Comboio[] paramNaEstacao = new Comboio[comboios.length];
         int indiceComboios = 0;
         for(int i = 0; i < comboios.length;i++){
             paramNaEstacao[i] = new Comboio();
             Paragens = comboios[i].getParagens();
-            for(int k = 1; k < comboios[i].getParagens().length;k++){
-                if(Paragens[k].equals(estacao)){
-                    paramNaEstacao[indiceComboios] = comboios[i];
-                    indiceComboios++;
+            for(int k = 0; k < comboios[i].getParagens().length;k++){
+                if(Paragens[k].equals(estacaoPartida)){
+                    for(int j = k;j < comboios[i].getParagens().length;j++) {
+                        if(Paragens[j].equals(estacaoDestino)) {
+                            paramNaEstacao[indiceComboios] = comboios[i];
+                            indiceComboios++;
+                        }
+                    }
                 }
             }
         }
@@ -161,6 +333,13 @@ public class painelControlo {
 
     }
 
+    /**
+     * Esta funcao permite ao user alterar os horarios de chegada e partida dos comboios
+     *
+     * @param frame JFrame da nossa app
+     * @param comboio array de comboios existentes no sistema
+     * @param indice indice do comboio cujo os horarios estamos a alterar
+     */
     public void alterarHorarios(baseFrame frame, Comboio comboio, int indice){
         final int indices = indice;
         frame.setSize(400, 500);//Comprimento e Largura da Janela
@@ -344,7 +523,13 @@ public class painelControlo {
         panel.repaint();
     }
 
-
+    /**
+     * Permite ao User escolher o Comboio para o qual o horario quer alterar
+     *
+     * @param frame JFrame da nossa app
+     * @param comboios array de comboios existentes no sistema
+     * @param estacaos array de estacaos existentes no sistema
+     */
     public void selecionarComboioEditar(baseFrame frame, Comboio[] comboios, Estacao[] estacaos){
 
 
@@ -364,7 +549,7 @@ public class painelControlo {
         for(int i = 0;i < ComboiosBotoes.length;i++){
             ComboiosBotoes[i] = new JButton();
             ComboiosBotoes[i].setBounds(25,y,200,25 );
-            ComboiosBotoes[i].setText("COMBOIO " + (i+1) );
+            ComboiosBotoes[i].setText("COMBOIO " + (comboios[i].getNmrComboio() +1));
             ComboiosBotoes[i].setFocusable(false);
             int finalI1 = i;
             ComboiosBotoes[i].addActionListener(e -> {panel.setVisible(false);this.selecionarEstacaoEditar(frame, comboios[finalI1]);});
@@ -374,6 +559,13 @@ public class painelControlo {
         panel.repaint();
     }
 
+    /**
+     *
+     * Permite ao user escolher a paragem do comboio cujo horario quer alterar
+     *
+     * @param frame JFrame da nossa app
+     * @param comboio comboio que o user quer alterar
+     */
     public void selecionarEstacaoEditar(baseFrame frame, Comboio comboio){
         frame.setSize(400, (comboio.getParagens().length * 20) + 320);//Comprimento e Largura da Janela
         JPanel panel = new JPanel();//NOVO PAINEL

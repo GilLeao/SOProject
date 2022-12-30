@@ -140,6 +140,7 @@ public class Main {
             comboios[i] = new Comboio();
             comboios[i].setNmrMaxPassageiros(ThreadLocalRandom.current().nextInt(1, 20));
             comboios[i].gerarAleatorio(Estacoes);
+            comboios[i].setNmrComboio(i);
         }
 
         //Imprime na consola os dados gerados

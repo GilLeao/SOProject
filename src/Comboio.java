@@ -5,6 +5,7 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Comboio {
+    int nmrComboio;
     /**
      * Numero de passageiros no comboio
      */
@@ -48,6 +49,14 @@ public class Comboio {
 
     public Comboio() {
 
+    }
+
+    public int getNmrComboio() {
+        return nmrComboio;
+    }
+
+    public void setNmrComboio(int nmrComboio) {
+        this.nmrComboio = nmrComboio;
     }
 
     public Passageiro[] getPassageiros() {
