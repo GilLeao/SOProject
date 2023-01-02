@@ -70,13 +70,20 @@ public class Estacao {
     }
 
     public void removePassageiro(int nmrPassageiro){
-        Passageiro[] PassageirosNovos = new Passageiro[this.Passageiros.length - 1];
-        int indiceFor = 0;
-        for(int i = 0; i < this.Passageiros.length; i++){
-            if(this.Passageiros[i].getNmrPassageiro() != nmrPassageiro){
-                PassageirosNovos[indiceFor] = this.Passageiros[i];
-                indiceFor++;
+        Passageiro[] PassageirosNovos;
+        if(this.Passageiros != null) {
+            PassageirosNovos = new Passageiro[this.Passageiros.length];
+
+            int indiceFor = 0;
+            for (int i = 0; i < this.Passageiros.length; i++) {
+                if (this.Passageiros[i].getNmrPassageiro() != nmrPassageiro) {
+                    PassageirosNovos[indiceFor] = new Passageiro();
+                    PassageirosNovos[indiceFor] = this.Passageiros[i];
+                    indiceFor++;
+                }
             }
+        }else{
+            PassageirosNovos = new Passageiro[0];
         }
         this.setPassageiros(PassageirosNovos);
     }

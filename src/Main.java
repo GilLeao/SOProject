@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadLocalRandom;
@@ -21,6 +22,10 @@ public class Main {
     protected static Estacao[]  Estacoes = new Estacao[10];
 
     protected static Comboio[] Comboios = new Comboio[5];
+    /**
+     * REMOVER
+     */
+    private static embarquePassageiros embarque;
 
     private static baseFrame mainFrame;
 
@@ -70,6 +75,17 @@ public class Main {
         simuladorTrafego.setBounds(25,90, 200, 25);
         simuladorTrafego.setVisible(false);
         simuladorTrafego.setText("SIMULADOR DE TRAFEGO");
+        simuladorTrafego.addActionListener(e ->{
+            embarque = new embarquePassageiros();
+            embarque.arrayEntradaeSaidaEstacao(0, Comboios,Estacoes);
+            try {
+                embarque.embarquePassageiros(SemaphoreEmbarquePassaegiros);
+
+            } catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+            mainFrame.dispatchEvent(new WindowEvent(mainFrame, WindowEvent.WINDOW_CLOSING));
+        } );
         simuladorTrafego.setFocusable(false);
 
         JButton gestaoConflitos = new JButton();

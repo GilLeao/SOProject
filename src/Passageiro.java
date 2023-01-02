@@ -1,3 +1,5 @@
+import java.util.concurrent.Semaphore;
+
 public class Passageiro implements Runnable {
     /**
      * Variavel do tipo Boolean que indica se o Passageiro vai entrar numa:
@@ -27,6 +29,8 @@ public class Passageiro implements Runnable {
      * Boolean que indica se o bilhete é válido
      */
     boolean bilheteValido;
+
+    Semaphore s;
 
     public boolean isEstacao() {
         return isEstacao;
@@ -76,6 +80,22 @@ public class Passageiro implements Runnable {
         this.bilheteValido = bilheteValido;
     }
 
+    public int getIndiceEstacao() {
+        return indiceEstacao;
+    }
+
+    public void setIndiceEstacao(int indiceEstacao) {
+        this.indiceEstacao = indiceEstacao;
+    }
+
+    public Semaphore getS() {
+        return s;
+    }
+
+    public void setS(Semaphore s) {
+        this.s = s;
+    }
+
     @Override
     public String toString() {
         return "Passageiro{" +
@@ -94,19 +114,38 @@ public class Passageiro implements Runnable {
     @Override
     public void run() {
         try {
-            Thread.sleep(500);
+            s.acquire();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        if(this.isEstacao = true){
+        try {
+            Thread.sleep(25);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        if(this.isEstacao == true){
            Main.Comboios[indiceComboio].removePassageiro(this.nmrPassageiro);
+           System.out.println("--------------------------------------------------------------------------------------");
+           System.out.println("PASSAGEIRO NR " + this.getNmrPassageiro() + " SAIU DO COMBOIO NR " +this.indiceComboio);
+           System.out.println("--------------------------------------------------------------------------------------");
         }else{
             Main.Estacoes[this.indiceEstacao].removePassageiro(this.nmrPassageiro);
             Passageiro add = new Passageiro();
             add.setEstacaoDestino(this.getEstacaoDestino());
             add.setNmrPassageiro(this.getNmrPassageiro());
             add.setBilheteValido(this.isBilheteValido());
-            Main.Comboios[this.indiceComboio].addPassageiro(add);
+            if(add.bilheteValido == true) {
+                Main.Comboios[this.indiceComboio].addPassageiro(add);
+                System.out.println("--------------------------------------------------------------------------------------");
+                System.out.println("PASSAGEIRO NR " + this.getNmrPassageiro() + " ENTROU DO COMBOIO NR " + this.indiceComboio);
+                System.out.println("--------------------------------------------------------------------------------------");
+            }else{
+                System.out.println("--------------------------------------------------------------------------------------");
+                System.out.println("PASSAGEIRO NR " + this.getNmrPassageiro() + " NAO ENTROU DO COMBOIO NR " + this.indiceComboio + ".");
+                System.out.println("NAO TENS GUITA PARA O PASSE? ESTUDASSES!");
+                System.out.println("--------------------------------------------------------------------------------------");
+            }
         }
+        s.release();
     }
 }

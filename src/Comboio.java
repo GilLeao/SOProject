@@ -43,7 +43,7 @@ public class Comboio {
     /**
      * Array de passageiros no comboio
      */
-    Passageiro[] Passageiros;
+    Passageiro[] Passageiros = null;
 
 
 
@@ -52,15 +52,22 @@ public class Comboio {
     }
 
     public void addPassageiro(Passageiro passageiro){
-        Passageiro[] PassageirosNovo = new Passageiro[this.Passageiros.length];
-        for(int i = 0 ; i < this.Passageiros.length;i++){
-            PassageirosNovo[i] = new Passageiro();
-            PassageirosNovo[i] = this.Passageiros[i];
+        Passageiro[] PassageirosNovo;
+        if (this.Passageiros != null) {
+            PassageirosNovo = new Passageiro[this.Passageiros.length + 1];
+
+            for (int i = 0; i < this.Passageiros.length; i++) {
+                PassageirosNovo[i] = new Passageiro();
+                PassageirosNovo[i] = this.Passageiros[i];
+            }
+            PassageirosNovo[this.Passageiros.length] = passageiro;
+
+
+        }else{
+            PassageirosNovo = new Passageiro[1];
+            PassageirosNovo[0] = passageiro;
         }
-        PassageirosNovo[this.Passageiros.length] = passageiro;
-
         this.setPassageiros(PassageirosNovo);
-
     }
 
     public void removePassageiro(int nmrPassageiro){
@@ -275,4 +282,5 @@ public class Comboio {
                 ", Passageiros=" + Arrays.toString(Passageiros) +
                 '}';
     }
+
 }
