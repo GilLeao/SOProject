@@ -1,3 +1,4 @@
+import java.util.Random;
 import java.util.concurrent.Semaphore;
 
 public class Passageiro implements Runnable {
@@ -31,6 +32,11 @@ public class Passageiro implements Runnable {
     boolean bilheteValido;
 
     Semaphore s;
+
+    Passageiro(){
+        Random rd = new Random(); // creating Random object
+        this.bilheteValido = rd.nextBoolean();
+    }
 
     public boolean isEstacao() {
         return isEstacao;

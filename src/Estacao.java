@@ -69,24 +69,7 @@ public class Estacao {
 
     }
 
-    public void removePassageiro(int nmrPassageiro){
-        Passageiro[] PassageirosNovos;
-        if(this.Passageiros != null) {
-            PassageirosNovos = new Passageiro[this.Passageiros.length];
 
-            int indiceFor = 0;
-            for (int i = 0; i < this.Passageiros.length; i++) {
-                if (this.Passageiros[i].getNmrPassageiro() != nmrPassageiro) {
-                    PassageirosNovos[indiceFor] = new Passageiro();
-                    PassageirosNovos[indiceFor] = this.Passageiros[i];
-                    indiceFor++;
-                }
-            }
-        }else{
-            PassageirosNovos = new Passageiro[0];
-        }
-        this.setPassageiros(PassageirosNovos);
-    }
 
     public void escolherPassageirosRandom(Estacao[] Estacoes){
         int nmrPassageiro = 0;
@@ -106,6 +89,36 @@ public class Estacao {
         }
 
     }
+
+
+
+    private boolean findPassageiro(int nmrPassageiro){
+        for(int i = 0; i < this.Passageiros.length; i++){
+            if (this.Passageiros[i].getNmrPassageiro() == nmrPassageiro) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void removePassageiro(int nmrPassageiro){
+        Passageiro[] PassageirosNovos;
+        int indiceFor = 0;
+        if(findPassageiro(nmrPassageiro)) {
+            if (this.Passageiros != null) {
+                PassageirosNovos = new Passageiro[this.Passageiros.length - 1];
+                for (int i = 0; i < this.Passageiros.length; i++) {
+                    if (this.Passageiros[i].getNmrPassageiro() != nmrPassageiro) {
+                        PassageirosNovos[indiceFor] = new Passageiro();
+                        PassageirosNovos[indiceFor] = this.Passageiros[i];
+                        indiceFor++;
+                    }
+                }
+                this.setPassageiros(PassageirosNovos);
+            }
+        }
+    }
+
 
     @Override
     public String toString() {
