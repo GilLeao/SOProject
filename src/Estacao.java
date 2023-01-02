@@ -57,7 +57,32 @@ public class Estacao {
         this.nmrComboios = nmrComboios;
     }
 
+    public void addPassageiro(Passageiro passageiro){
+        Passageiro[] PassageirosNovo = new Passageiro[this.Passageiros.length];
+        for(int i = 0 ; i < this.Passageiros.length;i++){
+            PassageirosNovo[i] = new Passageiro();
+            PassageirosNovo[i] = this.Passageiros[i];
+        }
+        PassageirosNovo[this.Passageiros.length] = passageiro;
+
+        this.setPassageiros(PassageirosNovo);
+
+    }
+
+    public void removePassageiro(int nmrPassageiro){
+        Passageiro[] PassageirosNovos = new Passageiro[this.Passageiros.length - 1];
+        int indiceFor = 0;
+        for(int i = 0; i < this.Passageiros.length; i++){
+            if(this.Passageiros[i].getNmrPassageiro() != nmrPassageiro){
+                PassageirosNovos[indiceFor] = this.Passageiros[i];
+                indiceFor++;
+            }
+        }
+        this.setPassageiros(PassageirosNovos);
+    }
+
     public void escolherPassageirosRandom(Estacao[] Estacoes){
+        int nmrPassageiro = 0;
         for(int k = 0;k < 10;k++) {
             int numPassageiros = ThreadLocalRandom.current().nextInt(1, 10);
             Passageiro[] ListaPassageiros = new Passageiro[numPassageiros];
@@ -67,7 +92,8 @@ public class Estacao {
                     int indiceEstacao = ThreadLocalRandom.current().nextInt(0, 10);
                     ListaPassageiros[i].setEstacaoDestino(Estacoes[indiceEstacao].getNome());
                 } while (this.getNome().equals(ListaPassageiros[i].getEstacaoDestino()));
-
+                ListaPassageiros[i].setNmrPassageiro(nmrPassageiro);
+                nmrPassageiro++;
             }
             Estacoes[k].setPassageiros(ListaPassageiros);
         }

@@ -4,7 +4,6 @@ import java.awt.*;
 public class baseFrame extends JFrame {
 
     public baseFrame() throws HeadlessException {
-
         this.setTitle("Sistema de Gestão de Tráfego Ferroviário");//Define o Titulo da janela
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//Define que o programa acaba quando o user decide fechar a janela
         this.setResizable(false);//Não permite ao user mudar o tamanho da janela

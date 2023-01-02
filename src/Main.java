@@ -3,18 +3,28 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.Random;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Main {
-    private static Estacao[]  Estacoes = new Estacao[10];
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
-    private static Comboio[] Comboios = new Comboio[5];
+import java.io.FileWriter;
+import java.io.IOException;
+
+
+
+public class Main {
+
+    protected static Semaphore SemaphoreEmbarquePassaegiros = new Semaphore(1, true);
+
+    protected static Estacao[]  Estacoes = new Estacao[10];
+
+    protected static Comboio[] Comboios = new Comboio[5];
 
     private static baseFrame mainFrame;
 
     public static void main(String[] args) {
-        mainFrame = new baseFrame();
         Main.mainFrames();
 
 
@@ -24,6 +34,7 @@ public class Main {
      * INTERFACE GRÁFICA PRINCIPAL, A PARTIR DAQUI O UTILIZADOR CONSEGUE ACEDER A TODOS OS MENUS
      */
     public static void mainFrames(){
+        mainFrame = new baseFrame();
         mainFrame.setLayout(null);
         JPanel panel = new JPanel();//NOVO PAINEL
         panel.setLayout(null);
