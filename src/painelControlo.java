@@ -1,3 +1,5 @@
+import org.jfree.ui.RefineryUtilities;
+
 import javax.swing.*;
 import java.awt.*;
 import java.time.*;
@@ -29,7 +31,7 @@ public class painelControlo {
         frame.add(panel);
 
         JButton alterarHorarios = new JButton();
-        alterarHorarios.setBounds(25,100, 200, 25);
+        alterarHorarios.setBounds(25,60, 200, 25);
         alterarHorarios.addActionListener(e -> {panel.setVisible(false);this.selecionarComboioEditar(frame, comboios, estacoes);});
         alterarHorarios.setText("ALTERAR HORÁRIOS");
         alterarHorarios.setFocusable(false);
@@ -37,12 +39,58 @@ public class painelControlo {
 
 
         JButton planearViagem = new JButton();
-        planearViagem.setBounds(25,140, 200, 25);
+        planearViagem.setBounds(25,100, 200, 25);
         planearViagem.addActionListener(e -> {panel.setVisible(false);this.planearViagem(frame, estacoes, comboios);});
         planearViagem.setText("INFOMAÇÃO VIAGENS");
         planearViagem.setFocusable(false);
         panel.add(planearViagem);
+
+
+        JButton verGraficos = new JButton();
+        verGraficos.setBounds(25,140, 200, 25);
+        verGraficos.addActionListener(e -> {panel.setVisible(false);this.menuGraficos(frame);});
+        verGraficos.setText("GRÁFICOS INFORMATIVOS");
+        verGraficos.setFocusable(false);
+        panel.add(verGraficos);
         panel.repaint();
+
+    }
+
+    public void menuGraficos(baseFrame frame){
+        JPanel panel = new JPanel();//NOVO PAINEL
+        panel.setLayout(null);
+        panel.setBackground(new Color(64,64,64));
+        panel.setBounds(70,90,250,300);
+        panel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.setAlignmentY(Component.CENTER_ALIGNMENT);
+
+
+        frame.add(panel);
+        JButton lotacaoMaxima = new JButton();
+        lotacaoMaxima.setBounds(25,100, 200, 25);
+        lotacaoMaxima.addActionListener(e -> {
+            graficoLotacaoMaximaComboios grafico = new graficoLotacaoMaximaComboios( "Lotação Maxima de Passageiros" );
+            grafico.setSize( 560 , 367 );
+            RefineryUtilities.centerFrameOnScreen( grafico );
+            grafico.setVisible( true );
+        });
+        lotacaoMaxima.setText("LOTAÇÃO MAXIMA");
+        lotacaoMaxima.setFocusable(false);
+        panel.add(lotacaoMaxima);
+
+
+        JButton graficoProcura = new JButton();
+        graficoProcura.setBounds(25,140, 200, 25);
+        graficoProcura.addActionListener(e -> {
+            graficoEstacoesFavoritas grafico = new graficoEstacoesFavoritas( "ESTAÇÕES COM MAIOR PROCURA", "ESTAÇÕES COM MAIOR PROCURA" );
+            grafico.pack( );
+            RefineryUtilities.centerFrameOnScreen( grafico );
+            grafico.setVisible( true );
+        });
+        graficoProcura.setText("ESTAÇÕES PROCURA");
+        graficoProcura.setFocusable(false);
+        panel.add(graficoProcura);
+
 
     }
 

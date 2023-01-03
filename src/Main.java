@@ -1,3 +1,5 @@
+import org.jfree.ui.RefineryUtilities;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,19 +9,22 @@ import java.io.IOException;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadLocalRandom;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
-import java.io.FileWriter;
-import java.io.IOException;
+
+
+
 
 
 
 public class Main {
 
-    protected static Semaphore SemaphoreEmbarquePassaegiros = new Semaphore(1, true);
+    private static Semaphore SemaphoreEmbarquePassaegiros = new Semaphore(1);
+
+
 
     protected static Estacao[]  Estacoes = new Estacao[10];
+
+    protected static Troco[] Trocos = new Troco[10];
 
     protected static Comboio[] Comboios = new Comboio[5];
     /**
@@ -31,6 +36,7 @@ public class Main {
 
     public static void main(String[] args) {
         Main.mainFrames();
+
 
 
     }
@@ -84,7 +90,7 @@ public class Main {
             } catch (InterruptedException ex) {
                 throw new RuntimeException(ex);
             }
-            mainFrame.dispatchEvent(new WindowEvent(mainFrame, WindowEvent.WINDOW_CLOSING));
+            //mainFrame.dispatchEvent(new WindowEvent(mainFrame, WindowEvent.WINDOW_CLOSING));
         } );
         simuladorTrafego.setFocusable(false);
 
@@ -170,6 +176,12 @@ public class Main {
             comboios[i].setNmrComboio(i);
         }
 
+        for(int i = 0; i < Trocos.length - 1;i++){
+            Trocos[i] = new Troco(Estacoes[i].getNome(), Estacoes[i + 1].getNome(), 200, 500);
+        }
+        Trocos[Trocos.length - 1] = new Troco(Estacoes[Estacoes.length - 1].getNome(), Estacoes[0].getNome(), 300, 600);
+
+
         //Imprime na consola os dados gerados
         for(int i = 0;i < 10;i++){
             System.out.println(Estacoes[i].toString());
@@ -178,6 +190,11 @@ public class Main {
         for(int i = 0;i < 5;i++){
             System.out.println(Comboios[i].toString());
         }
+        for(int i = 0;i < 10;i++){
+            System.out.println("------------------------------------------------------------------");
+            System.out.println(Trocos[i].toString());
+        }
+
 
 
 

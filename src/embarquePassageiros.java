@@ -4,11 +4,11 @@ public class embarquePassageiros {
     /**
      * Passageiros que vao sair do comboio.
      */
-    Passageiro[] PassageirosParaSair;
+    private Passageiro[] PassageirosParaSair;
     /**
      * Passageiros que vao entrar no comboio.
      */
-    Passageiro[] PassageirosEntrarComboio;
+    private Passageiro[] PassageirosEntrarComboio;
 
     public void embarquePassageiros(Semaphore S) throws InterruptedException {
 
@@ -68,11 +68,11 @@ public class embarquePassageiros {
         //Lista de Paragens no Comboio
         String[] Paragens = Comboios[indiceComboio].getParagens();
         //Lista de paragens em que o comboio ainda vai parar
-        String[] ParagensDisponiveis = new String[Paragens.length - Comboios[indiceComboio].indiceParagem];
+        String[] ParagensDisponiveis = new String[Paragens.length - Comboios[indiceComboio].getIndiceParagem()];
         /**
          *
          */
-        for(int i = Comboios[indiceComboio].indiceParagem;i < Paragens.length;i++){
+        for(int i = Comboios[indiceComboio].getIndiceParagem();i < Paragens.length;i++){
             ParagensDisponiveis[i] = new String();
             ParagensDisponiveis[i] = Paragens[i];
         }

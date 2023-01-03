@@ -5,19 +5,19 @@ public class Estacao {
     /**
      * Nome da Estação
      */
-    String nome;
+    private String nome;
     /**
      * Array de Passageiros na Estação
      */
-    Passageiro[] Passageiros;
+    private Passageiro[] Passageiros;
     /**
      * Nmr máximo de Comboios na estação
      */
-    int nmrMaxComboios;
+    private int nmrMaxComboios;
     /**
      * Numero de Comboios na estação
      */
-    int nmrComboios;
+    private int nmrComboios;
 
     public Estacao(String nome,int nmrMaxComboios, int nmrComboios) {
         this.nome = nome;

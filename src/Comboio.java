@@ -5,45 +5,45 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Comboio {
-    int nmrComboio;
+    private int nmrComboio;
     /**
      * Numero de passageiros no comboio
      */
-    int contadorPassageiros;
+    private int contadorPassageiros;
     /**
      * Numero Máximo de Passageiros no Comboio
      */
-    int nmrMaxPassageiros;
+    private int nmrMaxPassageiros;
 
     /**
      * Array com todas as paragens que o comboio faz
      */
-    String[] Paragens;
+    private String[] Paragens;
     /**
      * Ultima Paragem do Comboio
      */
-    String ultimaParagem;
+    private String ultimaParagem;
     /**
      * Indice de paragem em que o comboio se encotnra
      */
-    int indiceParagem = 0;
+    private int indiceParagem = 0;
 
     /**
      * Array com os horários de chegada
      */
-    LocalTime[] horariosChegada;
+    private LocalTime[] horariosChegada;
     /**
      * Array com os horários de saída
      */
-    LocalTime[] horariosSaida;
+    private LocalTime[] horariosSaida;
     /**
      * Boolean que indica se chegou á ultima paragem
      */
-    boolean estacaoFinal;
+    private boolean estacaoFinal;
     /**
      * Array de passageiros no comboio
      */
-    Passageiro[] Passageiros = null;
+    private Passageiro[] Passageiros = null;
 
 
 
@@ -68,6 +68,7 @@ public class Comboio {
             PassageirosNovo[0] = passageiro;
         }
         this.setPassageiros(PassageirosNovo);
+        this.setContadorPassageiros(this.Passageiros.length);
     }
 
     public void removePassageiro(int nmrPassageiro){
@@ -80,6 +81,7 @@ public class Comboio {
             }
         }
         this.setPassageiros(PassageirosNovos);
+        this.setContadorPassageiros(this.Passageiros.length);
     }
 
     public int getNmrComboio() {
@@ -96,6 +98,7 @@ public class Comboio {
 
     public void setPassageiros(Passageiro[] passageiros) {
         Passageiros = passageiros;
+        this.setContadorPassageiros(this.Passageiros.length);
     }
 
     public int getContadorPassageiros() {

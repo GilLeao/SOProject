@@ -7,29 +7,29 @@ public class Passageiro implements Runnable {
      * Estacao - Caso o valor seja <b>True</b>
      * Comboio - Caso o valor seja <b>False</b>
      */
-    boolean isEstacao;
+    private boolean isEstacao;
     /**
      * Indice do Comboio em que o Passageiro vai entrar ou sair
      */
-    int indiceComboio;
+    private int indiceComboio;
     /**
      * Indice da Estacao em que o passageiro vai entrar ou sair;
      */
-    int indiceEstacao;
+    private int indiceEstacao;
 
     /**
      * Numero de Passageiro, unico para cada passageiro
      */
-    int nmrPassageiro;
+    private int nmrPassageiro;
 
     /**
      * Estação de Destino
      */
-    String estacaoDestino;
+    private String estacaoDestino;
     /**
      * Boolean que indica se o bilhete é válido
      */
-    boolean bilheteValido;
+    private boolean bilheteValido;
 
     Semaphore s;
 
