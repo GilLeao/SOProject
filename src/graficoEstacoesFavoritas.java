@@ -1,21 +1,17 @@
-import javax.swing.JPanel;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.data.general.PieDataset;
 import org.jfree.ui.ApplicationFrame;
 
 public class graficoEstacoesFavoritas  extends ApplicationFrame{
 
-    public graficoEstacoesFavoritas( String applicationTitle , String chartTitle ) {
-        super( applicationTitle );
+    public graficoEstacoesFavoritas( String nomeJanela , String tituloGrafico ) {
+        super( nomeJanela);
         JFreeChart barChart = ChartFactory.createBarChart(
-                chartTitle,
+                tituloGrafico,
                 "Estação",
                 "Numero de Passageiros",
                 createDataset(),
@@ -34,7 +30,6 @@ public class graficoEstacoesFavoritas  extends ApplicationFrame{
         int[] numeroPassageiros = new int[10];
         String[] Paragens = new String[Main.Estacoes.length];
         for(int i = 0; i < Paragens.length;i++){
-            Paragens[i] = new String();
             Paragens[i] = Main.Estacoes[i].getNome();
         }
 
@@ -42,27 +37,18 @@ public class graficoEstacoesFavoritas  extends ApplicationFrame{
             Passageiro[] PassageirosNaEstacao = Main.Estacoes[i].getPassageiros();
             numeroPassageiros[i] = 0;
             if(PassageirosNaEstacao!= null) {
-                for (int k = 0; k < PassageirosNaEstacao.length; k++) {
-                    if (PassageirosNaEstacao[k].getEstacaoDestino().equals("São Bento")) {
-                        numeroPassageiros[0]++;
-                    } else if (PassageirosNaEstacao[k].getEstacaoDestino().equals("Heroísmo")) {
-                        numeroPassageiros[1]++;
-                    } else if (PassageirosNaEstacao[k].getEstacaoDestino().equals("Campanhã")) {
-                        numeroPassageiros[2]++;
-                    } else if (PassageirosNaEstacao[k].getEstacaoDestino().equals("Estádio do Dragão")) {
-                        numeroPassageiros[3]++;
-                    } else if (PassageirosNaEstacao[k].getEstacaoDestino().equals("Fanzeres")) {
-                        numeroPassageiros[4]++;
-                    } else if (PassageirosNaEstacao[k].getEstacaoDestino().equals("Santo Ovídio")) {
-                        numeroPassageiros[5]++;
-                    } else if (PassageirosNaEstacao[k].getEstacaoDestino().equals("Camara de Gaia")) {
-                        numeroPassageiros[6]++;
-                    } else if (PassageirosNaEstacao[k].getEstacaoDestino().equals("João de Deus")) {
-                        numeroPassageiros[7]++;
-                    } else if (PassageirosNaEstacao[k].getEstacaoDestino().equals("General Torres")) {
-                        numeroPassageiros[8]++;
-                    } else if (PassageirosNaEstacao[k].getEstacaoDestino().equals("Trindade")) {
-                        numeroPassageiros[9]++;
+                for (Passageiro passageiro : PassageirosNaEstacao) {
+                    switch (passageiro.getEstacaoDestino()) {
+                        case "São Bento" -> numeroPassageiros[0]++;
+                        case "Heroísmo" -> numeroPassageiros[1]++;
+                        case "Campanhã" -> numeroPassageiros[2]++;
+                        case "Estádio do Dragão" -> numeroPassageiros[3]++;
+                        case "Fanzeres" -> numeroPassageiros[4]++;
+                        case "Santo Ovídio" -> numeroPassageiros[5]++;
+                        case "Camara de Gaia" -> numeroPassageiros[6]++;
+                        case "João de Deus" -> numeroPassageiros[7]++;
+                        case "General Torres" -> numeroPassageiros[8]++;
+                        case "Trindade" -> numeroPassageiros[9]++;
                     }
                 }
             }
@@ -72,27 +58,18 @@ public class graficoEstacoesFavoritas  extends ApplicationFrame{
         for(int i = 0; i < Main.Comboios.length; i++){
             Passageiro[] PassageirosNoComboio = Main.Comboios[i].getPassageiros();
             if(PassageirosNoComboio != null) {
-                for (int k = 0; k < PassageirosNoComboio.length; k++) {
-                    if (PassageirosNoComboio[k].getEstacaoDestino().equals("São Bento")) {
-                        numeroPassageiros[0]++;
-                    } else if (PassageirosNoComboio[k].getEstacaoDestino().equals("Heroísmo")) {
-                        numeroPassageiros[1]++;
-                    } else if (PassageirosNoComboio[k].getEstacaoDestino().equals("Campanhã")) {
-                        numeroPassageiros[2]++;
-                    } else if (PassageirosNoComboio[k].getEstacaoDestino().equals("Estádio do Dragão")) {
-                        numeroPassageiros[3]++;
-                    } else if (PassageirosNoComboio[k].getEstacaoDestino().equals("Fanzeres")) {
-                        numeroPassageiros[4]++;
-                    } else if (PassageirosNoComboio[k].getEstacaoDestino().equals("Santo Ovídio")) {
-                        numeroPassageiros[5]++;
-                    } else if (PassageirosNoComboio[k].getEstacaoDestino().equals("Camara de Gaia")) {
-                        numeroPassageiros[6]++;
-                    } else if (PassageirosNoComboio[k].getEstacaoDestino().equals("João de Deus")) {
-                        numeroPassageiros[7]++;
-                    } else if (PassageirosNoComboio[k].getEstacaoDestino().equals("General Torres")) {
-                        numeroPassageiros[8]++;
-                    } else if (PassageirosNoComboio[k].getEstacaoDestino().equals("Trindade")) {
-                        numeroPassageiros[9]++;
+                for (Passageiro passageiro : PassageirosNoComboio) {
+                    switch (passageiro.getEstacaoDestino()) {
+                        case "São Bento" -> numeroPassageiros[0]++;
+                        case "Heroísmo" -> numeroPassageiros[1]++;
+                        case "Campanhã" -> numeroPassageiros[2]++;
+                        case "Estádio do Dragão" -> numeroPassageiros[3]++;
+                        case "Fanzeres" -> numeroPassageiros[4]++;
+                        case "Santo Ovídio" -> numeroPassageiros[5]++;
+                        case "Camara de Gaia" -> numeroPassageiros[6]++;
+                        case "João de Deus" -> numeroPassageiros[7]++;
+                        case "General Torres" -> numeroPassageiros[8]++;
+                        case "Trindade" -> numeroPassageiros[9]++;
                     }
 
                 }

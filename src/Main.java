@@ -1,5 +1,6 @@
 import org.jfree.ui.RefineryUtilities;
 
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -34,8 +35,9 @@ public class Main {
 
     private static baseFrame mainFrame;
 
-    public static void main(String[] args) {
-        Main.mainFrames();
+    public static void main(String[] args){
+        login login = new login();
+
 
 
 
