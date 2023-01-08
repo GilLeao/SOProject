@@ -179,6 +179,7 @@ public class Main {
             comboios[i].setNmrMaxPassageiros(ThreadLocalRandom.current().nextInt(1, 20));
             comboios[i].gerarAleatorio(Estacoes);
             comboios[i].setNmrComboio(i);
+            comboios[i].setIndiceTroco(-i);
         }
 
         for(int i = 0; i < Trocos.length - 1;i++){

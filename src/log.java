@@ -25,7 +25,7 @@ public class log {
                 for (int k = i + 1; k < Comboios.length; k++) {
                     if (indiceTrocos[i] == indiceTrocos[k]) {
                         //CODIGO;INDICE PRIMEIRO COMBOIO;INDICE SEGUNDO COMBOIO; INDICE DO TROCO;INDICE DA PARAGEM DO COMBOIO 1; INDICE DA PARAGEM DO COMBOIO 2;
-                        Ficheiro.write("\n1;" + i + ";" + k + ";" + Comboios[i].getIndiceTroco() + ";" + Comboios[i].getIndiceParagem() + ";" + Comboios[k].getIndiceParagem());
+                        Ficheiro.write("1;" + i + ";" + k + ";" + Comboios[i].getIndiceTroco() + ";" + Comboios[i].getIndiceParagem() + ";" + Comboios[k].getIndiceParagem() + "\n");
                     }
                 }
             }
@@ -38,7 +38,7 @@ public class log {
                         String ParagemAtual = Paragens[Comboios[i].getIndiceParagem()];
                     }
                     //CODIGO;INDICE COMBOIO;INDICE PARAGEM DO COMBOIO;
-                    Ficheiro.write("\n2;" + i + ";" + Comboios[i].getIndiceParagem());
+                    Ficheiro.write("2;" + i + ";" + Comboios[i].getIndiceParagem() + "\n");
                 }
             }
 
@@ -54,7 +54,7 @@ public class log {
                         }
                     }
                     //CODIGO;INDICE ESTACAO;NOME DA ESTACAO;INDICE EM QUE ACONTECE O CONFLITO
-                    Ficheiro.write("\n3;" + i + ";" + Estacoes[i].getNome() + ";" + indiceParagens);
+                    Ficheiro.write("\n3;" + i + ";" + Estacoes[i].getNome() + ";" + indiceParagens + "\n");
                 }
                 Ficheiro.close();
             }

@@ -274,7 +274,7 @@ public class Comboio implements Runnable {
 
 
     public int getIndiceTrocoAndar(){
-        int indiceTroco = -1;
+        int indiceTroco = - this.getNmrComboio();
         for(int i = 0; i < Main.Trocos.length;i++){
             if(Main.Trocos[i].getLigacao1().equals(this.Paragens[this.getIndiceParagem()]) && Main.Trocos[i].getLigacao2().equals(this.Paragens[this.getIndiceParagem() + 1])){
                 indiceTroco = i;
@@ -320,6 +320,7 @@ public class Comboio implements Runnable {
         while(this.indiceParagem < (this.Paragens.length - 1)) {
             embarquePassageiros embarque = new embarquePassageiros();
             embarque.arrayEntradaeSaidaEstacao(this.nmrComboio, Main.Comboios, Main.Estacoes);
+            log log = new log(Main.Comboios, Main.Estacoes);
             try {
                 embarque.embarquePassageiros();
             } catch (InterruptedException e) {
@@ -378,13 +379,18 @@ public class Comboio implements Runnable {
                     System.out.println("---------------------------------------------------------------------");
                     System.out.println("Comboio: " + this.nmrComboio + " Tempo de Viagem: " + TempoViagem);
                     System.out.println("---------------------------------------------------------------------");
+
+                    int indiceTroco1 = this.getIndiceTrocoAndar();
+
+                    this.indiceTroco = indiceTroco1;
+
                     Thread.sleep(TempoViagem);
 
                     this.indiceParagem++;
                     System.out.println("---------------------------------------------------------------------");
                     System.out.println("Comboio " + this.nmrComboio + " chegou á estação: " + this.Paragens[this.indiceParagem] + " Estação Anterior: " + this.Paragens[this.indiceParagem - 1]);
                     System.out.println("---------------------------------------------------------------------");
-                    log log = new log(Main.Comboios, Main.Estacoes);
+
                     Main.SemaphoreAndamentoComboios.release();
                     Main.SemaphorePermitirEmbarque[this.nmrComboio].release();
 
