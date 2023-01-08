@@ -84,16 +84,18 @@ public class Comboio implements Runnable {
     }
 
     public void removePassageiro(int nmrPassageiro) {
-        Passageiro[] PassageirosNovos = new Passageiro[this.Passageiros.length - 1];
-        int indiceFor = 0;
-        for (int i = 0; i < this.Passageiros.length; i++) {
-            if (this.Passageiros[i].getNmrPassageiro() != nmrPassageiro) {
-                PassageirosNovos[indiceFor] = this.Passageiros[i];
-                indiceFor++;
+        if(this.Passageiros != null) {
+            Passageiro[] PassageirosNovos = new Passageiro[this.Passageiros.length - 1];
+            int indiceFor = 0;
+            for (int i = 0; i < this.Passageiros.length; i++) {
+                if (this.Passageiros[i].getNmrPassageiro() != nmrPassageiro) {
+                    PassageirosNovos[indiceFor] = this.Passageiros[i];
+                    indiceFor++;
+                }
             }
+            this.setPassageiros(PassageirosNovos);
+            this.setContadorPassageiros(this.Passageiros.length);
         }
-        this.setPassageiros(PassageirosNovos);
-        this.setContadorPassageiros(this.Passageiros.length);
     }
 
     public int getNmrComboio() {
@@ -256,7 +258,6 @@ public class Comboio implements Runnable {
                 LocalTime randomLocalTime = LocalTime.ofSecondOfDay(randomSecondOfDay);
                 randomLocalTime = randomLocalTime.truncatedTo(ChronoUnit.MINUTES);
                 Chegada[i] = randomLocalTime;
-
 
             } while (Chegada[i].isBefore(Anterior) || Chegada[i].isAfter(Partida[i]) || Chegada[i].isBefore(Partida[i - 1]));
 

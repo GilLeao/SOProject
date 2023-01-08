@@ -110,7 +110,7 @@ public class embarquePassageiros {
          * Guarda ainda o numero de paragens ate ao destino de cada passageiro.
          */
         for(int i = 0;i < PassageirosNaEstacao.length;i++){
-            for(int k = i + 1;k < ParagensDisponiveis.length;k++){
+            for(int k = 0;k < ParagensDisponiveis.length;k++){
                 if(PassageirosNaEstacao[i].getEstacaoDestino().equals(ParagensDisponiveis[k])){
                     PassageirosParaEntrarComboio[indice] = new Passageiro();
                     PassageirosParaEntrarComboio[indice] = PassageirosNaEstacao[i];
