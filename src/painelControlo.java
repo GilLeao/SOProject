@@ -489,13 +489,13 @@ public class painelControlo {
         }
 
 
-        JButton salvarAlterações = new JButton();
-        salvarAlterações.setBounds(120,260,100,30 );
-        salvarAlterações.setText("SALVAR");
-        salvarAlterações.setFocusable(false);
+        JButton salvarAlteracoes = new JButton();
+        salvarAlteracoes.setBounds(120,260,100,30 );
+        salvarAlteracoes.setText("SALVAR");
+        salvarAlteracoes.setFocusable(false);
 
         JSpinner finalSpinnerSaida = spinnerSaida;
-        salvarAlterações.addActionListener(e -> {
+        salvarAlteracoes.addActionListener(e -> {
             if(indices > 0 && indices < comboio.getParagens().length - 1){
 
                 Date date = (Date)spinner.getModel().getValue();
@@ -567,7 +567,7 @@ public class painelControlo {
 
         });
 
-        panel.add(salvarAlterações);
+        panel.add(salvarAlteracoes);
         panel.repaint();
     }
 

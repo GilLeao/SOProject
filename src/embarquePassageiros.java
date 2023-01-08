@@ -10,47 +10,56 @@ public class embarquePassageiros {
      */
     private Passageiro[] PassageirosEntrarComboio;
 
-    public void embarquePassageiros(Semaphore S) throws InterruptedException {
+    private int indiceComboio;
 
-        if (this.PassageirosParaSair != null) {
-            Thread[] ths = new Thread[this.PassageirosParaSair.length];
-
-
-            for (int i = 0; i < PassageirosParaSair.length; i++) {
-                this.PassageirosParaSair[i].setS(S);
-                ths[i] = new Thread(PassageirosParaSair[i]);
-            }
-
-            for (int i = 0; i < this.PassageirosParaSair.length; i++) {
-                if (i % 5 == 0) {
-                    ths[i].start();
-                    Thread.sleep(50);
-                }
-                ths[i].start();
-            }
-        }
-
-        Thread.sleep(25);
-
-        if (this.PassageirosEntrarComboio != null) {
-            Thread[] ths = new Thread[this.PassageirosEntrarComboio.length];
+    public void embarquePassageiros() throws InterruptedException {
 
 
-            for (int i = 0; i < PassageirosEntrarComboio.length; i++) {
-                this.PassageirosEntrarComboio[i].setS(S);
-                ths[i] = new Thread(PassageirosEntrarComboio[i]);
-            }
+            Main.SemaphorePermitirEmbarque[indiceComboio].acquire();
+            if (this.PassageirosParaSair != null) {
+                Thread[] ths = new Thread[this.PassageirosParaSair.length];
 
-            for (int i = 0; i < this.PassageirosEntrarComboio.length; i++) {
-                if (i % 5 == 0) {
-                    ths[i].start();
-                    Thread.sleep(50);
-                }else{
-                    ths[i].start();
+
+                for (int i = 0; i < PassageirosParaSair.length; i++) {
+
+                    ths[i] = new Thread(PassageirosParaSair[i]);
                 }
 
+                for (int i = 0; i < this.PassageirosParaSair.length; i++) {
+                    if (i % 5 == 0) {
+                        ths[i].start();
+                        ths[i].join();
+                        Thread.sleep((long) 5.56);
+                    }else {
+                        ths[i].start();
+                        ths[i].join();
+                    }
+                }
             }
-        }
+
+            Thread.sleep((long) 5.56);
+
+            if (this.PassageirosEntrarComboio != null) {
+                Thread[] ths = new Thread[this.PassageirosEntrarComboio.length];
+
+
+                for (int i = 0; i < PassageirosEntrarComboio.length; i++) {
+                    ths[i] = new Thread(PassageirosEntrarComboio[i]);
+                }
+
+                for (int i = 0; i < this.PassageirosEntrarComboio.length; i++) {
+                    if (i % 5 == 0) {
+                        ths[i].start();
+                        ths[i].join();
+                        Thread.sleep((long) 5.56);
+                    } else {
+                        ths[i].start();
+                        ths[i].join();
+                    }
+
+                }
+            }
+            Main.SemaphorePermitirComboioAndar[indiceComboio].release();
 
     }
 
@@ -65,16 +74,19 @@ public class embarquePassageiros {
      * @param Estacoes array com todas as estacoes no sistema
      */
     public void arrayEntradaeSaidaEstacao(int indiceComboio, Comboio[] Comboios, Estacao[] Estacoes) {
+        this.indiceComboio = indiceComboio;
         //Lista de Paragens no Comboio
         String[] Paragens = Comboios[indiceComboio].getParagens();
         //Lista de paragens em que o comboio ainda vai parar
         String[] ParagensDisponiveis = new String[Paragens.length - Comboios[indiceComboio].getIndiceParagem()];
+        int indice3 = 0;
         /**
          *
          */
         for(int i = Comboios[indiceComboio].getIndiceParagem();i < Paragens.length;i++){
-            ParagensDisponiveis[i] = new String();
-            ParagensDisponiveis[i] = Paragens[i];
+            ParagensDisponiveis[indice3] = new String();
+            ParagensDisponiveis[indice3] = Paragens[i];
+            indice3++;
         }
         //Indice da Estacao atual
         int indiceEstacao = -1;
@@ -98,7 +110,7 @@ public class embarquePassageiros {
          * Guarda ainda o numero de paragens ate ao destino de cada passageiro.
          */
         for(int i = 0;i < PassageirosNaEstacao.length;i++){
-            for(int k = 0;k < ParagensDisponiveis.length;k++){
+            for(int k = i + 1;k < ParagensDisponiveis.length;k++){
                 if(PassageirosNaEstacao[i].getEstacaoDestino().equals(ParagensDisponiveis[k])){
                     PassageirosParaEntrarComboio[indice] = new Passageiro();
                     PassageirosParaEntrarComboio[indice] = PassageirosNaEstacao[i];

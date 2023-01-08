@@ -19,6 +19,8 @@ public class Estacao {
      */
     private int nmrComboios;
 
+    embarquePassageiros embarque;
+
     public Estacao(String nome,int nmrMaxComboios, int nmrComboios) {
         this.nome = nome;
         this.nmrMaxComboios = nmrMaxComboios;

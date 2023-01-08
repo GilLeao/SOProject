@@ -9,25 +9,16 @@ public class Troco {
     private String ligacao2;
     /**
      * Sentido do Troço
-     * 0 - Esquerda
-     * 1 - Direita
+     * False - L1 -> L2
+     * True - L2 -> L1
      */
     private boolean sentido;
-    /**
-     * Tamanho do troço
-     */
-    private float distancia;
-    /**
-     * Duração da viagem em Milisegundos
-     */
-    private int tempoViagem;
+
 
 
     public Troco(String ligacao1, String ligacao2, float distancia, int tempoViagem) {
         this.ligacao1 = ligacao1;
         this.ligacao2 = ligacao2;
-        this.distancia = distancia;
-        this.tempoViagem = tempoViagem;
     }
 
     public String getLigacao1() {
@@ -54,21 +45,7 @@ public class Troco {
         this.sentido = sentido;
     }
 
-    public float getDistancia() {
-        return distancia;
-    }
 
-    public void setDistancia(float distancia) {
-        this.distancia = distancia;
-    }
-
-    public int getTempoViagem() {
-        return tempoViagem;
-    }
-
-    public void setTempoViagem(int tempoViagem) {
-        this.tempoViagem = tempoViagem;
-    }
 
     @Override
     public String toString() {
@@ -76,8 +53,6 @@ public class Troco {
                 "ligacao1='" + ligacao1 + '\'' +
                 ", ligacao2='" + ligacao2 + '\'' +
                 ", sentido=" + sentido +
-                ", distancia=" + distancia +
-                ", tempoViagem=" + tempoViagem +
                 '}';
     }
 }

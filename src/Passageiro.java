@@ -119,39 +119,41 @@ public class Passageiro implements Runnable {
      */
     @Override
     public void run() {
-        try {
-            s.acquire();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            Thread.sleep(25);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        if(this.isEstacao == true){
-           Main.Comboios[indiceComboio].removePassageiro(this.nmrPassageiro);
-           System.out.println("--------------------------------------------------------------------------------------");
-           System.out.println("PASSAGEIRO NR " + this.getNmrPassageiro() + " SAIU DO COMBOIO NR " +this.indiceComboio);
-           System.out.println("--------------------------------------------------------------------------------------");
-        }else{
-            Main.Estacoes[this.indiceEstacao].removePassageiro(this.nmrPassageiro);
-            Passageiro add = new Passageiro();
-            add.setEstacaoDestino(this.getEstacaoDestino());
-            add.setNmrPassageiro(this.getNmrPassageiro());
-            add.setBilheteValido(this.isBilheteValido());
-            if(add.bilheteValido == true) {
-                Main.Comboios[this.indiceComboio].addPassageiro(add);
-                System.out.println("--------------------------------------------------------------------------------------");
-                System.out.println("PASSAGEIRO NR " + this.getNmrPassageiro() + " ENTROU DO COMBOIO NR " + this.indiceComboio);
-                System.out.println("--------------------------------------------------------------------------------------");
-            }else{
-                System.out.println("--------------------------------------------------------------------------------------");
-                System.out.println("PASSAGEIRO NR " + this.getNmrPassageiro() + " NAO ENTROU DO COMBOIO NR " + this.indiceComboio + ".");
-                System.out.println("NAO TENS GUITA PARA O PASSE? ESTUDASSES!");
-                System.out.println("--------------------------------------------------------------------------------------");
+
+            try {
+
+                Main.SemaphoreEmbarquePassaegiros.acquire();
+                try {
+                    Thread.sleep((long) 2.78);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                if (this.isEstacao == true) {
+                    Main.Comboios[indiceComboio].removePassageiro(this.nmrPassageiro);
+                    System.out.println("--------------------------------------------------------------------------------------");
+                    System.out.println("PASSAGEIRO NR " + this.getNmrPassageiro() + " SAIU DO COMBOIO NR " + this.indiceComboio);
+                    System.out.println("--------------------------------------------------------------------------------------");
+                } else {
+                    Main.Estacoes[this.indiceEstacao].removePassageiro(this.nmrPassageiro);
+                    Passageiro add = new Passageiro();
+                    add.setEstacaoDestino(this.getEstacaoDestino());
+                    add.setNmrPassageiro(this.getNmrPassageiro());
+                    add.setBilheteValido(this.isBilheteValido());
+                    if (add.bilheteValido == true) {
+                        Main.Comboios[this.indiceComboio].addPassageiro(add);
+                        System.out.println("--------------------------------------------------------------------------------------");
+                        System.out.println("PASSAGEIRO NR " + this.getNmrPassageiro() + " ENTROU DO COMBOIO NR " + this.indiceComboio);
+                        System.out.println("--------------------------------------------------------------------------------------");
+                    } else {
+                        System.out.println("--------------------------------------------------------------------------------------");
+                        System.out.println("PASSAGEIRO NR " + this.getNmrPassageiro() + " NAO ENTROU DO COMBOIO NR " + this.indiceComboio + ".");
+                        System.out.println("NAO TENS GUITA PARA O PASSE? ESTUDASSES!");
+                        System.out.println("--------------------------------------------------------------------------------------");
+                    }
+                }
+                Main.SemaphoreEmbarquePassaegiros.release();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
-        }
-        s.release();
     }
 }

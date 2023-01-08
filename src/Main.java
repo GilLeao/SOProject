@@ -6,20 +6,30 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadLocalRandom;
 
 
 
-
-
-
-
-
 public class Main {
-
-    private static Semaphore SemaphoreEmbarquePassaegiros = new Semaphore(1);
+    /**
+     * Controla o embraque de cada passageiro
+     */
+    protected static Semaphore SemaphoreEmbarquePassaegiros = new Semaphore(1);
+    /**
+     * Controla a saida dos comboios
+     */
+    protected static Semaphore SemaphoreAndamentoComboios = new Semaphore(5, true);
+    /**
+     * Semaforo espera pela entrada de todos os passageiros e so depois manda o comboio voltar a andar
+     */
+    protected static Semaphore[] SemaphorePermitirComboioAndar = new Semaphore[5];
+    /**
+     * Semaforo que espera ate o comboio chegar a sua paragem e so depois permite o embarque dos passageiros.
+     */
+    protected static Semaphore[] SemaphorePermitirEmbarque = new Semaphore[5];
 
 
 
@@ -28,16 +38,13 @@ public class Main {
     protected static Troco[] Trocos = new Troco[10];
 
     protected static Comboio[] Comboios = new Comboio[5];
-    /**
-     * REMOVER
-     */
-    private static embarquePassageiros embarque;
+
+    private static embarquePassageiros[] embarque = new embarquePassageiros[5];
 
     private static baseFrame mainFrame;
 
     public static void main(String[] args){
-        login login = new login();
-
+       login login = new login();
 
 
 
@@ -84,14 +91,10 @@ public class Main {
         simuladorTrafego.setVisible(false);
         simuladorTrafego.setText("SIMULADOR DE TRAFEGO");
         simuladorTrafego.addActionListener(e ->{
-            embarque = new embarquePassageiros();
-            embarque.arrayEntradaeSaidaEstacao(0, Comboios,Estacoes);
-            try {
-                embarque.embarquePassageiros(SemaphoreEmbarquePassaegiros);
+                simuladorTrafego simuladorTrafego1 = new simuladorTrafego(embarque, Comboios, Estacoes);
 
-            } catch (InterruptedException ex) {
-                throw new RuntimeException(ex);
-            }
+
+
             //mainFrame.dispatchEvent(new WindowEvent(mainFrame, WindowEvent.WINDOW_CLOSING));
         } );
         simuladorTrafego.setFocusable(false);
