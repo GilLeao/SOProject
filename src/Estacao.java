@@ -51,6 +51,17 @@ public class Estacao {
         this.nmrMaxComboios = nmrMaxComboios;
     }
 
+    public void NmrComboiosNaEstacao(Comboio[] comboios ){
+        int nmrComboios = 0;
+        for(int i = 0; i < comboios.length; i++){
+            String[] paragens = comboios[i].getParagens();
+            if(paragens[comboios[i].getIndiceParagem()].equals(this.nome)){
+                nmrComboios++;
+            }
+        }
+        this.nmrComboios = nmrComboios;
+    }
+
     public int getNmrComboios() {
         return nmrComboios;
     }

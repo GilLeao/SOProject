@@ -171,6 +171,7 @@ public class Main {
         //Atribui passageiros de forma aleatória a todas as Estações
         for(int i = 0;i < 10;i++){
             Estacoes[i].escolherPassageirosRandom(Estacoes);
+            Estacoes[i].setNmrMaxComboios(ThreadLocalRandom.current().nextInt(1, 5));
         }
 
 

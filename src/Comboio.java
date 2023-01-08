@@ -391,6 +391,10 @@ public class Comboio implements Runnable {
                     System.out.println("Comboio " + this.nmrComboio + " chegou á estação: " + this.Paragens[this.indiceParagem] + " Estação Anterior: " + this.Paragens[this.indiceParagem - 1]);
                     System.out.println("---------------------------------------------------------------------");
 
+                    for(int i = 0; i < Main.Estacoes.length;i++){
+                        Main.Estacoes[i].NmrComboiosNaEstacao(Main.Comboios);
+                    }
+
                     Main.SemaphoreAndamentoComboios.release();
                     Main.SemaphorePermitirEmbarque[this.nmrComboio].release();
 

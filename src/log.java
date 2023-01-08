@@ -1,5 +1,6 @@
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalTime;
 
 public class log {
 
@@ -42,22 +43,27 @@ public class log {
                 }
             }
 
-            for(int i = 0; i < Estacoes.length;i++){
-                if(Estacoes[i].getNmrComboios() > Estacoes[i].getNmrMaxComboios()){
-                    int indiceParagens = -1;
+            for(int i = 0; i < Estacoes.length;i++) {
+                if (Estacoes[i].getNmrComboios() > Estacoes[i].getNmrMaxComboios()) {
+                    LocalTime horaConflito = null;
+                    int indiceComboio = -1;
                     int indice = 0;
-                    for(int k = 0; k < Comboios.length; k++){
+                    for (int k = 0; k < Comboios.length; k++) {
                         String[] Paragens = Comboios[k].getParagens();
-                        if(Paragens[Comboios[k].getIndiceParagem()].equals(Estacoes[i].getNome())){
-                            indiceParagens = k;
+                        if (Paragens[Comboios[k].getIndiceParagem()].equals(Estacoes[i].getNome())) {
+                            horaConflito = Comboios[k].getHorariosChegada()[Comboios[k].getIndiceParagem()];
+                            indiceComboio = k;
 
                         }
                     }
                     //CODIGO;INDICE ESTACAO;NOME DA ESTACAO;INDICE EM QUE ACONTECE O CONFLITO
-                    Ficheiro.write("\n3;" + i + ";" + Estacoes[i].getNome() + ";" + indiceParagens + "\n");
+                    Ficheiro.write("3;" + i + ";" + Estacoes[i].getNome() + ";" + horaConflito + ";" + indiceComboio +"\n");
+
+
                 }
-                Ficheiro.close();
             }
+
+            Ficheiro.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
