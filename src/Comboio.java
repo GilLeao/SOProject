@@ -83,8 +83,20 @@ public class Comboio implements Runnable {
         this.setContadorPassageiros(this.Passageiros.length);
     }
 
+    private boolean findPassageiro(int nmrPassageiro){
+        if (this.Passageiros != null) {
+
+            for (int i = 0; i < this.Passageiros.length; i++) {
+                if (this.Passageiros[i].getNmrPassageiro() == nmrPassageiro) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public void removePassageiro(int nmrPassageiro) {
-        if(this.Passageiros != null) {
+        if(this.findPassageiro(nmrPassageiro) == true) {
             Passageiro[] PassageirosNovos = new Passageiro[this.Passageiros.length - 1];
             int indiceFor = 0;
             for (int i = 0; i < this.Passageiros.length; i++) {
