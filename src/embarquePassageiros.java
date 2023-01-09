@@ -109,13 +109,14 @@ public class embarquePassageiros {
          * com as paragens que o comboio ainda tem que fazer, guardando os passageiros cujo destino passa pelas paragens do comboio.
          * Guarda ainda o numero de paragens ate ao destino de cada passageiro.
          */
-        for(int i = 0;i < PassageirosNaEstacao.length;i++){
+        for(int i = 0;i < PassageirosParaEntrarComboio.length;i++){
             for(int k = 0;k < ParagensDisponiveis.length;k++){
                 if(PassageirosNaEstacao[i].getEstacaoDestino().equals(ParagensDisponiveis[k])){
                     PassageirosParaEntrarComboio[indice] = new Passageiro();
                     PassageirosParaEntrarComboio[indice] = PassageirosNaEstacao[i];
                     numerDeParagensAteDestino[indice] = k;
                     indice++;
+                    break;
                 }
             }
         }
