@@ -104,6 +104,11 @@ public class Main {
         gestaoConflitos.setVisible(false);
         gestaoConflitos.setText("GESTÃO DE CONFLITOS");
         gestaoConflitos.setFocusable(false);
+        gestaoConflitos.addActionListener(e -> {
+            gestaoConflitos gestaoConflitos1 = new gestaoConflitos();
+            gestaoConflitos1.lerTxt();
+        });
+
 
         JButton painelControlo = new JButton();
         painelControlo.setBounds(25,170, 200, 25);
