@@ -365,9 +365,7 @@ public class Comboio implements Runnable {
                     Partida = HoraP + MinutosP;
 
                     int TempoEspera = Partida - Chegada;
-                    System.out.println("---------------------------------------------------------------------");
-                    System.out.println("Comboio: " + this.nmrComboio + " Tempo de Espera: " + TempoEspera);
-                    System.out.println("---------------------------------------------------------------------");
+                    System.out.println("---------------------------------------------------------------------\nComboio: " + this.nmrComboio + " Tempo de Espera: " + TempoEspera + "\n---------------------------------------------------------------------");
                     Thread.sleep(TempoEspera);
 
 
@@ -389,9 +387,7 @@ public class Comboio implements Runnable {
                     int TempoChegada = HorasChegada + MinutosChegada;
 
                     int TempoViagem = TempoChegada - TempoPartida;
-                    System.out.println("---------------------------------------------------------------------");
-                    System.out.println("Comboio: " + this.nmrComboio + " Tempo de Viagem: " + TempoViagem);
-                    System.out.println("---------------------------------------------------------------------");
+                    System.out.println("---------------------------------------------------------------------\nComboio: " + this.nmrComboio + " Tempo de Viagem: " + TempoViagem + "\n---------------------------------------------------------------------");
 
                     int indiceTroco1 = this.getIndiceTrocoAndar();
 
@@ -400,9 +396,7 @@ public class Comboio implements Runnable {
                     Thread.sleep(TempoViagem);
 
                     this.indiceParagem++;
-                    System.out.println("---------------------------------------------------------------------");
-                    System.out.println("Comboio " + this.nmrComboio + " chegou á estação: " + this.Paragens[this.indiceParagem] + " Estação Anterior: " + this.Paragens[this.indiceParagem - 1]);
-                    System.out.println("---------------------------------------------------------------------");
+                    System.out.println("---------------------------------------------------------------------\nComboio " + this.nmrComboio + " chegou á estação: " + this.Paragens[this.indiceParagem] + " Estação Anterior: " + this.Paragens[this.indiceParagem - 1] + "\n---------------------------------------------------------------------");
 
                     for(int i = 0; i < Main.Estacoes.length;i++){
                         Main.Estacoes[i].NmrComboiosNaEstacao(Main.Comboios);
@@ -418,9 +412,7 @@ public class Comboio implements Runnable {
                 throw new RuntimeException(e);
             }
        }
-        System.out.println("---------------------------------------------------------------------");
-        System.out.println("Comboio: " + this.nmrComboio + " chegou ao fim da viagem.");
-        System.out.println("---------------------------------------------------------------------");
+        System.out.println("---------------------------------------------------------------------\nComboio: " + this.nmrComboio + " chegou ao fim da viagem.\n---------------------------------------------------------------------");
 
     }
 }

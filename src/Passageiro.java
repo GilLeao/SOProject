@@ -130,9 +130,7 @@ public class Passageiro implements Runnable {
                 }
                 if (this.isEstacao == true) {
                     Main.Comboios[indiceComboio].removePassageiro(this.nmrPassageiro);
-                    System.out.println("--------------------------------------------------------------------------------------");
-                    System.out.println("PASSAGEIRO NR " + this.getNmrPassageiro() + " SAIU DO COMBOIO NR " + this.indiceComboio);
-                    System.out.println("--------------------------------------------------------------------------------------");
+                    System.out.println("--------------------------------------------------------------\nPASSAGEIRO NR " + this.getNmrPassageiro() + " SAIU DO COMBOIO NR " + this.indiceComboio + "\n--------------------------------------------------------------");
                 } else {
                     Main.Estacoes[this.indiceEstacao].removePassageiro(this.nmrPassageiro);
                     Passageiro add = new Passageiro();
@@ -141,14 +139,10 @@ public class Passageiro implements Runnable {
                     add.setBilheteValido(this.isBilheteValido());
                     if (add.bilheteValido == true) {
                         Main.Comboios[this.indiceComboio].addPassageiro(add);
-                        System.out.println("--------------------------------------------------------------------------------------");
-                        System.out.println("PASSAGEIRO NR " + this.getNmrPassageiro() + " ENTROU DO COMBOIO NR " + this.indiceComboio);
-                        System.out.println("--------------------------------------------------------------------------------------");
+                        System.out.println("--------------------------------------------------------------\nPASSAGEIRO NR " + this.getNmrPassageiro() + " ENTROU DO COMBOIO NR " + this.indiceComboio + "\n--------------------------------------------------------------");
+
                     } else {
-                        System.out.println("--------------------------------------------------------------------------------------");
-                        System.out.println("PASSAGEIRO NR " + this.getNmrPassageiro() + " NAO ENTROU DO COMBOIO NR " + this.indiceComboio + ".");
-                        System.out.println("NAO TENS GUITA PARA O PASSE? ESTUDASSES!");
-                        System.out.println("--------------------------------------------------------------------------------------");
+                        System.out.println("--------------------------------------------------------------\nPASSAGEIRO NR " + this.getNmrPassageiro() + " NAO ENTROU DO COMBOIO NR " + this.indiceComboio + ".\nBILHETE INVALIDO!\n--------------------------------------------------------------");
                     }
                 }
                 Main.SemaphoreEmbarquePassaegiros.release();
