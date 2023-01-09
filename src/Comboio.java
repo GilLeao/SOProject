@@ -403,12 +403,12 @@ public class Comboio implements Runnable {
                     for(int i = 0; i < Main.Estacoes.length;i++){
                         Main.Estacoes[i].NmrComboiosNaEstacao(Main.Comboios);
                     }
-
-                    if(this.indiceParagem == (this.Passageiros.length - 1)){
-                        embarque = new embarquePassageiros();
-                        embarque.arrayEntradaeSaidaEstacao(this.nmrComboio, Main.Comboios, Main.Estacoes);
+                    if(this.Passageiros != null) {
+                        if (this.indiceParagem == (this.Passageiros.length - 1)) {
+                            embarque = new embarquePassageiros();
+                            embarque.arrayEntradaeSaidaEstacao(this.nmrComboio, Main.Comboios, Main.Estacoes);
+                        }
                     }
-
                     Main.SemaphoreAndamentoComboios.release();
                     Main.SemaphorePermitirEmbarque[this.nmrComboio].release();
 
