@@ -36,7 +36,7 @@ public class log {
                     String NomeEstacao = Estacoes[i].getNome();
                     for(int k = 0; k < Comboios.length;k++){
                         String[] Paragens = Comboios[k].getParagens();
-                        String ParagemAtual = Paragens[Comboios[i].getIndiceParagem()];
+                        String ParagemAtual = Paragens[Comboios[k].getIndiceParagem()];
                     }
                     //CODIGO;INDICE COMBOIO;INDICE PARAGEM DO COMBOIO;
                     Ficheiro.write("2;" + i + ";" + Comboios[i].getIndiceParagem() + "\n");
