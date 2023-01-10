@@ -10,10 +10,24 @@ public class gestaoConflitos
     String indice1Comboio="", indice2Comboio="", indiceTroco="", indiceParagem1Comboio="", indiceParagem2Comboio="";
     String indiceComboio="", indiceParagemComboio="";
     String indiceEstacao="", indiceComboioConflito="", nomeEstacao="", hora="";
-
     List<Logs> logs = new ArrayList<>();
 
-    gestaoConflitos(){}
+    gestaoConflitos()
+    {
+
+    }
+
+    public void conflitos(Comboio[] comboios){
+        for(int i = 0; i < logs.size();i++){
+            if(logs.get(i).codigo.equals("1")){
+
+            }else if(logs.get(i).codigo.equals("2")){
+
+            }else{
+
+            }
+        }
+    }
 
     public void lerTxt()
     {
@@ -52,6 +66,21 @@ public class gestaoConflitos
 
                 Logs log = new Logs(codigo, indice1Comboio, indice2Comboio, indiceTroco, indiceParagem1Comboio, indiceParagem2Comboio, indiceComboio, indiceParagemComboio, indiceEstacao, indiceComboioConflito, nomeEstacao, hora);
                 logs.add(log);
+
+                /*System.out.println("gestaoConflitos {" +
+                "codigo='" + log.getCodigo() + '\'' +
+                        ", indice1Comboio='" + log.getIndice1Comboio() + '\'' +
+                        ", indice2Comboio='" + log.getIndiceComboio() + '\'' +
+                        ", indiceTroco='" + log.getIndiceTroco() + '\'' +
+                        ", indiceParagem1Comboio='" + log.getIndiceParagem1Comboio() + '\'' +
+                        ", indiceParagem2Comboio='" + log.getIndiceParagem2Comboio() + '\'' +
+                        ", indiceComboio='" + log.getIndiceComboio() + '\'' +
+                        ", indiceParagemComboio='" + log.getIndiceParagemComboio() + '\'' +
+                        ", indiceEstacao='" + log.getIndiceEstacao() + '\'' +
+                        ", indiceComboioConflito='" + log.getIndiceComboioConflito() + '\'' +
+                        ", nomeEstacao='" + log.getNomeEstacao() + '\'' +
+                        ", hora='" + log.getHora() + '\'' +
+                        '}');*/
             }
 
             reader.close();
@@ -125,29 +154,35 @@ public class gestaoConflitos
             System.out.println("ERRO: "+ex.getMessage());
         }
     }
-
-    public void resolverConflito(Logs log)
+    public void resolverConflito(Logs log, Comboio[] comboios, Estacao[] estacaoes)
     {
         if(log.codigo.equals("1")) //Conflito no troço
         {
-            alterarHorario(log.indice1Comboio, log.indiceComboio, log.indiceTroco, log.indiceParagem1Comboio, log.indiceParagem2Comboio);
+            int indiceComboio1 = Integer.parseInt(log.indice1Comboio);
+            int indiceComboio2 = Integer.parseInt(log.indice2Comboio);
+            int indiceParagem1 = Integer.parseInt(log.indiceParagem1Comboio);
+            int indiceParagem2 = Integer.parseInt(log.indiceParagem2Comboio);
+            if(comboios[indiceComboio1].getPassageiros().length > comboios[indiceComboio2].getPassageiros().length){
+                comboios[indiceComboio2].setIndiceParagem(indiceParagem1);
+            }else{
+                comboios[indiceComboio1].setIndiceParagem(indiceParagem2);
+            }
         }
 
         if(log.codigo.equals("2")) //Comboio excede a capacidade máxima de passageiros
         {
-
+            int indiceComboioInt = Integer.parseInt(log.indiceComboio);
+            do {
+                comboios[indiceComboioInt].removePassageiro(comboios[indiceComboioInt].getPassageiros()[comboios[indiceComboioInt].getPassageiros().length].getNmrPassageiro());
+            }while (comboios[indiceComboioInt].getNmrMaxPassageiros() < comboios[indiceComboioInt].getContadorPassageiros());
         }
 
         if(log.codigo.equals("3")) //Estação excede a capacidade máxima de comboios
         {
-
+            int indiceComboioConflitoInt = Integer.parseInt(log.indiceComboioConflito);
+            int indiceEstacaoInt = Integer.parseInt(log.indiceEstacao);
+            comboios[indiceComboioConflitoInt].setIndiceParagem(comboios[indiceComboioConflitoInt].getIndiceParagem() - 1);
         }
-    }
-
-
-    public void alterarHorario(String indice1Comboio, String indiceComboio, String indiceTroco, String indiceParagem1Comboio, String indiceParagem2Comboio)
-    {
-
     }
 }
 

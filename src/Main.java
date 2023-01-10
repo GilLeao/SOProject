@@ -1,5 +1,3 @@
-import org.jfree.ui.RefineryUtilities;
-
 
 import javax.swing.*;
 import java.awt.*;
