@@ -11,8 +11,9 @@ public class gestaoConflitos
     String indiceComboio="", indiceParagemComboio="";
     String indiceEstacao="", indiceComboioConflito="", nomeEstacao="", hora="";
 
-    gestaoConflitos()
-    {}
+    List<Logs> logs = new ArrayList<>();
+
+    gestaoConflitos(){}
 
     public void lerTxt()
     {
@@ -20,7 +21,6 @@ public class gestaoConflitos
         {
             BufferedReader reader = new BufferedReader(new FileReader("src/info/log.txt"));
             String line;
-            List<Logs> logs = new ArrayList<>();
 
             while ((line = reader.readLine()) != null)
             {
@@ -52,21 +52,6 @@ public class gestaoConflitos
 
                 Logs log = new Logs(codigo, indice1Comboio, indice2Comboio, indiceTroco, indiceParagem1Comboio, indiceParagem2Comboio, indiceComboio, indiceParagemComboio, indiceEstacao, indiceComboioConflito, nomeEstacao, hora);
                 logs.add(log);
-
-                /*System.out.println("gestaoConflitos {" +
-                "codigo='" + log.getCodigo() + '\'' +
-                        ", indice1Comboio='" + log.getIndice1Comboio() + '\'' +
-                        ", indice2Comboio='" + log.getIndiceComboio() + '\'' +
-                        ", indiceTroco='" + log.getIndiceTroco() + '\'' +
-                        ", indiceParagem1Comboio='" + log.getIndiceParagem1Comboio() + '\'' +
-                        ", indiceParagem2Comboio='" + log.getIndiceParagem2Comboio() + '\'' +
-                        ", indiceComboio='" + log.getIndiceComboio() + '\'' +
-                        ", indiceParagemComboio='" + log.getIndiceParagemComboio() + '\'' +
-                        ", indiceEstacao='" + log.getIndiceEstacao() + '\'' +
-                        ", indiceComboioConflito='" + log.getIndiceComboioConflito() + '\'' +
-                        ", nomeEstacao='" + log.getNomeEstacao() + '\'' +
-                        ", hora='" + log.getHora() + '\'' +
-                        '}');*/
             }
 
             reader.close();
@@ -139,6 +124,30 @@ public class gestaoConflitos
         {
             System.out.println("ERRO: "+ex.getMessage());
         }
+    }
+
+    public void resolverConflito(Logs log)
+    {
+        if(log.codigo.equals("1")) //Conflito no troço
+        {
+            alterarHorario(log.indice1Comboio, log.indiceComboio, log.indiceTroco, log.indiceParagem1Comboio, log.indiceParagem2Comboio);
+        }
+
+        if(log.codigo.equals("2")) //Comboio excede a capacidade máxima de passageiros
+        {
+
+        }
+
+        if(log.codigo.equals("3")) //Estação excede a capacidade máxima de comboios
+        {
+
+        }
+    }
+
+
+    public void alterarHorario(String indice1Comboio, String indiceComboio, String indiceTroco, String indiceParagem1Comboio, String indiceParagem2Comboio)
+    {
+
     }
 }
 
