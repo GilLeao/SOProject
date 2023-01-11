@@ -367,7 +367,28 @@ public class Comboio implements Runnable {
                     Partida = HoraP + MinutosP;
 
                     int TempoEspera = Partida - Chegada;
-                    System.out.println("---------------------------------------------------------------------\nComboio: " + this.nmrComboio + " Tempo de Espera: " + TempoEspera + "\n---------------------------------------------------------------------");
+                    int tempoEsperaConvertido = TempoEspera;
+
+                    if(TempoEspera >= 3600000) //converter em horas
+                    {
+                        tempoEsperaConvertido = tempoEsperaConvertido / 3600000;
+                        System.out.println("---------------------------------------------------------------------\nComboio: " + this.nmrComboio + " Tempo de Espera: " + tempoEsperaConvertido + " horas\n---------------------------------------------------------------------");
+
+                    } else if(TempoEspera >= 60000 && TempoEspera < 3599999) //converter em minutos
+                    {
+                        tempoEsperaConvertido = tempoEsperaConvertido / 60000;
+                        System.out.println("---------------------------------------------------------------------\nComboio: " + this.nmrComboio + " Tempo de Espera: " + tempoEsperaConvertido + " minutos\n---------------------------------------------------------------------");
+
+                    } else if(TempoEspera >= 1000 && TempoEspera < 59999) //converter em segundos
+                    {
+                        tempoEsperaConvertido = tempoEsperaConvertido / 1000;
+                        System.out.println("---------------------------------------------------------------------\nComboio: " + this.nmrComboio + " Tempo de Espera: " + tempoEsperaConvertido + " segundos\n---------------------------------------------------------------------");
+
+                    } else //converter em ms
+                    {
+                        System.out.println("---------------------------------------------------------------------\nComboio: " + this.nmrComboio + " Tempo de Espera: " + tempoEsperaConvertido + " milissegundos\n---------------------------------------------------------------------");
+                    }
+
                     Thread.sleep(TempoEspera);
 
 
@@ -389,7 +410,27 @@ public class Comboio implements Runnable {
                     int TempoChegada = HorasChegada + MinutosChegada;
 
                     int TempoViagem = TempoChegada - TempoPartida;
-                    System.out.println("---------------------------------------------------------------------\nComboio: " + this.nmrComboio + " Tempo de Viagem: " + TempoViagem + "\n---------------------------------------------------------------------");
+                    int tempoViagemConvertido = TempoViagem;
+
+                    if(TempoViagem >= 3600000) //converter em horas
+                    {
+                        tempoViagemConvertido = tempoViagemConvertido / 3600000;
+                        System.out.println("---------------------------------------------------------------------\nComboio: " + this.nmrComboio + " Tempo de Viagem: " + tempoViagemConvertido + " horas\n---------------------------------------------------------------------");
+
+                    } else if(TempoViagem >= 60000 && TempoViagem < 3599999) //converter em minutos
+                    {
+                        tempoViagemConvertido = tempoViagemConvertido / 60000;
+                        System.out.println("---------------------------------------------------------------------\nComboio: " + this.nmrComboio + " Tempo de Viagem: " + tempoViagemConvertido + " minutos\n---------------------------------------------------------------------");
+
+                    } else if(TempoViagem >= 1000 && TempoViagem < 59999) //converter em segundos
+                    {
+                        tempoViagemConvertido = tempoViagemConvertido / 1000;
+                        System.out.println("---------------------------------------------------------------------\nComboio: " + this.nmrComboio + " Tempo de Viagem: " + tempoViagemConvertido + " segundos\n---------------------------------------------------------------------");
+
+                    } else //converter em ms
+                    {
+                        System.out.println("---------------------------------------------------------------------\nComboio: " + this.nmrComboio + " Tempo de Viagem: " + tempoViagemConvertido + " milissegundos \n---------------------------------------------------------------------");
+                    }
 
                     int indiceTroco1 = this.getIndiceTrocoAndar();
 
