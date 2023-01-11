@@ -1,7 +1,0 @@
-3;8;General Torres;12:24;3
-3;8;General Torres;12:24;3
-3;8;General Torres;12:24;3
-3;8;General Torres;12:24;3
-3;1;Heroísmo;12:57;4
-3;9;Trindade;17:03;2
-3;9;Trindade;17:03;2
