@@ -1,7 +1,28 @@
-3;8;General Torres;12:24;3
-3;8;General Torres;12:24;3
-3;8;General Torres;12:24;3
-3;8;General Torres;12:24;3
-3;1;Heroísmo;12:57;4
-3;9;Trindade;17:03;2
-3;9;Trindade;17:03;2
+2;0;0
+3;0;São Bento;10:21;2
+1;0;2;0;0;1
+2;0;0
+3;1;Heroísmo;08:55;4
+2;0;0
+2;0;1
+2;0;2
+2;0;3
+2;0;3
+2;0;4
+3;2;Campanhã;14:49;3
+2;0;4
+3;2;Campanhã;14:49;3
+2;0;4
+3;2;Campanhã;14:49;3
+2;0;5
+3;9;Trindade;08:19;4
+1;0;4;8;0;2
+1;0;4;8;0;2
+3;9;Trindade;12:40;1
+1;0;4;8;1;2
+3;8;General Torres;10:37;4
+1;0;4;8;1;3
+3;9;Trindade;15:16;4
+3;9;Trindade;15:16;4
+3;9;Trindade;22:24;2
+3;9;Trindade;22:24;2

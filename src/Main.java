@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -40,6 +42,8 @@ public class Main {
     private static embarquePassageiros[] embarque = new embarquePassageiros[5];
 
     private static baseFrame mainFrame;
+
+
 
     public static void main(String[] args){
        login login = new login();
@@ -105,6 +109,15 @@ public class Main {
         gestaoConflitos.addActionListener(e -> {
             gestaoConflitos gestaoConflitos1 = new gestaoConflitos();
             gestaoConflitos1.lerTxt();
+
+            List<Logs> logs = new ArrayList<>();
+            //Logs log = new Logs("1", "0", "2", "0", "0", "1", "", "", "", "", "", "");
+            //Logs log = new Logs("2", "", "", "", "", "", "0", "0", "", "", "", "");
+            Logs log = new Logs("3", "", "", "", "", "", "", "", "8", "3", "General Torres", "12:24");
+
+            logs.add(log);
+
+            gestaoConflitos1.resolverConflito(log, Comboios, Estacoes);
         });
 
 
