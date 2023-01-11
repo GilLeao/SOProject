@@ -60,8 +60,10 @@ public class gestaoConflitos
             reader.close();
 
             //imprimir todas as logs
+            int i=1;
             for(Logs log : logs)
             {
+                System.out.print(i+". ");
                 System.out.print("gestaoConflitos {");
                 System.out.print("codigo='"+log.codigo + "'");
 
@@ -72,12 +74,16 @@ public class gestaoConflitos
                         System.out.print(", indice2Comboio='" + log.indice2Comboio + "'");
                         System.out.print(", indiceTroco='" + log.indiceTroco + "'");
                         System.out.print(", indiceParagem1Comboio='" + log.indiceParagem1Comboio + "'");
-                        System.out.print(", indiceParagem2Comboio='" + log.indiceParagem2Comboio + "'");
+                        System.out.print(", indiceParagem2Comboio='" + log.indiceParagem2Comboio + "'}");
+
+                        i++;
                         break;
 
                     case "2":
                         System.out.print(", indiceComboio='" + log.indiceComboio + "'");
-                        System.out.print(", indiceParagemComboio='" + log.indiceParagemComboio + "'");
+                        System.out.print(", indiceParagemComboio='" + log.indiceParagemComboio + "'}");
+
+                        i++;
                         break;
 
                     case "3":
@@ -86,6 +92,7 @@ public class gestaoConflitos
                         System.out.print(", nomeEstacao='" + log.nomeEstacao + "'");
                         System.out.print(", hora='" + log.hora + "'}");
 
+                        i++;
                         break;
                 }
                 System.out.print("\n");
@@ -96,41 +103,63 @@ public class gestaoConflitos
             System.out.println("ERRO: "+ex.getMessage());
         }
     }
-    public void resolverConflito(Logs log, Comboio[] comboios, Estacao[] estacaoes)
+    public void resolverConflito(int option, Comboio[] comboios, Estacao[] estacaoes)
     {
-        if(log.codigo.equals("1")) //Conflito no troço
+        //imprimir todas as logs
+        int i=1;
+        for(Logs log : logs)
         {
-            int indiceComboio1 = Integer.parseInt(log.indice1Comboio);
-            int indiceComboio2 = Integer.parseInt(log.indice2Comboio);
-            int indiceParagem1 = Integer.parseInt(log.indiceParagem1Comboio);
-            int indiceParagem2 = Integer.parseInt(log.indiceParagem2Comboio);
-            if(comboios[indiceComboio1].getPassageiros().length > comboios[indiceComboio2].getPassageiros().length){
-                comboios[indiceComboio2].setIndiceParagem(indiceParagem1);
-            }else{
-                comboios[indiceComboio1].setIndiceParagem(indiceParagem2);
-            }
-        }
-
-        if(log.codigo.equals("2")) //Comboio excede a capacidade máxima de passageiros
-        {
-            int indiceComboioInt = Integer.parseInt(log.indiceComboio);
-
-            do
+            if(i == option) //entra na log que quer resolver
             {
-                System.out.println("ANTES (remover passageiro do comboio): "+ Arrays.toString(comboios[indiceComboioInt].getPassageiros()));
-                comboios[indiceComboioInt].removePassageiro(comboios[indiceComboioInt].getPassageiros()[comboios[indiceComboioInt].getPassageiros().length].getNmrPassageiro());
-                System.out.println("DEPOIS (remover passageiro do comboio): "+ Arrays.toString(comboios[indiceComboioInt].getPassageiros()));
-            } while (comboios[indiceComboioInt].getNmrMaxPassageiros() < comboios[indiceComboioInt].getContadorPassageiros());
-        }
+                if(log.codigo.equals("1")) //Conflito no troço
+                {
+                    int indiceComboio1 = Integer.parseInt(log.indice1Comboio);
+                    int indiceComboio2 = Integer.parseInt(log.indice2Comboio);
+                    int indiceParagem1 = Integer.parseInt(log.indiceParagem1Comboio);
+                    int indiceParagem2 = Integer.parseInt(log.indiceParagem2Comboio);
 
-        if(log.codigo.equals("3")) //Estação excede a capacidade máxima de comboios
-        {
-            int indiceComboioConflitoInt = Integer.parseInt(log.indiceComboioConflito);
-            int indiceEstacaoInt = Integer.parseInt(log.indiceEstacao);
+                    if(comboios[indiceComboio1].getPassageiros().length > comboios[indiceComboio2].getPassageiros().length)
+                    {
+                        System.out.println("ANTES (indice paragem do 2 comboio): "+ comboios[indiceComboio2].getIndiceParagem());
+                        comboios[indiceComboio2].setIndiceParagem(indiceParagem1);
+                        System.out.println("DEPOIS (indice paragem do 2 comboio): "+ comboios[indiceComboio2].getIndiceParagem());
 
-            System.out.println("ANTES (indiceParagem do comboio conflitoso): "+comboios[indiceComboioConflitoInt].getIndiceParagem());
-            comboios[indiceComboioConflitoInt].setIndiceParagem(comboios[indiceComboioConflitoInt].getIndiceParagem() - 1);
-            System.out.println("DEPOIS (indiceParagem do comboio conflitoso): "+comboios[indiceComboioConflitoInt].getIndiceParagem());
+                    }else{
+                        System.out.println("ANTES (indice paragem do 1 comboio): "+ comboios[indiceComboio1].getIndiceParagem());
+                        comboios[indiceComboio1].setIndiceParagem(indiceParagem2);
+                        System.out.println("DEPOIS (indice paragem do 1 comboio): "+ comboios[indiceComboio1].getIndiceParagem());
+                    }
+                }
+
+                if(log.codigo.equals("2")) //Comboio excede a capacidade máxima de passageiros
+                {
+                    int indiceComboioInt = Integer.parseInt(log.indiceComboio);
+
+                    do
+                    {
+                        System.out.println("ANTES (remover passageiro do comboio): "+ Arrays.toString(comboios[indiceComboioInt].getPassageiros()));
+                        //comboios[indiceComboioInt].removePassageiro(comboios[indiceComboioInt].getPassageiros()[comboios[indiceComboioInt].getPassageiros().length].getNmrPassageiro());
+                        int nPassageiros = comboios[indiceComboioInt].getPassageiros().length - 1;
+                        int idPassageiro = comboios[indiceComboioInt].getPassageiros()[nPassageiros].getNmrPassageiro();
+
+                        comboios[indiceComboioInt].removePassageiro(idPassageiro);
+
+                        System.out.println("DEPOIS (remover passageiro do comboio): "+ Arrays.toString(comboios[indiceComboioInt].getPassageiros()));
+                    } while (comboios[indiceComboioInt].getNmrMaxPassageiros() < comboios[indiceComboioInt].getContadorPassageiros());
+                }
+
+                if(log.codigo.equals("3")) //Estação excede a capacidade máxima de comboios
+                {
+                    int indiceComboioConflitoInt = Integer.parseInt(log.indiceComboioConflito);
+                    int indiceEstacaoInt = Integer.parseInt(log.indiceEstacao);
+
+                    System.out.println("ANTES (indiceParagem do comboio conflitoso): "+comboios[indiceComboioConflitoInt].getIndiceParagem());
+                    comboios[indiceComboioConflitoInt].setIndiceParagem(comboios[indiceComboioConflitoInt].getIndiceParagem() - 1);
+                    System.out.println("DEPOIS (indiceParagem do comboio conflitoso): "+comboios[indiceComboioConflitoInt].getIndiceParagem());
+                }
+            }
+
+            i++;
         }
     }
 }

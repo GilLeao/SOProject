@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -110,14 +111,19 @@ public class Main {
             gestaoConflitos gestaoConflitos1 = new gestaoConflitos();
             gestaoConflitos1.lerTxt();
 
-            List<Logs> logs = new ArrayList<>();
+            System.out.println("INTRODUZA O CONFLITO QUE QUER RESOLVER: ");
+            Scanner scanner = new Scanner(System.in);
+            int option = scanner.nextInt();
+            scanner.close();
+
+            //List<Logs> logs = new ArrayList<>();
             //Logs log = new Logs("1", "0", "2", "0", "0", "1", "", "", "", "", "", "");
             //Logs log = new Logs("2", "", "", "", "", "", "0", "0", "", "", "", "");
-            Logs log = new Logs("3", "", "", "", "", "", "", "", "8", "3", "General Torres", "12:24");
+            //Logs log = new Logs("3", "", "", "", "", "", "", "", "8", "3", "General Torres", "12:24");
 
-            logs.add(log);
+            //logs.add(log);
 
-            gestaoConflitos1.resolverConflito(log, Comboios, Estacoes);
+            gestaoConflitos1.resolverConflito(option, Comboios, Estacoes);
         });
 
 
