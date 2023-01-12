@@ -1,6 +1,8 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -120,16 +122,30 @@ public class gestaoConflitos
 
                     if(comboios[indiceComboio1].getPassageiros().length > comboios[indiceComboio2].getPassageiros().length)
                     {
-                        System.out.println("ANTES (indice paragem do 2 comboio): "+ comboios[indiceComboio2].getIndiceParagem());
-                        comboios[indiceComboio2].setIndiceParagem(indiceParagem1);
-                        estacaoes[indiceParagem2].setNmrComboios(estacaoes[indiceParagem2].getNmrComboios() - 1);
-                        System.out.println("DEPOIS (indice paragem do 2 comboio): "+ comboios[indiceComboio2].getIndiceParagem());
+                        LocalTime[] horariosChangeChegada = new LocalTime[comboios[indiceComboio1].getHorariosChegada().length];
+                        LocalTime[] horariosChangeSaida = new LocalTime[comboios[indiceComboio1].getHorariosSaida().length];
+
+                        horariosChangeChegada = comboios[indiceComboio1].getHorariosChegada();
+                        horariosChangeSaida = comboios[indiceComboio1].getHorariosSaida();
+
+                        horariosChangeChegada[indiceParagem1].plusSeconds(7);
+                        horariosChangeSaida[indiceParagem1].plusSeconds(7);
+
+                        comboios[indiceComboio1].setHorariosChegada(horariosChangeChegada);
+                        comboios[indiceComboio1].setHorariosSaida(horariosChangeSaida);
 
                     }else{
-                        System.out.println("ANTES (indice paragem do 1 comboio): "+ comboios[indiceComboio1].getIndiceParagem());
-                        comboios[indiceComboio1].setIndiceParagem(indiceParagem2);
-                        estacaoes[indiceParagem1].setNmrComboios(estacaoes[indiceParagem1].getNmrComboios() - 1);
-                        System.out.println("DEPOIS (indice paragem do 1 comboio): "+ comboios[indiceComboio1].getIndiceParagem());
+                        LocalTime[] horariosChangeChegada = new LocalTime[comboios[indiceComboio2].getHorariosChegada().length];
+                        LocalTime[] horariosChangeSaida = new LocalTime[comboios[indiceComboio2].getHorariosSaida().length];
+
+                        horariosChangeChegada = comboios[indiceComboio2].getHorariosChegada();
+                        horariosChangeSaida = comboios[indiceComboio2].getHorariosSaida();
+
+                        horariosChangeChegada[indiceParagem2].plusSeconds(7);
+                        horariosChangeSaida[indiceParagem2].plusSeconds(7);
+
+                        comboios[indiceComboio2].setHorariosChegada(horariosChangeChegada);
+                        comboios[indiceComboio2].setHorariosSaida(horariosChangeSaida);
                     }
                 }
 
@@ -155,15 +171,17 @@ public class gestaoConflitos
                 {
                     int indiceComboioConflitoInt = Integer.parseInt(log.indiceComboioConflito);
                     int indiceEstacaoInt = Integer.parseInt(log.indiceEstacao);
+                    LocalTime[] horariosChangeChegada = new LocalTime[comboios[indiceComboioConflitoInt].getHorariosChegada().length];
+                    LocalTime[] horariosChangeSaida = new LocalTime[comboios[indiceComboioConflitoInt].getHorariosSaida().length];
 
+                    horariosChangeChegada = comboios[indiceComboioConflitoInt].getHorariosChegada();
+                    horariosChangeSaida = comboios[indiceComboioConflitoInt].getHorariosSaida();
 
-                    System.out.println("ANTES (indiceParagem do comboio conflitoso): "+ comboios[indiceComboioConflitoInt].getIndiceParagem());
-                    //estacaoes[indiceEstacaoInt].NmrComboiosNaEstacao(comboios);
-                    //System.out.println("ANTES (numero de comboios): "+estacaoes[indiceEstacaoInt].getNmrComboios());
-                    comboios[indiceComboioConflitoInt].setIndiceParagem(comboios[indiceComboioConflitoInt].getIndiceParagem() - 1);
-                    //estacaoes[indiceEstacaoInt].setNmrComboios(estacaoes[indiceEstacaoInt].getNmrComboios() - 1);
-                    System.out.println("DEPOIS (indiceParagem do comboio conflitoso): "+comboios[indiceComboioConflitoInt].getIndiceParagem());
-                    //System.out.println("DEPOIS (numero de comboios): "+estacaoes[indiceEstacaoInt].getNmrComboios());
+                    horariosChangeChegada[indiceEstacaoInt].plusSeconds(7);
+                    horariosChangeSaida[indiceEstacaoInt].plusSeconds(7);
+
+                    comboios[indiceComboioConflitoInt].setHorariosChegada(horariosChangeChegada);
+                    comboios[indiceComboioConflitoInt].setHorariosSaida(horariosChangeSaida);
                 }
             }
 
