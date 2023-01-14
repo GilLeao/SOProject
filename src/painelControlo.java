@@ -12,6 +12,13 @@ import java.awt.event.ActionListener;
 public class painelControlo {
     private int indiceComboioEditar;
 
+    private JPanel PanelControlo;
+
+
+    private JButton voltar;
+
+
+
     /**
      * Menu principal do Módulo Painel de Controlo (e tambem metodo construtor).
      *
@@ -19,40 +26,220 @@ public class painelControlo {
      * @param comboios array com todos os comboios existentes
      * @param estacoes array com todas as estacoes existentes
      */
-    public painelControlo(baseFrame frame, Comboio[] comboios, Estacao[] estacoes) {
-        JPanel panel = new JPanel();//NOVO PAINEL
+    public painelControlo(baseFrame frame, Comboio[] comboios, Estacao[] estacoes, JPanel MainPanel) {
+        PanelControlo = new JPanel();//NOVO PAINEL
+        PanelControlo.setLayout(null);
+        PanelControlo.setBackground(new Color(64,64,64));
+        PanelControlo.setBounds(70,90,250,300);
+        PanelControlo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        PanelControlo.setAlignmentY(Component.CENTER_ALIGNMENT);
+
+
+        JButton voltarMain = new JButton();
+        voltarMain.setLayout(null);
+        voltarMain.setFont(new Font("Verdana", Font.BOLD, 10));
+        voltarMain.setForeground(Color.BLACK);
+        voltarMain.setBounds(120,250, 100, 25);
+        voltarMain.setText("VOLTAR");
+        PanelControlo.add(voltarMain);
+        voltarMain.addActionListener(e -> {
+            PanelControlo.setVisible(false);
+            frame.setSize(400, 500);
+            MainPanel.setVisible(true);
+            frame.repaint();
+
+        });
+        PanelControlo.add(voltarMain);
+
+        frame.add(PanelControlo);
+
+        JButton alterarHorarios = new JButton();
+        alterarHorarios.setBounds(25,30, 200, 25);
+        alterarHorarios.addActionListener(e -> {PanelControlo.setVisible(false);this.selecionarComboioEditar(frame, comboios, estacoes);});
+        alterarHorarios.setText("ALTERAR HORÁRIOS");
+        alterarHorarios.setFocusable(false);
+        PanelControlo.add(alterarHorarios);
+
+
+        JButton planearViagem = new JButton();
+        planearViagem.setBounds(25,70, 200, 25);
+        planearViagem.addActionListener(e -> {PanelControlo.setVisible(false);this.planearViagem(frame, estacoes, comboios);});
+        planearViagem.setText("INFOMAÇÃO VIAGENS");
+        planearViagem.setFocusable(false);
+        PanelControlo.add(planearViagem);
+
+
+        JButton verGraficos = new JButton();
+        verGraficos.setBounds(25,110, 200, 25);
+        verGraficos.addActionListener(e -> {PanelControlo.setVisible(false);this.menuGraficos(frame);});
+        verGraficos.setText("GRÁFICOS INFORMATIVOS");
+        verGraficos.setFocusable(false);
+        PanelControlo.add(verGraficos);
+
+
+
+        JButton nmrMaxComboios = new JButton();
+        nmrMaxComboios.setBounds(25,150, 200, 25);
+        nmrMaxComboios.addActionListener(e -> {PanelControlo.setVisible(false);this.nmrMaxComboiosPorEstacao(frame, estacoes,comboios);});
+        nmrMaxComboios.setText("COMBOIOS NA ESTACAO");
+        nmrMaxComboios.setFocusable(false);
+        PanelControlo.add(nmrMaxComboios);
+
+
+        JButton nmrMaxPassageiros = new JButton();
+        nmrMaxPassageiros.setBounds(25,190, 200, 25);
+        nmrMaxPassageiros.addActionListener(e -> {PanelControlo.setVisible(false);this.nmrMaxPassageirosPorComboio(frame, estacoes,comboios);});
+        nmrMaxPassageiros.setText("PASSAGEIROS POR COMBOIO");
+        nmrMaxPassageiros.setFocusable(false);
+        PanelControlo.add(nmrMaxPassageiros);
+        PanelControlo.repaint();
+
+    }
+
+    /**
+     * Nesta interface o USER pode selecionar a lotacao maxima de passageiros num comboio
+     * @param frame
+     * @param estacoes
+     * @param comboios
+     */
+    public void nmrMaxPassageirosPorComboio(baseFrame frame, Estacao[] estacoes, Comboio[] comboios){
+        JPanel panel = new JPanel();
         panel.setLayout(null);
         panel.setBackground(new Color(64,64,64));
         panel.setBounds(70,90,250,300);
         panel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.setAlignmentY(Component.CENTER_ALIGNMENT);
 
+        frame.add(panel);
+
+        JButton[] ComboiosBotoes = new JButton[comboios.length];
+        int y = 40;
+        for(int i = 0;i < ComboiosBotoes.length;i++){
+            ComboiosBotoes[i] = new JButton();
+            ComboiosBotoes[i].setBounds(25,y,200,25 );
+            ComboiosBotoes[i].setText("COMBOIO " + (comboios[i].getNmrComboio() + 1) );
+            ComboiosBotoes[i].setFocusable(false);
+            int finalI1 = i;
+            ComboiosBotoes[i].addActionListener(e -> {
+                panel.setVisible(false);
+
+                JPanel panel2 = new JPanel();
+                panel2.setLayout(null);
+                panel2.setBackground(new Color(64,64,64));
+                panel2.setBounds(70,90,250,300);
+                panel2.setAlignmentX(Component.CENTER_ALIGNMENT);
+                panel2.setAlignmentY(Component.CENTER_ALIGNMENT);
+
+
+                JLabel texto = new JLabel();
+                texto.setText("ESCOLHA O NUMERO MAXIMO DE PASSAGEIROS");
+                texto.setForeground(Color.WHITE);
+                texto.setFont(new Font("Verdana", Font.BOLD, 9));
+                texto.setBounds(5, 50, 300, 30);
+                panel2.add(texto);
+
+                SpinnerModel model =
+                        new SpinnerNumberModel(comboios[finalI1].getNmrMaxPassageiros(),
+                                0,
+                                100,
+                                1);
+                JSpinner spinner = new JSpinner(model);
+                spinner.setBounds(80,90,100,25);
+                panel2.add(spinner);
+
+                JButton salvar = new JButton();
+                salvar.setText("SALVAR");
+                salvar.setForeground(Color.BLACK);
+                salvar.setFont(new Font("Verdana", Font.BOLD, 15));
+                salvar.setBounds(50, 150, 150, 30);
+                salvar.addActionListener(f ->{
+                    comboios[finalI1].setNmrMaxPassageiros((Integer) spinner.getValue());
+                    panel2.setVisible(false);
+                    PanelControlo.setVisible(true);
+                });
+                panel2.add(salvar);
+
+                frame.add(panel2);
+
+            });
+            y = y + 40;
+            panel.add(ComboiosBotoes[i]);
+        }
+
+
+
+    }
+
+    /**
+     * Nesta interface o user pode selecionar a lotacao maxima de comboios numa estacao.
+     * @param frame
+     * @param estacoes
+     * @param comboios
+     */
+    public void nmrMaxComboiosPorEstacao(baseFrame frame, Estacao[] estacoes, Comboio[] comboios){
+        JPanel panel = new JPanel();
+        panel.setLayout(null);
+        panel.setBackground(new Color(64,64,64));
+        panel.setBounds(70,90,250,300);
+        panel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.setAlignmentY(Component.CENTER_ALIGNMENT);
 
         frame.add(panel);
 
-        JButton alterarHorarios = new JButton();
-        alterarHorarios.setBounds(25,60, 200, 25);
-        alterarHorarios.addActionListener(e -> {panel.setVisible(false);this.selecionarComboioEditar(frame, comboios, estacoes);});
-        alterarHorarios.setText("ALTERAR HORÁRIOS");
-        alterarHorarios.setFocusable(false);
-        panel.add(alterarHorarios);
+        JButton[] EstacoesBotoes = new JButton[estacoes.length];
+        int y = 10;
+        for(int i = 0;i < EstacoesBotoes.length;i++){
+            EstacoesBotoes[i] = new JButton();
+            EstacoesBotoes[i].setBounds(25,y,200,25 );
+            EstacoesBotoes[i].setText(estacoes[i].getNome());
+            EstacoesBotoes[i].setFocusable(false);
+            int finalI1 = i;
+            EstacoesBotoes[i].addActionListener(e -> {
+                panel.setVisible(false);
+
+                JPanel panel2 = new JPanel();
+                panel2.setLayout(null);
+                panel2.setBackground(new Color(64,64,64));
+                panel2.setBounds(70,90,250,300);
+                panel2.setAlignmentX(Component.CENTER_ALIGNMENT);
+                panel2.setAlignmentY(Component.CENTER_ALIGNMENT);
+
+                JLabel texto = new JLabel();
+                texto.setText("ESCOLHA O NUMERO MAXIMO DE COMBOIOS");
+                texto.setForeground(Color.WHITE);
+                texto.setFont(new Font("Verdana", Font.BOLD, 9));
+                texto.setBounds(5, 50, 300, 30);
+                panel2.add(texto);
+
+                SpinnerModel model =
+                        new SpinnerNumberModel(estacoes[finalI1].getNmrMaxComboios(),
+                                0,
+                                comboios.length,
+                                1);
+                JSpinner spinner = new JSpinner(model);
+                spinner.setBounds(80,90,100,25);
+                panel2.add(spinner);
+
+                JButton salvar = new JButton();
+                salvar.setText("SALVAR");
+                salvar.setForeground(Color.BLACK);
+                salvar.setFont(new Font("Verdana", Font.BOLD, 15));
+                salvar.setBounds(50, 150, 150, 30);
+                salvar.addActionListener(f ->{
+                    estacoes[finalI1].setNmrMaxComboios((Integer) spinner.getValue());
+                    panel2.setVisible(false);
+                    PanelControlo.setVisible(true);
+                });
+                panel2.add(salvar);
+
+                frame.add(panel2);
+
+            });
+            y = y + 25;
+            panel.add(EstacoesBotoes[i]);
+        }
 
 
-        JButton planearViagem = new JButton();
-        planearViagem.setBounds(25,100, 200, 25);
-        planearViagem.addActionListener(e -> {panel.setVisible(false);this.planearViagem(frame, estacoes, comboios);});
-        planearViagem.setText("INFOMAÇÃO VIAGENS");
-        planearViagem.setFocusable(false);
-        panel.add(planearViagem);
-
-
-        JButton verGraficos = new JButton();
-        verGraficos.setBounds(25,140, 200, 25);
-        verGraficos.addActionListener(e -> {panel.setVisible(false);this.menuGraficos(frame);});
-        verGraficos.setText("GRÁFICOS INFORMATIVOS");
-        verGraficos.setFocusable(false);
-        panel.add(verGraficos);
-        panel.repaint();
 
     }
 
@@ -63,6 +250,10 @@ public class painelControlo {
         panel.setBounds(70,90,250,300);
         panel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.setAlignmentY(Component.CENTER_ALIGNMENT);
+
+        this.botaoVoltar(frame, 250, 400, panel);
+        frame.repaint();
+
 
 
         frame.add(panel);
@@ -105,6 +296,7 @@ public class painelControlo {
 
         frame.setSize(800, 700);//Comprimento e Largura da Janela
 
+
         JPanel panel = new JPanel();//NOVO PAINEL
         panel.setLayout(null);
         panel.setBackground(new Color(64,64,64));
@@ -112,6 +304,9 @@ public class painelControlo {
         panel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.setAlignmentY(Component.CENTER_ALIGNMENT);
         frame.add(panel);
+
+        this.botaoVoltar(frame, 650, 50, panel);
+        frame.repaint();
 
         String[] Paragens = new String[estacaos.length];
         for(int i = 0; i < Paragens.length; i++){
@@ -201,36 +396,42 @@ public class painelControlo {
      */
     public void selecionarComboioParaViagem(Comboio[] comboiosParam, JPanel panel, JFrame frame, Comboio[] comboios,Estacao[] estacaos,String estacaoPartida,String estacaoDestino){
 
-        String[] nomeComboios = new String[comboiosParam.length];
 
-        for(int i = 0; i < nomeComboios.length; i++){
-            nomeComboios[i] = new String();
-            nomeComboios[i] = "Comboio " + (comboiosParam[i].getNmrComboio() + 1);
+
+        if(comboiosParam != null || comboiosParam.length > 0) {
+            String[] nomeComboios = new String[comboiosParam.length];
+
+            for (int i = 0; i < nomeComboios.length; i++) {
+                nomeComboios[i] = new String();
+                nomeComboios[i] = "Comboio " + (comboiosParam[i].getNmrComboio() + 1);
+            }
+
+            JComboBox escolherComboio = new JComboBox(nomeComboios);
+            escolherComboio.setBounds(30, 60, 140, 30);
+
+            JButton confirmar = new JButton("CONFIRMAR");
+            confirmar.setBounds(200, 60, 120, 30);
+            confirmar.addActionListener(e -> {
+                escolherComboio.setVisible(false);
+                confirmar.setVisible(false);
+                String ComboioEscolhido = (String) escolherComboio.getSelectedItem();
+                String intValue = ComboioEscolhido.replaceAll("[^0-9]", "");
+                int indiceComboioEscol = Integer.parseInt(intValue);
+                indiceComboioEscol--;
+                this.apresentarInformacao(comboiosParam, panel, frame, comboios, estacaos, estacaoPartida, estacaoDestino, indiceComboioEscol);
+            });
+
+
+            panel.add(confirmar);
+            panel.add(escolherComboio);
+            panel.repaint();
+        }else{
+            this.planearViagem(new baseFrame(), estacaos, comboios);
+
         }
 
-        JComboBox escolherComboio = new JComboBox(nomeComboios);
-        escolherComboio.setBounds(30, 60, 140, 30);
-
-        JButton confirmar = new JButton("CONFIRMAR");
-        confirmar.setBounds(200, 60, 120, 30);
-        confirmar.addActionListener(e -> {
-            escolherComboio.setVisible(false);
-            confirmar.setVisible(false);
-            String ComboioEscolhido = (String)escolherComboio.getSelectedItem();
-            String intValue = ComboioEscolhido.replaceAll("[^0-9]", "");
-            int indiceComboioEscol= Integer.parseInt(intValue);
-            indiceComboioEscol--;
-            this.apresentarInformacao(comboiosParam, panel, frame, comboios, estacaos, estacaoPartida, estacaoDestino, indiceComboioEscol);
-        });
 
 
-
-
-        panel.add(confirmar);
-        panel.add(escolherComboio);
-
-
-        panel.repaint();
     }
 
     /**
@@ -389,6 +590,9 @@ public class painelControlo {
      * @param indice indice do comboio cujo os horarios estamos a alterar
      */
     public void alterarHorarios(baseFrame frame, Comboio comboio, int indice){
+
+        voltar = null;
+
         final int indices = indice;
         frame.setSize(400, 500);//Comprimento e Largura da Janela
 
@@ -398,6 +602,7 @@ public class painelControlo {
         panel.setBounds(15,90,360,350);
         panel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.setAlignmentY(Component.CENTER_ALIGNMENT);
+
 
 
         frame.add(panel);
@@ -528,7 +733,8 @@ public class painelControlo {
                     comboio.setHorariosSaida(HorariosPartida);
                     comboio.setHorariosChegada(HorariosChegada);
                     panel.setVisible(false);
-                    this.selecionarEstacaoEditar(frame, comboio);
+                    frame.setSize(400, 500);
+                    PanelControlo.setVisible(true);
                 }else{
                     janelaErro();
                 }
@@ -550,7 +756,8 @@ public class painelControlo {
                     System.out.println("NOVO HORARIO DE PARTIDA: " + HorariosPartida[indice]);
 
                 panel.setVisible(false);
-                this.selecionarEstacaoEditar(frame, comboio);
+                frame.setSize(400, 500);
+                PanelControlo.setVisible(true);
             }else{
                 Date date = (Date)spinner.getModel().getValue();
 
@@ -561,7 +768,8 @@ public class painelControlo {
                 LocalTime localTimeChegada = zonedDateTime.toLocalTime();
                 comboio.setHorariosChegada(HorariosChegada);
                 panel.setVisible(false);
-                this.selecionarEstacaoEditar(frame, comboio);
+                frame.setSize(400, 500);
+                PanelControlo.setVisible(true);
 
             }
 
@@ -582,6 +790,7 @@ public class painelControlo {
 
 
         JPanel panel = new JPanel();//NOVO PAINEL
+        panel.setVisible(true);
         panel.setLayout(null);
         panel.setBackground(new Color(64,64,64));
         panel.setBounds(70,90,250,300);
@@ -591,6 +800,7 @@ public class painelControlo {
 
 
         frame.add(panel);
+
 
         JButton[] ComboiosBotoes = new JButton[comboios.length];
         int y = 50;
@@ -605,6 +815,7 @@ public class painelControlo {
             panel.add(ComboiosBotoes[i]);
         }
         panel.repaint();
+        frame.repaint();
     }
 
     /**
@@ -623,7 +834,9 @@ public class painelControlo {
         panel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.setAlignmentY(Component.CENTER_ALIGNMENT);
 
+
         frame.add(panel);
+
 
 
         String[] Paragens = comboio.getParagens();
@@ -670,4 +883,27 @@ public class painelControlo {
         janelaErro.add(textoErro);
         janelaErro.add(botaoOK);
     }
+
+
+
+
+    private void botaoVoltar(baseFrame frame, int x, int y, JPanel panel){
+        voltar = null;
+        voltar = new JButton();
+        voltar.setFont(new Font("Verdana", Font.BOLD, 10));
+        voltar.setForeground(Color.BLACK);
+        voltar.setBounds(x,y, 100, 25);
+        voltar.setText("VOLTAR");
+        voltar.addActionListener(e -> {
+            panel.setVisible(false);
+            frame.setSize(400, 500);
+            PanelControlo.setVisible(true);
+            voltar.setVisible(false);
+            frame.repaint();
+
+        });
+        frame.add(voltar);
+        frame.repaint();
+    }
+
 }

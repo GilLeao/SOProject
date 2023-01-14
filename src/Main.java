@@ -132,7 +132,7 @@ public class Main {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(e.getSource() == painelControlo){
-                    painelControlo painel = new painelControlo(mainFrame, Comboios, Estacoes);
+                    painelControlo painel = new painelControlo(mainFrame, Comboios, Estacoes, panel);
                     panel.setVisible(false);
                 }
             }
