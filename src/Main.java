@@ -113,17 +113,13 @@ public class Main {
 
             System.out.println("INTRODUZA O CONFLITO QUE QUER RESOLVER: ");
             Scanner scanner = new Scanner(System.in);
-            int option = scanner.nextInt();
+
+            if(scanner.hasNextInt()) //verificar se há um valor inteiro para ler
+            {
+                int option = scanner.nextInt();
+                gestaoConflitos1.resolverConflito(option, Comboios, Estacoes);
+            }
             scanner.close();
-
-            //List<Logs> logs = new ArrayList<>();
-            //Logs log = new Logs("1", "0", "2", "0", "0", "1", "", "", "", "", "", "");
-            //Logs log = new Logs("2", "", "", "", "", "", "0", "0", "", "", "", "");
-            //Logs log = new Logs("3", "", "", "", "", "", "", "", "8", "3", "General Torres", "12:24");
-
-            //logs.add(log);
-
-            gestaoConflitos1.resolverConflito(option, Comboios, Estacoes);
         });
 
 
@@ -142,7 +138,7 @@ public class Main {
             }
         });
 
-        JButton naoClicar = new JButton();
+        /*JButton naoClicar = new JButton();
         naoClicar.setBounds(25,210, 200, 25);
         naoClicar.setVisible(false);
         naoClicar.addActionListener(e -> {
@@ -153,19 +149,19 @@ public class Main {
             }
         });
         naoClicar.setText("NÃO CLICAR!");
-        naoClicar.setFocusable(false);
+        naoClicar.setFocusable(false);*/
 
 
         JButton gerarDados = new JButton();
         gerarDados.setBounds(25,50, 200, 25);
-        gerarDados.addActionListener(e -> Main.gerarDados(Comboios,Estacoes, simuladorTrafego, gestaoConflitos, painelControlo, naoClicar));
+        gerarDados.addActionListener(e -> Main.gerarDados(Comboios,Estacoes, simuladorTrafego, gestaoConflitos, painelControlo));
         gerarDados.setText("GERAR DADOS");
         gerarDados.setFocusable(false);
         panel.add(gerarDados);
         panel.add(simuladorTrafego);
         panel.add(gestaoConflitos);
         panel.add(painelControlo);
-        panel.add(naoClicar);
+        //panel.add(naoClicar);
         panel.repaint();
     }
 
@@ -179,9 +175,8 @@ public class Main {
      * @param button botão do Simulador de Tráfego
      * @param button2 botão da Gestão de Conflitos
      * @param button3 botão do Painel de Controlo
-     * @param button4 ????????????????????????????
      */
-    public static void gerarDados(Comboio[] comboios, Estacao[] Estacoes, JButton button, JButton button2, JButton button3, JButton button4){
+    public static void gerarDados(Comboio[] comboios, Estacao[] Estacoes, JButton button, JButton button2, JButton button3){
 
         String[] Paragens = {"São Bento", "Heroísmo" ,"Campanhã", "Estádio do Dragão", "Fanzeres", "Santo Ovídio","Camara de Gaia" ,"João de Deus", "General Torres", "Trindade"};
         //Inicia as Estações
@@ -230,7 +225,7 @@ public class Main {
         button.setVisible(true);
         button2.setVisible(true);
         button3.setVisible(true);
-        button4.setVisible(true);
+        //button4.setVisible(true);
 
     }
 
