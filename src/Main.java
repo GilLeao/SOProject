@@ -32,8 +32,7 @@ public class Main {
      */
     protected static Semaphore[] SemaphorePermitirEmbarque = new Semaphore[5];
 
-
-
+    static Scanner scanner =  new Scanner(System.in);;
     protected static Estacao[]  Estacoes = new Estacao[10];
 
     protected static Troco[] Trocos = new Troco[10];
@@ -43,8 +42,6 @@ public class Main {
     private static embarquePassageiros[] embarque = new embarquePassageiros[5];
 
     private static baseFrame mainFrame;
-
-
 
     public static void main(String[] args){
        login login = new login();
@@ -102,6 +99,7 @@ public class Main {
         } );
         simuladorTrafego.setFocusable(false);
 
+
         JButton gestaoConflitos = new JButton();
         gestaoConflitos.setBounds(25,130, 200, 25);
         gestaoConflitos.setVisible(false);
@@ -111,15 +109,13 @@ public class Main {
             gestaoConflitos gestaoConflitos1 = new gestaoConflitos();
             gestaoConflitos1.lerTxt();
 
-            System.out.println("INTRODUZA O CONFLITO QUE QUER RESOLVER: ");
-            Scanner scanner = new Scanner(System.in);
-
-            if(scanner.hasNextInt()) //verificar se há um valor inteiro para ler
-            {
-                int option = scanner.nextInt();
-                gestaoConflitos1.resolverConflito(option, Comboios, Estacoes);
-            }
-            scanner.close();
+                if (scanner.hasNextInt()) //verificar se há um valor inteiro para ler
+                {
+                    System.out.println("INTRODUZA O CONFLITO QUE QUER RESOLVER: ");
+                    int option = scanner.nextInt();
+                    gestaoConflitos1.resolverConflito(option, Comboios, Estacoes);
+                    scanner.close();
+                }
         });
 
 

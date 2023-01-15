@@ -144,12 +144,10 @@ public class gestaoConflitos
                     indiceParagem1ComboioTxt = parts[4];
                     indiceParagem2ComboioTxt = parts[5];
 
-                    if(codigoTxt.equals(codigoConflitoRemover) && indice1ComboioTxt.equals(indice1ComboioConflitoRemover) && indice2ComboioTxt.equals(indice2ComboioConflitoRemover) && indiceTrocoTxt.equals(indiceTrocoConflitoRemover) && indiceParagem1ComboioTxt.equals(indiceParagem1ComboioConflitoRemover) && indiceParagem2ComboioTxt.equals(indiceParagem2ComboioConflitoRemover) && indiceComboioTxt.equals(indiceComboioConflitoRemover) && indiceParagemComboioTxt.equals(indiceParagemComboioConflitoRemover) && indiceEstacaoTxt.equals(indiceEstacaoConflitoRemover) && nomeEstacaoTxt.equals(nomeEstacaoConflitoRemover) && horaTxt.equals(horaConflitoRemover) && indiceComboioConflitoTxt.equals(indiceComboioConflitoConflitoRemover))
+                    if(!codigoTxt.equals(codigoConflitoRemover) || !indice1ComboioTxt.equals(indice1ComboioConflitoRemover) || !indice2ComboioTxt.equals(indice2ComboioConflitoRemover) || !indiceTrocoTxt.equals(indiceTrocoConflitoRemover) || !indiceParagem1ComboioTxt.equals(indiceParagem1ComboioConflitoRemover) || !indiceParagem2ComboioTxt.equals(indiceParagem2ComboioConflitoRemover) || !indiceComboioTxt.equals(indiceComboioConflitoRemover) || !indiceParagemComboioTxt.equals(indiceParagemComboioConflitoRemover) || !indiceEstacaoTxt.equals(indiceEstacaoConflitoRemover) || !nomeEstacaoTxt.equals(nomeEstacaoConflitoRemover) || !horaTxt.equals(horaConflitoRemover) || !indiceComboioConflitoTxt.equals(indiceComboioConflitoConflitoRemover))
                     {
                         String dados = codigoTxt+";"+indice1ComboioTxt+";"+indice2ComboioTxt+";"+indiceTrocoTxt+";"+indiceParagem1ComboioTxt+";"+indiceParagem2ComboioTxt;
-
-                        line = line.replace(dados, "");
-                        novoConteudo.append(line);
+                        novoConteudo.append(line + "\n");
                     }
 
                 } else if(codigoTxt.equals("2")) //Comboio excede a capacidade máxima de passageiros
@@ -157,12 +155,10 @@ public class gestaoConflitos
                     indiceComboioTxt = parts[1];
                     indiceParagemComboioTxt = parts[2];
 
-                    if(codigoTxt.equals(codigoConflitoRemover) && indice1ComboioTxt.equals(indice1ComboioConflitoRemover) && indice2ComboioTxt.equals(indice2ComboioConflitoRemover) && indiceTrocoTxt.equals(indiceTrocoConflitoRemover) && indiceParagem1ComboioTxt.equals(indiceParagem1ComboioConflitoRemover) && indiceParagem2ComboioTxt.equals(indiceParagem2ComboioConflitoRemover) && indiceComboioTxt.equals(indiceComboioConflitoRemover) && indiceParagemComboioTxt.equals(indiceParagemComboioConflitoRemover) && indiceEstacaoTxt.equals(indiceEstacaoConflitoRemover) && nomeEstacaoTxt.equals(nomeEstacaoConflitoRemover) && horaTxt.equals(horaConflitoRemover) && indiceComboioConflitoTxt.equals(indiceComboioConflitoConflitoRemover))
+                    if(!codigoTxt.equals(codigoConflitoRemover) || !indice1ComboioTxt.equals(indice1ComboioConflitoRemover) || !indice2ComboioTxt.equals(indice2ComboioConflitoRemover) || !indiceTrocoTxt.equals(indiceTrocoConflitoRemover) || !indiceParagem1ComboioTxt.equals(indiceParagem1ComboioConflitoRemover) || !indiceParagem2ComboioTxt.equals(indiceParagem2ComboioConflitoRemover) || !indiceComboioTxt.equals(indiceComboioConflitoRemover) || !indiceParagemComboioTxt.equals(indiceParagemComboioConflitoRemover) || !indiceEstacaoTxt.equals(indiceEstacaoConflitoRemover) || !nomeEstacaoTxt.equals(nomeEstacaoConflitoRemover) || !horaTxt.equals(horaConflitoRemover) || !indiceComboioConflitoTxt.equals(indiceComboioConflitoConflitoRemover))
                     {
                         String dados = codigoTxt+";"+indiceComboioTxt+";"+indiceParagemComboioTxt;
-
-                        line = line.replace(dados, "");
-                        novoConteudo.append(line);
+                        novoConteudo.append(line + "\n");
                     }
 
                 } else //Estação excede a capacidade máxima de comboios
@@ -172,12 +168,10 @@ public class gestaoConflitos
                     horaTxt = parts[3];
                     indiceComboioConflitoTxt = parts[4];
 
-                    if(codigoTxt.equals(codigoConflitoRemover) && indice1ComboioTxt.equals(indice1ComboioConflitoRemover) && indice2ComboioTxt.equals(indice2ComboioConflitoRemover) && indiceTrocoTxt.equals(indiceTrocoConflitoRemover) && indiceParagem1ComboioTxt.equals(indiceParagem1ComboioConflitoRemover) && indiceParagem2ComboioTxt.equals(indiceParagem2ComboioConflitoRemover) && indiceComboioTxt.equals(indiceComboioConflitoRemover) && indiceParagemComboioTxt.equals(indiceParagemComboioConflitoRemover) && indiceEstacaoTxt.equals(indiceEstacaoConflitoRemover) && nomeEstacaoTxt.equals(nomeEstacaoConflitoRemover) && horaTxt.equals(horaConflitoRemover) && indiceComboioConflitoTxt.equals(indiceComboioConflitoConflitoRemover))
+                    if(!codigoTxt.equals(codigoConflitoRemover) || !indice1ComboioTxt.equals(indice1ComboioConflitoRemover) || !indice2ComboioTxt.equals(indice2ComboioConflitoRemover) || !indiceTrocoTxt.equals(indiceTrocoConflitoRemover) || !indiceParagem1ComboioTxt.equals(indiceParagem1ComboioConflitoRemover) || !indiceParagem2ComboioTxt.equals(indiceParagem2ComboioConflitoRemover) || !indiceComboioTxt.equals(indiceComboioConflitoRemover) || !indiceParagemComboioTxt.equals(indiceParagemComboioConflitoRemover) || !indiceEstacaoTxt.equals(indiceEstacaoConflitoRemover) || !nomeEstacaoTxt.equals(nomeEstacaoConflitoRemover) || !horaTxt.equals(horaConflitoRemover) || !indiceComboioConflitoTxt.equals(indiceComboioConflitoConflitoRemover))
                     {
                         String dados = codigoTxt+";"+indiceEstacaoTxt+";"+nomeEstacaoTxt+";"+horaTxt+";"+indiceComboioConflitoTxt;
-
-                        line = line.replace(dados, "");
-                        novoConteudo.append(line);
+                        novoConteudo.append(line + "\n");
                     }
                 }
             }
