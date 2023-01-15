@@ -13,5 +13,6 @@
     <orderEntry type="library" name="jcommon-1.0.24" level="project" />
     <orderEntry type="library" name="jackson-core-lgpl-0.9.8" level="project" />
     <orderEntry type="library" name="jackson-mapper-lgpl-0.9.8" level="project" />
+    <orderEntry type="library" name="json" level="project" />
   </component>
 </module>

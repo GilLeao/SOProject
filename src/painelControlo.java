@@ -1,7 +1,12 @@
 import org.jfree.ui.RefineryUtilities;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.*;
 import java.util.Calendar;
 import java.util.Date;
@@ -154,6 +159,9 @@ public class painelControlo {
                 salvar.setBounds(50, 150, 150, 30);
                 salvar.addActionListener(f ->{
                     comboios[finalI1].setNmrMaxPassageiros((Integer) spinner.getValue());
+
+                    alterarDataJson(comboios[finalI1].getNmrComboio(), (Integer) spinner.getValue(), 0, 0);
+
                     System.out.println(comboios[finalI1].getNmrComboio()+" SET NMR MAX PASSAGEIROS: "+comboios[finalI1].getNmrMaxPassageiros());
                     panel2.setVisible(false);
                     PanelControlo.setVisible(true);
@@ -169,6 +177,46 @@ public class painelControlo {
 
 
 
+    }
+
+    public void alterarDataJson(int nmrComboio, int nmrMaxPassageiros, int nmrEstacao, int nmrMaxComboios)
+    {
+        try {
+            FileReader fr = new FileReader("src/info/data.json");
+            JSONObject json = new JSONObject(fr);
+
+            JSONArray comboios = json.getJSONArray("comboios");
+            JSONArray estacoes = json.getJSONArray("estacoes");
+
+            for(int i=0; i < comboios.length(); i++)
+            {
+                JSONObject comboio = comboios.getJSONObject(i);
+
+                if(comboio.getInt("indiceComboio") == nmrComboio)
+                {
+                    comboio.put("nmrMaxPassageiros", nmrMaxPassageiros);
+                }
+            }
+
+            for(int i=0; i < estacoes.length(); i++)
+            {
+                JSONObject estacao = estacoes.getJSONObject(i);
+
+                if(estacao.getInt("indiceEstacao") == nmrEstacao)
+                {
+                    estacao.put("nmrMaxComboios", nmrMaxComboios);
+                }
+            }
+
+            FileWriter fw = new FileWriter("src/info/data.json");
+            fw.write(json.toString());
+            fw.flush();
+            fw.close();
+
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -228,7 +276,9 @@ public class painelControlo {
                 salvar.setBounds(50, 150, 150, 30);
                 salvar.addActionListener(f ->{
                     estacoes[finalI1].setNmrMaxComboios((Integer) spinner.getValue());
-                    System.out.println(estacoes[finalI1].getNome()+" SET NMR MAX COMBOIOS: "+estacoes[finalI1].getNmrMaxComboios());
+
+                    alterarDataJson(0, 0, finalI1, (Integer) spinner.getValue());
+
                     panel2.setVisible(false);
                     PanelControlo.setVisible(true);
                 });
