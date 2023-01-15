@@ -43,6 +43,9 @@ public class Main {
 
     private static baseFrame mainFrame;
 
+    static boolean flag = true;
+    static SaveData Save = null;
+
     public static void main(String[] args){
        login login = new login();
 
@@ -50,6 +53,22 @@ public class Main {
 
     }
 
+<<<<<<< Updated upstream
+=======
+    private static void btnGestorConflitosClicked()
+    {
+        gestaoConflitos gestaoConflitos1 = new gestaoConflitos();
+        gestaoConflitos1.lerTxt();
+
+        System.out.println("INTRODUZA O CONFLITO QUE QUER RESOLVER: ");
+
+        Scanner scanner =  new Scanner(System.in);
+        int option = scanner.nextInt();
+
+        gestaoConflitos1.resolverConflito(option, Comboios, Estacoes, Save);
+    }
+
+>>>>>>> Stashed changes
     /**
      * INTERFACE GRÁFICA PRINCIPAL, A PARTIR DAQUI O UTILIZADOR CONSEGUE ACEDER A TODOS OS MENUS
      */
@@ -119,7 +138,11 @@ public class Main {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(e.getSource() == painelControlo){
+<<<<<<< Updated upstream
                     painelControlo painel = new painelControlo(mainFrame, Comboios, Estacoes);
+=======
+                    painelControlo painel = new painelControlo(mainFrame, Comboios, Estacoes, panel, Save);
+>>>>>>> Stashed changes
                     panel.setVisible(false);
                 }
             }
@@ -164,22 +187,45 @@ public class Main {
      * @param button3 botão do Painel de Controlo
      * @param button4 ????????????????????????????
      */
+<<<<<<< Updated upstream
     public static void gerarDados(Comboio[] comboios, Estacao[] Estacoes, JButton button, JButton button2, JButton button3, JButton button4){
+=======
+    public static void gerarDados(Comboio[] comboios, Estacao[] Estacoes, JButton button, JButton button2, JButton button3){
+        if(flag){
+            flag = false;
+            String[] Paragens = {"São Bento", "Heroísmo" ,"Campanhã", "Estádio do Dragão", "Fanzeres", "Santo Ovídio","Camara de Gaia" ,"João de Deus", "General Torres", "Trindade"};
+            //Inicia as Estações
+            for(int i = 0;i < 10;i++){
+                Estacoes[i] = new Estacao(Paragens[i],10,1);
+>>>>>>> Stashed changes
 
-        String[] Paragens = {"São Bento", "Heroísmo" ,"Campanhã", "Estádio do Dragão", "Fanzeres", "Santo Ovídio","Camara de Gaia" ,"João de Deus", "General Torres", "Trindade"};
-        //Inicia as Estações
-        for(int i = 0;i < 10;i++){
-            Estacoes[i] = new Estacao(Paragens[i],10,1);
 
+            }
+            //Atribui passageiros de forma aleatória a todas as Estações
+            for(int i = 0;i < 10;i++){
+                Estacoes[i].escolherPassageirosRandom(Estacoes);
+                Estacoes[i].setNmrMaxComboios(3);
+            }
 
+<<<<<<< Updated upstream
         }
         //Atribui passageiros de forma aleatória a todas as Estações
         for(int i = 0;i < 10;i++){
             Estacoes[i].escolherPassageirosRandom(Estacoes);
             Estacoes[i].setNmrMaxComboios(ThreadLocalRandom.current().nextInt(1, 5));
         }
+=======
+>>>>>>> Stashed changes
 
+            for(int i = 0;i < 5;i++){
+                comboios[i] = new Comboio();
+                comboios[i].setNmrMaxPassageiros(10);
+                comboios[i].gerarAleatorio(Estacoes);
+                comboios[i].setNmrComboio(i);
+                comboios[i].setIndiceTroco(-i);
+            }
 
+<<<<<<< Updated upstream
         for(int i = 0;i < 5;i++){
             comboios[i] = new Comboio();
             comboios[i].setNmrMaxPassageiros(ThreadLocalRandom.current().nextInt(1, 20));
@@ -187,34 +233,49 @@ public class Main {
             comboios[i].setNmrComboio(i);
             comboios[i].setIndiceTroco(-i);
         }
+=======
+            for(int i = 0; i < Trocos.length - 1;i++){
+                Trocos[i] = new Troco(Estacoes[i].getNome(), Estacoes[i + 1].getNome(), 200, 500);
+            }
+            Trocos[Trocos.length - 1] = new Troco(Estacoes[Estacoes.length - 1].getNome(), Estacoes[0].getNome(), 300, 600);
+>>>>>>> Stashed changes
 
-        for(int i = 0; i < Trocos.length - 1;i++){
-            Trocos[i] = new Troco(Estacoes[i].getNome(), Estacoes[i + 1].getNome(), 200, 500);
+            Save = new SaveData(Comboios,Estacoes);
+
+            //Imprime na consola os dados gerados
+            for(int i = 0;i < 10;i++){
+                System.out.println(Estacoes[i].toString());
+            }
+            System.out.println("______________________________________________________________________");
+            for(int i = 0;i < 5;i++){
+                System.out.println(Comboios[i].toString());
+            }
+            for(int i = 0;i < 10;i++){
+                System.out.println("------------------------------------------------------------------");
+                System.out.println(Trocos[i].toString());
+            }
+
+        }else{
+            Comboios = Save.getComboiosSave();
+            Estacoes = Save.getEstacoesSave();
+            for(int i = 0;i < 10;i++){
+                System.out.println(Estacoes[i].toString());
+            }
+            System.out.println("______________________________________________________________________");
+            for(int i = 0;i < 5;i++){
+                System.out.println(comboios[i].toString());
+            }
         }
-        Trocos[Trocos.length - 1] = new Troco(Estacoes[Estacoes.length - 1].getNome(), Estacoes[0].getNome(), 300, 600);
-
-
-        //Imprime na consola os dados gerados
-        for(int i = 0;i < 10;i++){
-            System.out.println(Estacoes[i].toString());
-        }
-        System.out.println("______________________________________________________________________");
-        for(int i = 0;i < 5;i++){
-            System.out.println(Comboios[i].toString());
-        }
-        for(int i = 0;i < 10;i++){
-            System.out.println("------------------------------------------------------------------");
-            System.out.println(Trocos[i].toString());
-        }
-
-
-
 
         button.setVisible(true);
         button2.setVisible(true);
         button3.setVisible(true);
+<<<<<<< Updated upstream
         button4.setVisible(true);
 
+=======
+        //button4.setVisible(true);
+>>>>>>> Stashed changes
     }
 
     public static void naoClicar() throws IOException {

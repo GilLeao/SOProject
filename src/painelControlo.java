@@ -19,6 +19,7 @@ public class painelControlo {
      * @param comboios array com todos os comboios existentes
      * @param estacoes array com todas as estacoes existentes
      */
+<<<<<<< Updated upstream
     public painelControlo(baseFrame frame, Comboio[] comboios, Estacao[] estacoes) {
         JPanel panel = new JPanel();//NOVO PAINEL
         panel.setLayout(null);
@@ -26,6 +27,29 @@ public class painelControlo {
         panel.setBounds(70,90,250,300);
         panel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.setAlignmentY(Component.CENTER_ALIGNMENT);
+=======
+    public painelControlo(baseFrame frame, Comboio[] comboios, Estacao[] estacoes, JPanel MainPanel, SaveData Save) {
+        PanelControlo = new JPanel();//NOVO PAINEL
+        PanelControlo.setLayout(null);
+        PanelControlo.setBackground(new Color(64,64,64));
+        PanelControlo.setBounds(70,90,250,300);
+        PanelControlo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        PanelControlo.setAlignmentY(Component.CENTER_ALIGNMENT);
+
+
+        JButton voltarMain = new JButton();
+        voltarMain.setLayout(null);
+        voltarMain.setFont(new Font("Verdana", Font.BOLD, 10));
+        voltarMain.setForeground(Color.BLACK);
+        voltarMain.setBounds(120,250, 100, 25);
+        voltarMain.setText("VOLTAR");
+        PanelControlo.add(voltarMain);
+        voltarMain.addActionListener(e -> {
+            PanelControlo.setVisible(false);
+            frame.setSize(400, 500);
+            MainPanel.setVisible(true);
+            frame.repaint();
+>>>>>>> Stashed changes
 
 
         frame.add(panel);
@@ -51,8 +75,181 @@ public class painelControlo {
         verGraficos.addActionListener(e -> {panel.setVisible(false);this.menuGraficos(frame);});
         verGraficos.setText("GRÁFICOS INFORMATIVOS");
         verGraficos.setFocusable(false);
+<<<<<<< Updated upstream
         panel.add(verGraficos);
         panel.repaint();
+=======
+        PanelControlo.add(verGraficos);
+
+
+
+        JButton nmrMaxComboios = new JButton();
+        nmrMaxComboios.setBounds(25,150, 200, 25);
+        nmrMaxComboios.addActionListener(e -> {PanelControlo.setVisible(false);this.nmrMaxComboiosPorEstacao(frame, estacoes,comboios,Save);});
+        nmrMaxComboios.setText("COMBOIOS NA ESTACAO");
+        nmrMaxComboios.setFocusable(false);
+        PanelControlo.add(nmrMaxComboios);
+
+
+        JButton nmrMaxPassageiros = new JButton();
+        nmrMaxPassageiros.setBounds(25,190, 200, 25);
+        nmrMaxPassageiros.addActionListener(e -> {PanelControlo.setVisible(false);this.nmrMaxPassageirosPorComboio(frame, estacoes,comboios,Save);});
+        nmrMaxPassageiros.setText("PASSAGEIROS POR COMBOIO");
+        nmrMaxPassageiros.setFocusable(false);
+        PanelControlo.add(nmrMaxPassageiros);
+        PanelControlo.repaint();
+
+    }
+
+    /**
+     * Nesta interface o USER pode selecionar a lotacao maxima de passageiros num comboio
+     * @param frame
+     * @param estacoes
+     * @param comboios
+     */
+    public void nmrMaxPassageirosPorComboio(baseFrame frame, Estacao[] estacoes, Comboio[] comboios, SaveData Save){
+        JPanel panel = new JPanel();
+        panel.setLayout(null);
+        panel.setBackground(new Color(64,64,64));
+        panel.setBounds(70,90,250,300);
+        panel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.setAlignmentY(Component.CENTER_ALIGNMENT);
+
+        frame.add(panel);
+
+        JButton[] ComboiosBotoes = new JButton[comboios.length];
+        int y = 40;
+        for(int i = 0;i < ComboiosBotoes.length;i++){
+            ComboiosBotoes[i] = new JButton();
+            ComboiosBotoes[i].setBounds(25,y,200,25 );
+            ComboiosBotoes[i].setText("COMBOIO " + (comboios[i].getNmrComboio() + 1) );
+            ComboiosBotoes[i].setFocusable(false);
+            int finalI1 = i;
+            ComboiosBotoes[i].addActionListener(e -> {
+                panel.setVisible(false);
+
+                JPanel panel2 = new JPanel();
+                panel2.setLayout(null);
+                panel2.setBackground(new Color(64,64,64));
+                panel2.setBounds(70,90,250,300);
+                panel2.setAlignmentX(Component.CENTER_ALIGNMENT);
+                panel2.setAlignmentY(Component.CENTER_ALIGNMENT);
+
+
+                JLabel texto = new JLabel();
+                texto.setText("ESCOLHA O NUMERO MAXIMO DE PASSAGEIROS");
+                texto.setForeground(Color.WHITE);
+                texto.setFont(new Font("Verdana", Font.BOLD, 9));
+                texto.setBounds(5, 50, 300, 30);
+                panel2.add(texto);
+
+                SpinnerModel model =
+                        new SpinnerNumberModel(comboios[finalI1].getNmrMaxPassageiros(),
+                                0,
+                                100,
+                                1);
+                JSpinner spinner = new JSpinner(model);
+                spinner.setBounds(80,90,100,25);
+                panel2.add(spinner);
+
+                JButton salvar = new JButton();
+                salvar.setText("SALVAR");
+                salvar.setForeground(Color.BLACK);
+                salvar.setFont(new Font("Verdana", Font.BOLD, 15));
+                salvar.setBounds(50, 150, 150, 30);
+                salvar.addActionListener(f ->{
+                    comboios[finalI1].setNmrMaxPassageiros((Integer) spinner.getValue());
+                    Save.comboiosSave[finalI1].setNmrMaxPassageiros((Integer) spinner.getValue());
+                    System.out.println(comboios[finalI1].getNmrComboio()+" SET NMR MAX PASSAGEIROS: "+comboios[finalI1].getNmrMaxPassageiros());
+                    panel2.setVisible(false);
+                    PanelControlo.setVisible(true);
+                });
+                panel2.add(salvar);
+
+                frame.add(panel2);
+
+            });
+            y = y + 40;
+            panel.add(ComboiosBotoes[i]);
+        }
+
+
+
+    }
+
+    /**
+     * Nesta interface o user pode selecionar a lotacao maxima de comboios numa estacao.
+     * @param frame
+     * @param estacoes
+     * @param comboios
+     */
+    public void nmrMaxComboiosPorEstacao(baseFrame frame, Estacao[] estacoes, Comboio[] comboios, SaveData Save){
+        JPanel panel = new JPanel();
+        panel.setLayout(null);
+        panel.setBackground(new Color(64,64,64));
+        panel.setBounds(70,90,250,300);
+        panel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.setAlignmentY(Component.CENTER_ALIGNMENT);
+
+        frame.add(panel);
+
+        JButton[] EstacoesBotoes = new JButton[estacoes.length];
+        int y = 10;
+        for(int i = 0;i < EstacoesBotoes.length;i++){
+            EstacoesBotoes[i] = new JButton();
+            EstacoesBotoes[i].setBounds(25,y,200,25 );
+            EstacoesBotoes[i].setText(estacoes[i].getNome());
+            EstacoesBotoes[i].setFocusable(false);
+            int finalI1 = i;
+            EstacoesBotoes[i].addActionListener(e -> {
+                panel.setVisible(false);
+
+                JPanel panel2 = new JPanel();
+                panel2.setLayout(null);
+                panel2.setBackground(new Color(64,64,64));
+                panel2.setBounds(70,90,250,300);
+                panel2.setAlignmentX(Component.CENTER_ALIGNMENT);
+                panel2.setAlignmentY(Component.CENTER_ALIGNMENT);
+
+                JLabel texto = new JLabel();
+                texto.setText("ESCOLHA O NUMERO MAXIMO DE COMBOIOS");
+                texto.setForeground(Color.WHITE);
+                texto.setFont(new Font("Verdana", Font.BOLD, 9));
+                texto.setBounds(5, 50, 300, 30);
+                panel2.add(texto);
+
+                SpinnerModel model =
+                        new SpinnerNumberModel(estacoes[finalI1].getNmrMaxComboios(),
+                                0,
+                                comboios.length,
+                                1);
+                JSpinner spinner = new JSpinner(model);
+                spinner.setBounds(80,90,100,25);
+                panel2.add(spinner);
+
+                JButton salvar = new JButton();
+                salvar.setText("SALVAR");
+                salvar.setForeground(Color.BLACK);
+                salvar.setFont(new Font("Verdana", Font.BOLD, 15));
+                salvar.setBounds(50, 150, 150, 30);
+                salvar.addActionListener(f ->{
+                    estacoes[finalI1].setNmrMaxComboios((Integer) spinner.getValue());
+                    Save.estacoesSave[finalI1].setNmrMaxComboios((Integer) spinner.getValue());
+                    System.out.println(estacoes[finalI1].getNome()+" SET NMR MAX COMBOIOS: "+estacoes[finalI1].getNmrMaxComboios());
+                    panel2.setVisible(false);
+                    PanelControlo.setVisible(true);
+                });
+                panel2.add(salvar);
+
+                frame.add(panel2);
+
+            });
+            y = y + 25;
+            panel.add(EstacoesBotoes[i]);
+        }
+
+
+>>>>>>> Stashed changes
 
     }
 

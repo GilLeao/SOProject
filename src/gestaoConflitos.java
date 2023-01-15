@@ -105,7 +105,120 @@ public class gestaoConflitos
             System.out.println("ERRO: "+ex.getMessage());
         }
     }
+<<<<<<< Updated upstream
     public void resolverConflito(int option, Comboio[] comboios, Estacao[] estacaoes)
+=======
+
+    public void removerConflitoResolvido(String codigoConflitoRemover, String indice1ComboioConflitoRemover, String indice2ComboioConflitoRemover, String indiceTrocoConflitoRemover, String indiceParagem1ComboioConflitoRemover, String indiceParagem2ComboioConflitoRemover, String indiceComboioConflitoRemover, String indiceParagemComboioConflitoRemover, String indiceEstacaoConflitoRemover, String nomeEstacaoConflitoRemover, String horaConflitoRemover, String indiceComboioConflitoConflitoRemover)
+    {
+        try
+        {
+            logs = new ArrayList<>();
+            BufferedReader reader = new BufferedReader(new FileReader("src/info/log.txt"));
+            String line;
+            StringBuilder novoConteudo = new StringBuilder();
+
+            while ((line = reader.readLine()) != null)
+            {
+                codigoTxt = "";
+                indice1ComboioTxt ="";
+                indice2ComboioTxt = "";
+                indiceTrocoTxt = "";
+                indiceParagem1ComboioTxt ="";
+                indiceParagem2ComboioTxt = "";
+                indiceComboioTxt = "";
+                indiceParagemComboioTxt = "";
+                indiceEstacaoTxt = "";
+                nomeEstacaoTxt = "";
+                horaTxt = "";
+                indiceComboioConflitoTxt = "";
+
+
+                //obter em cada linha
+                String[] parts = line.split(";");
+
+                codigoTxt = parts[0];
+
+                if(codigoTxt.equals("1")) //Conflito no troço
+                {
+                    indice1ComboioTxt = parts[1];
+                    indice2ComboioTxt = parts[2];
+                    indiceTrocoTxt = parts[3];
+                    indiceParagem1ComboioTxt = parts[4];
+                    indiceParagem2ComboioTxt = parts[5];
+
+                    if(!codigoTxt.equals(codigoConflitoRemover) || !indice1ComboioTxt.equals(indice1ComboioConflitoRemover) || !indice2ComboioTxt.equals(indice2ComboioConflitoRemover) || !indiceTrocoTxt.equals(indiceTrocoConflitoRemover) || !indiceParagem1ComboioTxt.equals(indiceParagem1ComboioConflitoRemover) || !indiceParagem2ComboioTxt.equals(indiceParagem2ComboioConflitoRemover) || !indiceComboioTxt.equals(indiceComboioConflitoRemover) || !indiceParagemComboioTxt.equals(indiceParagemComboioConflitoRemover) || !indiceEstacaoTxt.equals(indiceEstacaoConflitoRemover) || !nomeEstacaoTxt.equals(nomeEstacaoConflitoRemover) || !horaTxt.equals(horaConflitoRemover) || !indiceComboioConflitoTxt.equals(indiceComboioConflitoConflitoRemover))
+                    {
+                        if(ultimaLinha)
+                        {
+                            String dados = codigoTxt+";"+indice1ComboioTxt+";"+indice2ComboioTxt+";"+indiceTrocoTxt+";"+indiceParagem1ComboioTxt+";"+indiceParagem2ComboioTxt;
+                            novoConteudo.append(line + "\n");
+                        }
+                        else
+                        {
+                            String dados = codigoTxt+";"+indice1ComboioTxt+";"+indice2ComboioTxt+";"+indiceTrocoTxt+";"+indiceParagem1ComboioTxt+";"+indiceParagem2ComboioTxt;
+                            novoConteudo.append(line);
+                        }
+                    }
+
+                } else if(codigoTxt.equals("2")) //Comboio excede a capacidade máxima de passageiros
+                {
+                    indiceComboioTxt = parts[1];
+                    indiceParagemComboioTxt = parts[2];
+
+                    if(!codigoTxt.equals(codigoConflitoRemover) || !indice1ComboioTxt.equals(indice1ComboioConflitoRemover) || !indice2ComboioTxt.equals(indice2ComboioConflitoRemover) || !indiceTrocoTxt.equals(indiceTrocoConflitoRemover) || !indiceParagem1ComboioTxt.equals(indiceParagem1ComboioConflitoRemover) || !indiceParagem2ComboioTxt.equals(indiceParagem2ComboioConflitoRemover) || !indiceComboioTxt.equals(indiceComboioConflitoRemover) || !indiceParagemComboioTxt.equals(indiceParagemComboioConflitoRemover) || !indiceEstacaoTxt.equals(indiceEstacaoConflitoRemover) || !nomeEstacaoTxt.equals(nomeEstacaoConflitoRemover) || !horaTxt.equals(horaConflitoRemover) || !indiceComboioConflitoTxt.equals(indiceComboioConflitoConflitoRemover))
+                    {
+                        if(ultimaLinha)
+                        {
+                            String dados = codigoTxt+";"+indiceComboioTxt+";"+indiceParagemComboioTxt;
+                            novoConteudo.append(line + "\n");
+
+                        } else
+                        {
+                            String dados = codigoTxt+";"+indiceComboioTxt+";"+indiceParagemComboioTxt;
+                            novoConteudo.append(line);
+                        }
+                    }
+
+                } else //Estação excede a capacidade máxima de comboios
+                {
+                    indiceEstacaoTxt = parts[1];
+                    nomeEstacaoTxt = parts[2];
+                    horaTxt = parts[3];
+                    indiceComboioConflitoTxt = parts[4];
+
+                    if(!codigoTxt.equals(codigoConflitoRemover) || !indice1ComboioTxt.equals(indice1ComboioConflitoRemover) || !indice2ComboioTxt.equals(indice2ComboioConflitoRemover) || !indiceTrocoTxt.equals(indiceTrocoConflitoRemover) || !indiceParagem1ComboioTxt.equals(indiceParagem1ComboioConflitoRemover) || !indiceParagem2ComboioTxt.equals(indiceParagem2ComboioConflitoRemover) || !indiceComboioTxt.equals(indiceComboioConflitoRemover) || !indiceParagemComboioTxt.equals(indiceParagemComboioConflitoRemover) || !indiceEstacaoTxt.equals(indiceEstacaoConflitoRemover) || !nomeEstacaoTxt.equals(nomeEstacaoConflitoRemover) || !horaTxt.equals(horaConflitoRemover) || !indiceComboioConflitoTxt.equals(indiceComboioConflitoConflitoRemover))
+                    {
+                        if(ultimaLinha)
+                        {
+                            String dados = codigoTxt+";"+indiceEstacaoTxt+";"+nomeEstacaoTxt+";"+horaTxt+";"+indiceComboioConflitoTxt;
+                            novoConteudo.append(line + "\n");
+                        }
+                        else
+                        {
+                            String dados = codigoTxt+";"+indiceEstacaoTxt+";"+nomeEstacaoTxt+";"+horaTxt+";"+indiceComboioConflitoTxt;
+                            novoConteudo.append(line);
+                        }
+
+
+                    }
+                }
+            }
+
+            reader.close();
+
+            FileWriter fw = new FileWriter("src/info/log.txt");
+            fw.write(novoConteudo.toString());
+            fw.close();
+
+        } catch (IOException ex)
+        {
+            System.out.println("ERRO: "+ex.getMessage());
+        }
+    }
+
+    public void resolverConflito(int option, Comboio[] comboios, Estacao[] estacaoes,SaveData Save)
+>>>>>>> Stashed changes
     {
         //imprimir todas as logs
         int i=1;
@@ -146,6 +259,16 @@ public class gestaoConflitos
 
                         comboios[indiceComboio2].setHorariosChegada(horariosChangeChegada);
                         comboios[indiceComboio2].setHorariosSaida(horariosChangeSaida);
+<<<<<<< Updated upstream
+=======
+
+                        Save.comboiosSave[indiceComboio2].setHorariosChegada(horariosChangeChegada);
+                        Save.comboiosSave[indiceComboio2].setHorariosSaida(horariosChangeSaida);
+
+                        //remover o conflito do txt
+                        removerConflitoResolvido(log.codigo, log.indice1Comboio, log.indice2Comboio, log.indiceParagem1Comboio, log.indiceParagem2Comboio, "", "", "", "", "", "", "");
+                        System.out.println("CONFLITO RESOLVIDO!");
+>>>>>>> Stashed changes
                     }
                 }
 
@@ -160,11 +283,20 @@ public class gestaoConflitos
                         int nPassageiros = comboios[indiceComboioInt].getPassageiros().length - 1;
                         int idPassageiro = comboios[indiceComboioInt].getPassageiros()[nPassageiros].getNmrPassageiro();
 
+<<<<<<< Updated upstream
                         comboios[indiceComboioInt].removePassageiro(idPassageiro);
 
 
                         System.out.println("DEPOIS (remover passageiro do comboio): "+ Arrays.toString(comboios[indiceComboioInt].getPassageiros()));
                     } while (comboios[indiceComboioInt].getNmrMaxPassageiros() < comboios[indiceComboioInt].getContadorPassageiros());
+=======
+                        Save.comboiosSave[indiceComboioInt].setFlag(true);
+
+                        //remover o conflito do txt
+                        removerConflitoResolvido(log.codigo, "", "", "", "", "", log.indiceComboio, log.indiceParagemComboio, "", "", "", "");
+                        System.out.println("CONFLITO RESOLVIDO!");
+                    }
+>>>>>>> Stashed changes
                 }
 
                 if(log.codigo.equals("3")) //Estação excede a capacidade máxima de comboios
@@ -180,8 +312,22 @@ public class gestaoConflitos
                     horariosChangeChegada[indiceEstacaoInt].plusSeconds(7);
                     horariosChangeSaida[indiceEstacaoInt].plusSeconds(7);
 
+<<<<<<< Updated upstream
                     comboios[indiceComboioConflitoInt].setHorariosChegada(horariosChangeChegada);
                     comboios[indiceComboioConflitoInt].setHorariosSaida(horariosChangeSaida);
+=======
+                            Save.comboiosSave[indiceComboioConflitoInt].setHorariosChegada(horariosChangeChegada);
+                            Save.comboiosSave[indiceComboioConflitoInt].setHorariosSaida(horariosChangeSaida);
+
+                        } while (estacaoes[indiceEstacaoInt].getNmrMaxComboios() < estacaoes[indiceEstacaoInt].getNmrComboios());
+
+                        System.out.println("DEPOIS (remover comboio da estacao): "+ estacaoes[indiceEstacaoInt].getNmrComboios());
+
+                        //remover conflito do txt
+                        removerConflitoResolvido(codigo, "", "", "", "", "", "", "", log.indiceEstacao, log.nomeEstacao, log.hora, log.indiceComboioConflito);
+                        System.out.println("CONFLITO RESOLVIDO!");
+                    }
+>>>>>>> Stashed changes
                 }
             }
 
