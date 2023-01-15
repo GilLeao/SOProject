@@ -154,6 +154,7 @@ public class painelControlo {
                 salvar.setBounds(50, 150, 150, 30);
                 salvar.addActionListener(f ->{
                     comboios[finalI1].setNmrMaxPassageiros((Integer) spinner.getValue());
+                    System.out.println(comboios[finalI1].getNmrComboio()+" SET NMR MAX PASSAGEIROS: "+comboios[finalI1].getNmrMaxPassageiros());
                     panel2.setVisible(false);
                     PanelControlo.setVisible(true);
                 });
@@ -227,6 +228,7 @@ public class painelControlo {
                 salvar.setBounds(50, 150, 150, 30);
                 salvar.addActionListener(f ->{
                     estacoes[finalI1].setNmrMaxComboios((Integer) spinner.getValue());
+                    System.out.println(estacoes[finalI1].getNome()+" SET NMR MAX COMBOIOS: "+estacoes[finalI1].getNmrMaxComboios());
                     panel2.setVisible(false);
                     PanelControlo.setVisible(true);
                 });

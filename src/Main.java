@@ -32,7 +32,6 @@ public class Main {
      */
     protected static Semaphore[] SemaphorePermitirEmbarque = new Semaphore[5];
 
-    static Scanner scanner =  new Scanner(System.in);;
     protected static Estacao[]  Estacoes = new Estacao[10];
 
     protected static Troco[] Trocos = new Troco[10];
@@ -48,6 +47,19 @@ public class Main {
 
 
 
+    }
+
+    private static void btnGestorConflitosClicked()
+    {
+        gestaoConflitos gestaoConflitos1 = new gestaoConflitos();
+        gestaoConflitos1.lerTxt();
+
+        System.out.println("INTRODUZA O CONFLITO QUE QUER RESOLVER: ");
+
+        Scanner scanner =  new Scanner(System.in);
+        int option = scanner.nextInt();
+
+        gestaoConflitos1.resolverConflito(option, Comboios, Estacoes);
     }
 
     /**
@@ -106,16 +118,7 @@ public class Main {
         gestaoConflitos.setText("GESTÃO DE CONFLITOS");
         gestaoConflitos.setFocusable(false);
         gestaoConflitos.addActionListener(e -> {
-            gestaoConflitos gestaoConflitos1 = new gestaoConflitos();
-            gestaoConflitos1.lerTxt();
-
-                if (scanner.hasNextInt()) //verificar se há um valor inteiro para ler
-                {
-                    System.out.println("INTRODUZA O CONFLITO QUE QUER RESOLVER: ");
-                    int option = scanner.nextInt();
-                    gestaoConflitos1.resolverConflito(option, Comboios, Estacoes);
-                    scanner.close();
-                }
+            btnGestorConflitosClicked();
         });
 
 
