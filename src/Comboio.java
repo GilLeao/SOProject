@@ -50,7 +50,7 @@ public class Comboio implements Runnable {
     private Passageiro[] Passageiros = null;
 
 
-
+    private boolean flag = false;
 
     public Comboio() {
     }
@@ -72,9 +72,13 @@ public class Comboio implements Runnable {
                 PassageirosNovo[i] = new Passageiro();
                 PassageirosNovo[i] = this.Passageiros[i];
             }
-            PassageirosNovo[this.Passageiros.length] = passageiro;
-
-
+            if(!this.flag){
+                PassageirosNovo[this.Passageiros.length] = passageiro;
+            }else{
+                if(PassageirosNovo.length < this.nmrMaxPassageiros){
+                    PassageirosNovo[this.Passageiros.length] = passageiro;
+                }
+            }
         } else {
             PassageirosNovo = new Passageiro[1];
             PassageirosNovo[0] = passageiro;
@@ -462,5 +466,13 @@ public class Comboio implements Runnable {
        }
         System.out.println("---------------------------------------------------------------------\nComboio: " + this.nmrComboio + " chegou ao fim da viagem.\n---------------------------------------------------------------------");
 
+    }
+
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
     }
 }

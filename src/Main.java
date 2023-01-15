@@ -187,13 +187,13 @@ public class Main {
         //Atribui passageiros de forma aleatória a todas as Estações
         for(int i = 0;i < 10;i++){
             Estacoes[i].escolherPassageirosRandom(Estacoes);
-            Estacoes[i].setNmrMaxComboios(ThreadLocalRandom.current().nextInt(1, 5));
+            Estacoes[i].setNmrMaxComboios(3);
         }
 
 
         for(int i = 0;i < 5;i++){
             comboios[i] = new Comboio();
-            comboios[i].setNmrMaxPassageiros(ThreadLocalRandom.current().nextInt(1, 20));
+            comboios[i].setNmrMaxPassageiros(10);
             comboios[i].gerarAleatorio(Estacoes);
             comboios[i].setNmrComboio(i);
             comboios[i].setIndiceTroco(-i);

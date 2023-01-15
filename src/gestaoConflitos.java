@@ -281,17 +281,8 @@ public class gestaoConflitos
                     {
                         System.out.println("Nº MAX DE PASSAGEIROS NO COMBOIO: "+ comboios[indiceComboioInt].getNmrMaxPassageiros());
                         System.out.println("ANTES (remover passageiro do comboio): "+ Arrays.toString(comboios[indiceComboioInt].getPassageiros()));
-
-                        do
-                        {
-                            //comboios[indiceComboioInt].removePassageiro(comboios[indiceComboioInt].getPassageiros()[comboios[indiceComboioInt].getPassageiros().length].getNmrPassageiro());
-                            int nPassageiros = comboios[indiceComboioInt].getPassageiros().length - 1;
-                            int idPassageiro = comboios[indiceComboioInt].getPassageiros()[nPassageiros].getNmrPassageiro();
-
-                            comboios[indiceComboioInt].removePassageiro(idPassageiro);
-                        } while (comboios[indiceComboioInt].getNmrMaxPassageiros() < comboios[indiceComboioInt].getContadorPassageiros());
-
-                        System.out.println("DEPOIS (remover passageiro do comboio): "+ Arrays.toString(comboios[indiceComboioInt].getPassageiros()));
+                        
+                        comboios[indiceComboioInt].setFlag(true);
 
                         //remover o conflito do txt
                         removerConflitoResolvido(log.codigo, "", "", "", "", "", log.indiceComboio, log.indiceParagemComboio, "", "", "", "");
