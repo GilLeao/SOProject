@@ -244,8 +244,8 @@ public class gestaoConflitos
                         horariosChangeChegada = comboios[indiceComboio1].getHorariosChegada();
                         horariosChangeSaida = comboios[indiceComboio1].getHorariosSaida();
 
-                        horariosChangeChegada[indiceParagem1].plusSeconds(7);
-                        horariosChangeSaida[indiceParagem1].plusSeconds(7);
+                        horariosChangeChegada[indiceParagem1].plusMinutes(5);
+                        horariosChangeSaida[indiceParagem1].plusMinutes(5);
 
                         comboios[indiceComboio1].setHorariosChegada(horariosChangeChegada);
                         comboios[indiceComboio1].setHorariosSaida(horariosChangeSaida);
@@ -261,8 +261,8 @@ public class gestaoConflitos
                         horariosChangeChegada = comboios[indiceComboio2].getHorariosChegada();
                         horariosChangeSaida = comboios[indiceComboio2].getHorariosSaida();
 
-                        horariosChangeChegada[indiceParagem2].plusSeconds(7);
-                        horariosChangeSaida[indiceParagem2].plusSeconds(7);
+                        horariosChangeChegada[indiceParagem2].plusMinutes(5);
+                        horariosChangeSaida[indiceParagem2].plusMinutes(5);
 
                         comboios[indiceComboio2].setHorariosChegada(horariosChangeChegada);
                         comboios[indiceComboio2].setHorariosSaida(horariosChangeSaida);
@@ -308,8 +308,8 @@ public class gestaoConflitos
                             horariosChangeChegada = comboios[indiceComboioConflitoInt].getHorariosChegada();
                             horariosChangeSaida = comboios[indiceComboioConflitoInt].getHorariosSaida();
 
-                            horariosChangeChegada[indiceEstacaoInt].plusSeconds(7);
-                            horariosChangeSaida[indiceEstacaoInt].plusSeconds(7);
+                            horariosChangeChegada[indiceEstacaoInt].plusMinutes(1);
+                            horariosChangeSaida[indiceEstacaoInt].plusMinutes(1);
 
                             comboios[indiceComboioConflitoInt].setHorariosChegada(horariosChangeChegada);
                             comboios[indiceComboioConflitoInt].setHorariosSaida(horariosChangeSaida);
